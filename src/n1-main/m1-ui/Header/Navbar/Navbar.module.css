@@ -1,0 +1,24 @@
+.nav {
+  width: 600px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.nav .item {
+  text-decoration: none;
+  color: black;
+  font-family: 'Roboto', sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 30px;
+  letter-spacing: .5px;
+  word-wrap: break-word;
+}
+
+.item:hover {
+  color: #904120;
+}
+
+.nav .active {
+  color: #904120;
+}
