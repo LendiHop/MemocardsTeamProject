@@ -2,8 +2,9 @@ let initialState = {
 
 };
 
-const appReducer = (state: any = initialState, action: any) => {
+const authReducer = (state: any = initialState, action: any) => {
     switch (action.type) {
+        //тут тоже пишете свою обработку, потом будем мержить
         // case "INITIALIZE_SUCCESS":
         //     return {
         //         ...state,
@@ -14,4 +15,4 @@ const appReducer = (state: any = initialState, action: any) => {
     }
 }
 
-export default appReducer;
+export default authReducer;
