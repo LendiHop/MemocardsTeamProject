@@ -8,4 +8,5 @@ let reducers = combineReducers({
 
 let store = createStore(reducers, applyMiddleware(thunk));
 
+export type AppStateType = ReturnType<typeof reducers>
 export default store;
