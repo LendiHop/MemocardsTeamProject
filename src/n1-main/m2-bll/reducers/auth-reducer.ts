@@ -35,7 +35,7 @@ export const onRegisterTC = (email: string, password: string) => async (dispatch
     try {
 
         // const res = await authAPI.register(email, password)
-        const res = await authAPI.me()
+        const res = await authAPI.register(email, password)
         alert(res)
         // dispatch(onRegistrationAC())
 

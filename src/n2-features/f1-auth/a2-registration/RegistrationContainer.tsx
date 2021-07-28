@@ -19,6 +19,8 @@ export const RegistrationContainer: React.FC = () => {
             password: '',
             password2: ''
         } as InitialValueType,
+
+
         validate: (values) => {
             //@ts-ignore
             const errors: FormikErrorType = {};
@@ -38,14 +40,11 @@ export const RegistrationContainer: React.FC = () => {
         },
         onSubmit: (values) => {
             debugger
-            if (values.password2 !== values.password){
+            if (values.password2 !== values.password) {
                 throw new Error('paas2 !== pass')
             }
 
             dispatch(onRegisterTC(values.email, values.password))
-            formik.resetForm()
-        },
-        onReset: (values) => {
             formik.resetForm()
         }
     })
@@ -56,7 +55,7 @@ export const RegistrationContainer: React.FC = () => {
     return (
         <Container style={{maxHeight: '100%'}}>
 
-                    <Registration formik={formik}/>
+            <Registration formik={formik}/>
 
         </Container>
     );

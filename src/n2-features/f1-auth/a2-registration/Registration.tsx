@@ -11,67 +11,63 @@ type PropsType = {
 export const Registration: React.FC<PropsType> = ({formik}) => {
 
     return (
-        <Grid container justifyContent={"center"} >
-            <Paper elevation={1} style={{padding: '20px',
+        <Grid container justifyContent={"center"}>
+            <Paper elevation={1} style={{
+                padding: '20px',
                 borderRadius: '5px',
                 width: '300px',
                 height: '400px',
                 margin: '200px 0'
             }}>
-            <Grid item xs={12}>
+                <Grid item xs={12}>
 
 
                     <form onSubmit={formik.handleSubmit}>
                         <FormControl>
                             <FormLabel>
-                                <h2>Sing up</h2>
+                                <h2 style={{textAlign: 'center'}}>Sign up</h2>
                             </FormLabel>
-                        <FormGroup>
-                            <TextField
-                                label="Email"
-                                margin="normal"
-                                {...formik.getFieldProps('email')}
-                            />
-                            {formik.touched.email && formik.errors.email &&
-                            <div style={{color: 'red'}}>{formik.errors.email}</div>}
-                            <TextField
-                                type="password"
-                                label="Password"
-                                margin="normal"
-                                // name='password'
-                                // onChange={formik.handleChange}
-                                // onBlur={formik.handleBlur}
-                                // value={formik.values.password}
-                                {...formik.getFieldProps('password')}
-                            />
-                            {formik.touched.password && formik.errors.password &&
-                            <div style={{color: 'red'}}>{formik.errors.password}</div>}
-                            <TextField
-                                type="password"
-                                label="Password2"
-                                margin="normal"
-                                // name='password'
-                                // onChange={formik.handleChange}
-                                // onBlur={formik.handleBlur}
-                                // value={formik.values.password}
-                                {...formik.getFieldProps('password2')}
-                            />
-                            {formik.touched.password2 && formik.errors.password2 &&
-                            <div style={{color: 'red'}}>{formik.errors.password2}</div>}
-                            <div >
-                                <Button type={'reset'} variant={'contained'} color={'primary'}
-                                        style={{marginTop: '70px',}}>Cancel</Button>
-                                <Button type={'submit'} variant={'contained'} color={'primary'}
-                                        style={{marginTop: '70px',
-                                        marginLeft: '50px'
-                                        }}>Register</Button>
-                            </div>
+                            <FormGroup>
+                                <TextField
+                                    label="Email"
+                                    margin="normal"
+                                    {...formik.getFieldProps('email')}
+                                />
+                                {formik.touched.email && formik.errors.email &&
+                                <div style={{color: 'red'}}>{formik.errors.email}</div>}
+                                <TextField
+                                    type="password"
+                                    label="Password"
+                                    margin="normal"
+                                    {...formik.getFieldProps('password')}
+                                />
+                                {formik.touched.password && formik.errors.password &&
+                                <div style={{color: 'red'}}>{formik.errors.password}</div>}
+                                <TextField
+                                    type="password"
+                                    label="Password2"
+                                    margin="normal"
+                                    {...formik.getFieldProps('password2')}
+                                />
+                                {formik.touched.password2 && formik.errors.password2 &&
+                                <div style={{color: 'red'}}>{formik.errors.password2}</div>}
+                                <div>
+                                    <Button type={'reset'} onClick={() => formik.resetForm()} variant={'contained'}
+                                            color={'primary'}
+                                            style={{marginTop: '70px', borderRadius: '30px'}}>Cancel</Button>
+                                    <Button type={'submit'} variant={'contained'} color={'primary'}
+                                            style={{
+                                                marginTop: '70px',
+                                                marginLeft: '100px',
+                                                borderRadius: '30px'
+                                            }}>Register</Button>
+                                </div>
 
-                        </FormGroup>
+                            </FormGroup>
                         </FormControl>
                     </form>
 
-            </Grid>
+                </Grid>
             </Paper>
         </Grid>
     );
