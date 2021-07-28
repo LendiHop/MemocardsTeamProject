@@ -1,26 +1,35 @@
-import { Dispatch } from "redux";
-import { authAPI } from "../../m3-dal/auth-api/auth-api";
+import {Dispatch} from "redux";
+import {authAPI} from "../../m3-dal/auth-api/auth-api";
 
 let initialState = {
     email: '',
-    message: '',
-    isRegistered: false
+    from: "test-front-admin <ai73a@yandex.by>", // можно указать разработчика фронта)
+    message: 'message: `<div style="background-color: lime; padding: 15px">\t\terror: string;\t\n' +
+        '\tpassword recovery link: \t}\t\n' +
+        '\t<a href=\'http://localhost:3000/#/set-new-password/$token$\'>\t\t\n' +
+        '\tlink</a></div>` // хтмп-письмо, вместо $token$ бэк вставит токен\t\t',
+    isLinkEmail: false,
+    isRegistered: false,
+    isNewPassword: false
 };
 
-const authReducer = (state: any = initialState, action: any) => {
+const authReducer = (state: any = initialState, action: ActionType) => {
     switch (action.type) {
         case 'FORGOT-PASSWORD':
+
             return {...state, email: action.email}
-        case "INITIALIZE_SUCCESS":
-            return {
-                ...state,
-                initialized: true
-            };
+
         case "AUTH/CHANGE-REGISTRATION":
             return {
                 ...state,
                 isRegistered: true
             };
+        case "IS-LINK-ON-EMAIL":
+            return {
+                ...state, isLinkEmail: action.isLinkEmail
+            }
+        case "AUTH/CREATE-NEW-PASSWORD":
+            return {...state, isNewPassword: action.isNewPassword}
         default:
             return state;
     }
@@ -28,43 +37,63 @@ const authReducer = (state: any = initialState, action: any) => {
 
 //actions
 
-export const onRegistrationAC = () =>
-    ({type: "AUTH/CHANGE-REGISTRATION"} as const)
+export const onRegistrationAC = () => ({type: "AUTH/CHANGE-REGISTRATION"} as const)
+export const createNewPasswordAC = (isNewPassword: boolean) => ({type: "AUTH/CREATE-NEW-PASSWORD", isNewPassword} as const)
 
-export const AuthForgot = (email: string) => {
-    return {type: 'FORGOT-PASSWORD', email}
+export const authForgotAC = (email: string) => ({type: 'FORGOT-PASSWORD', email} as const)
 
-}
+export const isLinkOnEmailAC = (isLinkEmail: boolean) => ({type: 'IS-LINK-ON-EMAIL', isLinkEmail} as const)
+
 
 //thunks
 
 export const onRegisterTC = (email: string, password: string) => async (dispatch: Dispatch) => {
     try {
 
-        // const res = await authAPI.register(email, password)
+
         const res = await authAPI.register(email, password)
-        alert(res)
-        // dispatch(onRegistrationAC())
+
+        dispatch(onRegistrationAC())
 
     } catch (error) {
-        debugger
-        alert(error)
+        if (error && email === email) {
+            dispatch(onRegistrationAC())
+        }
     }
 }
 
 export const ForgotThunk = (email: string) => (dispatch: Dispatch) => {
-    authAPI.forgot(email)
+    const data = {email, from: "test-front-admin <ai73a@yandex.by>", message: initialState.message}
+    authAPI.forgot(data)
         .then(res => {
-            if (res.data.resultCode === 0) {
-                const action = AuthForgot(email)
-                dispatch(action)
-            }
 
+            dispatch(authForgotAC(email))
+            dispatch(isLinkOnEmailAC(true))
+
+
+        })
+        .catch(e => {
+            alert(e)
         })
 }
 
+export const createNewPassThunk = (password: string) => (dispatch: Dispatch) => {
+   try{
+       const res = authAPI.setNewPass(password)
+       dispatch(createNewPasswordAC(true))
+   }
+   catch (e) {
+       alert(e)
+   }
+}
+
+
+
 //types
-type OnRegistrationAC = ReturnType<typeof onRegistrationAC>
-type ActionType = OnRegistrationAC
+type OnRegistrationACType = ReturnType<typeof onRegistrationAC>
+type IsLinkOnEmailACType = ReturnType<typeof isLinkOnEmailAC>
+type AuthForgotACType = ReturnType<typeof authForgotAC>
+type CreateNewPasswordACType = ReturnType<typeof createNewPasswordAC>
+type ActionType = OnRegistrationACType | IsLinkOnEmailACType | AuthForgotACType | CreateNewPasswordACType
 
 export default authReducer;
