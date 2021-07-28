@@ -3,12 +3,9 @@ import {authAPI} from "../../m3-dal/auth-api/auth-api";
 
 let initialState = {
     email: '',
-    from: "test-front-admin <ai73a@yandex.by>", // можно указать разработчика фронта)
-    message: 'message: `<div style="background-color: lime; padding: 15px">\t\terror: string;\t\n' +
-        '\tpassword recovery link: \t}\t\n' +
-        '\t<a href=\'http://localhost:3000/#/set-new-password/$token$\'>\t\t\n' +
-        '\tlink</a></div>` // хтмп-письмо, вместо $token$ бэк вставит токен\t\t',
-    isLinkEmail: false,
+
+
+    showInfoMessage: false,
     isRegistered: false,
     isNewPassword: false
 };
@@ -26,7 +23,7 @@ const authReducer = (state: any = initialState, action: ActionType) => {
             };
         case "IS-LINK-ON-EMAIL":
             return {
-                ...state, isLinkEmail: action.isLinkEmail
+                ...state, showInfoMessage: action.showInfoMessage
             }
         case "AUTH/CREATE-NEW-PASSWORD":
             return {...state, isNewPassword: action.isNewPassword}
@@ -38,11 +35,14 @@ const authReducer = (state: any = initialState, action: ActionType) => {
 //actions
 
 export const onRegistrationAC = () => ({type: "AUTH/CHANGE-REGISTRATION"} as const)
-export const createNewPasswordAC = (isNewPassword: boolean) => ({type: "AUTH/CREATE-NEW-PASSWORD", isNewPassword} as const)
+export const createNewPasswordAC = (isNewPassword: boolean) => ({
+    type: "AUTH/CREATE-NEW-PASSWORD",
+    isNewPassword
+} as const)
 
 export const authForgotAC = (email: string) => ({type: 'FORGOT-PASSWORD', email} as const)
 
-export const isLinkOnEmailAC = (isLinkEmail: boolean) => ({type: 'IS-LINK-ON-EMAIL', isLinkEmail} as const)
+export const isShowInfoMessageAC = (showInfoMessage: boolean) => ({type: 'IS-LINK-ON-EMAIL', showInfoMessage} as const)
 
 
 //thunks
@@ -63,12 +63,19 @@ export const onRegisterTC = (email: string, password: string) => async (dispatch
 }
 
 export const ForgotThunk = (email: string) => (dispatch: Dispatch) => {
-    const data = {email, from: "test-front-admin <ai73a@yandex.by>", message: initialState.message}
+    const message = 'message: `<div style="background-color: lime; padding: 15px">\t\terror: string;\t\n' +
+        '\tpassword recovery link: \t}\t\n' +
+        '\t<a href=\'http://localhost:3000/#/set-new-password/$token$\'>\t\t\n' +
+        '\tlink</a></div>` // хтмп-письмо, вместо $token$ бэк вставит токен\t\t'
+
+    const from = "test-front-admin <ai73a@yandex.by>"// можно указать разработчика фронта)
+
+    const data = {email, from: from, message: message}
     authAPI.forgot(data)
         .then(res => {
 
             dispatch(authForgotAC(email))
-            dispatch(isLinkOnEmailAC(true))
+            dispatch(isShowInfoMessageAC(true))
 
 
         })
@@ -78,22 +85,21 @@ export const ForgotThunk = (email: string) => (dispatch: Dispatch) => {
 }
 
 export const createNewPassThunk = (password: string) => (dispatch: Dispatch) => {
-   try{
-       const res = authAPI.setNewPass(password)
-       dispatch(createNewPasswordAC(true))
-   }
-   catch (e) {
-       alert(e)
-   }
+    try {
+        const res = authAPI.setNewPass(password)
+        debugger
+        dispatch(createNewPasswordAC(false))
+    } catch (e) {
+        alert(e)
+    }
 }
-
 
 
 //types
 type OnRegistrationACType = ReturnType<typeof onRegistrationAC>
-type IsLinkOnEmailACType = ReturnType<typeof isLinkOnEmailAC>
+type IsShowInfoMessageACType = ReturnType<typeof isShowInfoMessageAC>
 type AuthForgotACType = ReturnType<typeof authForgotAC>
 type CreateNewPasswordACType = ReturnType<typeof createNewPasswordAC>
-type ActionType = OnRegistrationACType | IsLinkOnEmailACType | AuthForgotACType | CreateNewPasswordACType
+type ActionType = OnRegistrationACType | IsShowInfoMessageACType | AuthForgotACType | CreateNewPasswordACType
 
 export default authReducer;

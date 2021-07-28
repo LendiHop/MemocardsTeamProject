@@ -12,7 +12,7 @@ type FormikInitialValueType = {
 }
 export const PasswordRecovery = () => {
     const dispatch = useDispatch()
-    const isLinkEmail = useSelector<AppRootStateType, boolean>((state => state.auth.isLinkEmail))
+    const showInfoMessage = useSelector<AppRootStateType, boolean>((state => state.auth.showInfoMessage))
 
     // useEffect(() => {
     //     dispatch(ForgotThunk)
@@ -40,7 +40,7 @@ export const PasswordRecovery = () => {
         },
 
     })
-    if (isLinkEmail) {
+    if (showInfoMessage) {
         return <Redirect to={'/go-to-email'}/>
     }
 

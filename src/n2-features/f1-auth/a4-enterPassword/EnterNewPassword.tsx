@@ -14,12 +14,7 @@ type PropsType = {
 
 export const EnterNewPassword: React.FC<PropsType> = ({formik}) => {
 
-    const isNewPassword = useSelector<AppRootStateType, boolean>((state) => state.auth.isNewPassword)
-    const dispatch = useDispatch()
-    if (isNewPassword) {
-        return <Redirect to={'/login'}/>
-        dispatch(createNewPasswordAC(false))
-    }
+
     return (
         <Grid container justifyContent={"center"}>
             <Paper elevation={1} style={{
