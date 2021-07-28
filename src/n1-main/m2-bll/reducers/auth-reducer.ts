@@ -1,4 +1,3 @@
-import React from "react";
 import {Dispatch} from "redux";
 import {authAPI} from "../../m3-dal/auth-api/auth-api";
 
