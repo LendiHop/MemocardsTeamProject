@@ -45,8 +45,6 @@ export const ForgotThunk = (email: string) => (dispatch: Dispatch) => {
             if (res.data.resultCode === 0) {
                 const action = AuthForgot(email)
                 dispatch(action)
-            }else {
-
             }
 
         })

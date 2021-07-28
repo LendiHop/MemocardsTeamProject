@@ -4,6 +4,8 @@ import {Button, FormControl, FormGroup, FormLabel, Grid, TextField} from "@mater
 import {useDispatch} from "react-redux";
 import {ForgotThunk} from "../../../n1-main/m2-bll/reducers/auth-reducer";
 import {useFormik} from "formik";
+import {Redirect} from "react-router-dom";
+
 type FormikErrorType = {
     email?: string
 }
@@ -27,12 +29,16 @@ export const PasswordRecovery = () => {
             }
             return errors;
         },
-
-
         onSubmit: values => {
             dispatch(ForgotThunk)
-            formikForgotAuth.resetForm();
+            formikForgotAuth.resetForm()
+
         },
+
+
+
+
+
 
     })
 
@@ -64,7 +70,12 @@ export const PasswordRecovery = () => {
                         <p>Enter your email address and we will send you further instructions</p>
                         <Button type={'submit'} variant={'contained'} color={'primary'}>Send Instructions</Button>
                         <p>Did you remember your password?</p>
-                        <h2>Try logging in</h2>
+                        <p>
+                            <a onClick={() => <Redirect to={'/login'}/>}>
+                                Try logging in
+                            </a>
+
+                        </p>
 
 
                     </FormGroup>
