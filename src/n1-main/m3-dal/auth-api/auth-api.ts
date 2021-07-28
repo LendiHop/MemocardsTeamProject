@@ -7,19 +7,10 @@ const instance = axios.create({
 
 //раскомментируете и пишете свою часть
 export const authAPI = {
-    me() {
-        return instance.get(`auth/me`).then(response => response.data);
-    },
-    login(email: string, password: string, rememberMe: boolean = false) {
-        return instance.post(`auth/login`, { email, password, rememberMe }).then(response => response.data);
-    },
-    logout() {
-        return instance.delete(`auth/login`).then(response => response.data);
-    },
-
     forgot(email:string ){
         return instance.post(`auth/forgot`).then(response => response.data)
+    },
+    register(email: string, password: string) {
+        return instance.post('auth/register', {email, password})
     }
-
-
 }
