@@ -1,0 +1,43 @@
+.container {
+    height: 92vh;
+    text-align: center;
+}
+
+.container a {
+    text-decoration: none;
+}
+
+.container a:hover {
+    color: black;
+}
+
+.formGroup {
+    min-height: 260px;
+    min-width: 300px;
+}
+
+.loginBtn {
+    width: 50%;
+    position: relative;
+    left: 50%;
+    transform: translate(-50%, 0);
+}
+
+.forgot {
+    margin: 10px 0 55px;
+    text-align: end;
+    font-size: small;
+}
+
+.singUpQ {
+    color: #909091;
+    margin: 20px 0 5px;
+}
+
+.singUpQ p {
+    margin: 0;
+}
+
+.singUp {
+    font-weight: bold;
+}
