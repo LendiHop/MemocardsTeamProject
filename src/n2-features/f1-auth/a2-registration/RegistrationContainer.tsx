@@ -2,7 +2,7 @@ import React from 'react';
 import './Registration.module.css';
 import {useFormik} from 'formik';
 import {useDispatch, useSelector} from "react-redux";
-import {AppStateType} from "../../../n1-main/m2-bll/store/redux-store";
+import {AppRootStateType} from "../../../n1-main/m2-bll/store/redux-store";
 import {onRegisterTC} from '../../../n1-main/m2-bll/reducers/auth-reducer';
 import {Redirect} from "react-router-dom";
 import {Registration} from "./Registration";
@@ -11,7 +11,7 @@ import {Container} from "@material-ui/core";
 
 export const RegistrationContainer: React.FC = () => {
 
-    const isRegistered = useSelector<AppStateType, boolean>(state => state.auth.isRegistered)
+    const isRegistered = useSelector<AppRootStateType, boolean>(state => state.auth.isRegistered)
     const dispatch = useDispatch()
     const formik = useFormik<InitialValueType>({
         initialValues: {
@@ -39,7 +39,6 @@ export const RegistrationContainer: React.FC = () => {
             return errors;
         },
         onSubmit: (values) => {
-            debugger
             if (values.password2 !== values.password) {
                 throw new Error('paas2 !== pass')
             }

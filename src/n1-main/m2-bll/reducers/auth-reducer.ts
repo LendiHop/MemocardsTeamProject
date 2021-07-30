@@ -61,6 +61,10 @@ export const ForgotThunk = (email: string) => (dispatch: Dispatch) => {
             }
 
         })
+        .catch((error) => {
+           console.log(error)
+        })
+
 }
 
 //types
