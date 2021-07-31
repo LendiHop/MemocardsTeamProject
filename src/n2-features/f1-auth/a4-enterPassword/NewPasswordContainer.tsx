@@ -1,16 +1,20 @@
 import React from 'react';
-import './EnterPassword.module.css';
+import './NewPassword.module.css';
 import {useDispatch, useSelector} from "react-redux";
 import {useFormik} from "formik";
 import {createNewPassThunk} from "../../../n1-main/m2-bll/reducers/auth-reducer";
-import {EnterNewPassword} from "./EnterNewPassword";
+import {NewPassword} from "./NewPassword";
 import {Container} from "@material-ui/core";
 import {AppRootStateType} from "../../../n1-main/m2-bll/store/redux-store";
-import {Redirect} from "react-router-dom";
+import {Redirect, useParams} from "react-router-dom";
 
 
-export const EnterNewPasswordContainer = () => {
+export const NewPasswordContainer = () => {
     const isNewPassword = useSelector<AppRootStateType, boolean>((state) => state.auth.isNewPassword)
+    const token = useParams<{token: string}>()
+   const tokenStr = JSON.stringify(token)
+debugger
+    console.log(`token: ${tokenStr}`)
     const dispatch = useDispatch()
     const formik = useFormik<InitialValueType>({
         initialValues: {
@@ -18,7 +22,6 @@ export const EnterNewPasswordContainer = () => {
             password: '',
 
         },
-
 
         validate: (values) => {
             //@ts-ignore
@@ -32,9 +35,7 @@ export const EnterNewPasswordContainer = () => {
             return errors;
         },
         onSubmit: (values) => {
-
-
-            dispatch(createNewPassThunk(values.password))
+            dispatch(createNewPassThunk(values.password, token))
             formik.resetForm()
         }
     })
@@ -44,7 +45,7 @@ export const EnterNewPasswordContainer = () => {
     }
     return (
         <Container style={{maxHeight: '100%'}}>
-            <EnterNewPassword formik={formik}/>
+            <NewPassword formik={formik}/>
         </Container>
     );
 }

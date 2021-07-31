@@ -14,13 +14,9 @@ export const PasswordRecovery = () => {
     const dispatch = useDispatch()
     const showInfoMessage = useSelector<AppRootStateType, boolean>((state => state.auth.showInfoMessage))
 
-    // useEffect(() => {
-    //     dispatch(ForgotThunk)
-    // }, [])
     const formikForgotAuth = useFormik<FormikInitialValueType>({
         initialValues: {
             email: ''
-
         },
         validate: (values) => {
             //@ts-ignore
@@ -33,10 +29,8 @@ export const PasswordRecovery = () => {
             return errors;
         },
         onSubmit: (values) => {
-
             dispatch(ForgotThunk(values.email))
             formikForgotAuth.resetForm()
-
         },
 
     })

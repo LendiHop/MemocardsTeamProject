@@ -7,7 +7,7 @@ let initialState = {
 
     showInfoMessage: false,
     isRegistered: false,
-    isNewPassword: false
+    isNewPassword: true
 };
 
 const authReducer = (state: any = initialState, action: ActionType) => {
@@ -63,6 +63,8 @@ export const onRegisterTC = (email: string, password: string) => async (dispatch
 }
 
 export const ForgotThunk = (email: string) => (dispatch: Dispatch) => {
+
+
     const message = 'message: `<div style="background-color: lime; padding: 15px">\t\terror: string;\t\n' +
         '\tpassword recovery link: \t}\t\n' +
         '\t<a href=\'http://localhost:3000/#/set-new-password/$token$\'>\t\t\n' +
@@ -73,9 +75,11 @@ export const ForgotThunk = (email: string) => (dispatch: Dispatch) => {
     const data = {email, from: from, message: message}
     authAPI.forgot(data)
         .then(res => {
-
             dispatch(authForgotAC(email))
+
             dispatch(isShowInfoMessageAC(true))
+
+
 
 
         })
@@ -84,10 +88,10 @@ export const ForgotThunk = (email: string) => (dispatch: Dispatch) => {
         })
 }
 
-export const createNewPassThunk = (password: string) => (dispatch: Dispatch) => {
+export const createNewPassThunk = (password: string, token: {token: string}) => (dispatch: Dispatch) => {
     try {
-        const res = authAPI.setNewPass(password)
-        debugger
+        const res = authAPI.setNewPass(password, token)
+
         dispatch(createNewPasswordAC(false))
     } catch (e) {
         alert(e)

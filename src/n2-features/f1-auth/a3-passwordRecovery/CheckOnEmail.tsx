@@ -6,7 +6,7 @@ import {createNewPasswordAC, isShowInfoMessageAC} from "../../../n1-main/m2-bll/
 import {Redirect} from "react-router-dom";
 
 
-export const LinkOnEmail: React.FC = () => {
+export const CheckOnEmail: React.FC = () => {
 
     const email = useSelector<AppRootStateType, string>((state => state.auth.email))
     const isNewPassword = useSelector<AppRootStateType, string>((state => state.auth.isNewPassword))
@@ -14,11 +14,6 @@ export const LinkOnEmail: React.FC = () => {
     const linkCallback = () => {
         debugger
         dispatch(isShowInfoMessageAC(false))
-        dispatch(createNewPasswordAC(true))
-
-    }
-    if (isNewPassword) {
-        return < Redirect to={'/set-new-password'}/>
     }
     return (
         <Grid container justifyContent={"center"}>
@@ -32,12 +27,9 @@ export const LinkOnEmail: React.FC = () => {
                 <Grid item xs={12}>
 
                     <Typography>
-
-
-                        <Link onClick={linkCallback} variant="body2">
-                            {`Goto email : ${email}`}
+                        <Link href={`mailto:${email}`} onClick={linkCallback} variant="body2">
+                            {`Check email : ${email}`}
                         </Link>
-
                     </Typography>
                 </Grid>
             </Paper>
