@@ -2,18 +2,17 @@ import React from 'react'
 import {Grid, Link, Paper, Typography} from "@material-ui/core";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../../n1-main/m2-bll/store/redux-store";
-import {createNewPasswordAC, isShowInfoMessageAC} from "../../../n1-main/m2-bll/reducers/auth-reducer";
-import {Redirect} from "react-router-dom";
+import {isShowCheckEmailAC} from "../../../n1-main/m2-bll/reducers/auth-reducer";
 
 
 export const CheckOnEmail: React.FC = () => {
 
-    const email = useSelector<AppRootStateType, string>((state => state.auth.email))
-    const isNewPassword = useSelector<AppRootStateType, string>((state => state.auth.isNewPassword))
+    const email = useSelector<AppRootStateType, string>((state) => state.auth.email)
+
     const dispatch = useDispatch()
     const linkCallback = () => {
         debugger
-        dispatch(isShowInfoMessageAC(false))
+        dispatch(isShowCheckEmailAC(false))
     }
     return (
         <Grid container justifyContent={"center"}>

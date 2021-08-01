@@ -13,6 +13,7 @@ import {CheckOnEmail} from "../../../n2-features/f1-auth/a3-passwordRecovery/Che
 
 export const Routes = () => {
 
+
     return (
         <Switch>
             <Route exact path="/" render={() => <Main/>}/>
@@ -23,7 +24,7 @@ export const Routes = () => {
             <Route path="/password-recovery" render={() => <PasswordRecovery/>}/>
             <Route path="/set-new-password" render={() => <NewPasswordContainer/>}/>
             <Route path={"/404"} render={() => <Error404/>}/>
-            <Route path={"/go-to-email"} render={() => <CheckOnEmail/>}/>
+            <Route path={"/check-on-email"} render={() => <CheckOnEmail/>}/>
             <Redirect from="*" to="/404"/>
         </Switch>
     );

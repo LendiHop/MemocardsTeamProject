@@ -1,22 +1,15 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import s from './Login.module.css';
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../../n1-main/m2-bll/store/redux-store";
 import {useFormik} from "formik";
-import {Redirect, Link} from "react-router-dom";
-import {
-    Button,
-    Checkbox,
-    FormControl,
-    FormControlLabel,
-    FormGroup,
-    Grid,
-    Paper,
-    TextField
-} from "@material-ui/core";
+import {Link, Redirect} from "react-router-dom";
+import {Button, Checkbox, FormControl, FormControlLabel, FormGroup, Grid, Paper, TextField} from "@material-ui/core";
 import {login} from './reducer/reducer';
+import {isAuthMeTC} from "../../../n1-main/m2-bll/reducers/auth-reducer";
 
 export const Login = () => {
+
     const dispatch = useDispatch();
 
     const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.login.isLoggedIn);
@@ -29,8 +22,8 @@ export const Login = () => {
 
     const formik = useFormik({
         initialValues: {
-            email: "",
-            password: "",
+            email: 'nya-admin@nya.nya',
+            password: "1qazxcvBG",
             rememberMe: false
         },
         validate: (values) => {
@@ -63,6 +56,7 @@ export const Login = () => {
                     <FormControl>
                         <FormGroup className={s.formGroup}>
                             <TextField
+
                                 label="Email"
                                 margin="normal"
                                 {...formik.getFieldProps("email")}

@@ -9,13 +9,11 @@ import {AppRootStateType} from "../../../n1-main/m2-bll/store/redux-store";
 import {Redirect, useParams} from "react-router-dom";
 
 
-export const NewPasswordContainer = () => {
+export const NewPasswordContainer: React.FC = () => {
     const isNewPassword = useSelector<AppRootStateType, boolean>((state) => state.auth.isNewPassword)
-    const token = useParams<{token: string}>()
-   const tokenStr = JSON.stringify(token)
-debugger
-    console.log(`token: ${tokenStr}`)
+
     const dispatch = useDispatch()
+    const { token } = useParams<{token: string}>();
     const formik = useFormik<InitialValueType>({
         initialValues: {
 

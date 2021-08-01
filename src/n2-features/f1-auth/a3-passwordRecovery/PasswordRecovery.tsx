@@ -12,7 +12,7 @@ type FormikInitialValueType = {
 }
 export const PasswordRecovery = () => {
     const dispatch = useDispatch()
-    const showInfoMessage = useSelector<AppRootStateType, boolean>((state => state.auth.showInfoMessage))
+    const showCheckEmail = useSelector<AppRootStateType, boolean>((state => state.auth.showCheckEmail))
 
     const formikForgotAuth = useFormik<FormikInitialValueType>({
         initialValues: {
@@ -34,10 +34,9 @@ export const PasswordRecovery = () => {
         },
 
     })
-    if (showInfoMessage) {
-        return <Redirect to={'/go-to-email'}/>
+    if (showCheckEmail) {
+        return <Redirect to={'/check-on-email'}/>
     }
-
     return (
         <div className="PasswordRecovery">
             <Grid item xs zeroMinWidth

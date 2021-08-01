@@ -1,17 +1,29 @@
 import {Dispatch} from "redux";
-import {authAPI} from "../../m3-dal/auth-api/auth-api";
+import {authAPI, UserType} from "../../m3-dal/auth-api/auth-api";
 
-let initialState = {
+const initialState = {
+    isInitialized: false,
+    _id: '',
     email: '',
-
-
-    showInfoMessage: false,
+    name: '',
+    avatar: '',
+    publicCardPacksCount: 0, // количество колод
+    created: new Date,
+    updated: new Date,
+    isAdmin: false,
+    verified: false, // подтвердил ли почту
+    rememberMe: false,
+    error: '',
+    showCheckEmail: false,
     isRegistered: false,
     isNewPassword: true
 };
 
-const authReducer = (state: any = initialState, action: ActionType) => {
+export const authReducer = (state: InitialStateType = initialState, action: ActionType): InitialStateType => {
     switch (action.type) {
+        case "AUTH/IS-INITIALIZED":
+            return {...state, isInitialized: true, ...action.data}
+
         case 'FORGOT-PASSWORD':
 
             return {...state, email: action.email}
@@ -20,10 +32,10 @@ const authReducer = (state: any = initialState, action: ActionType) => {
             return {
                 ...state,
                 isRegistered: true
-            };
+            }
         case "IS-LINK-ON-EMAIL":
             return {
-                ...state, showInfoMessage: action.showInfoMessage
+                ...state, showCheckEmail: action.showCheckEmail
             }
         case "AUTH/CREATE-NEW-PASSWORD":
             return {...state, isNewPassword: action.isNewPassword}
@@ -33,7 +45,7 @@ const authReducer = (state: any = initialState, action: ActionType) => {
 }
 
 //actions
-
+export const isInitializedAC = (data: UserType) => ({type: 'AUTH/IS-INITIALIZED', data} as const)
 export const onRegistrationAC = () => ({type: "AUTH/CHANGE-REGISTRATION"} as const)
 export const createNewPasswordAC = (isNewPassword: boolean) => ({
     type: "AUTH/CREATE-NEW-PASSWORD",
@@ -42,10 +54,20 @@ export const createNewPasswordAC = (isNewPassword: boolean) => ({
 
 export const authForgotAC = (email: string) => ({type: 'FORGOT-PASSWORD', email} as const)
 
-export const isShowInfoMessageAC = (showInfoMessage: boolean) => ({type: 'IS-LINK-ON-EMAIL', showInfoMessage} as const)
+export const isShowCheckEmailAC = (showCheckEmail: boolean) => ({type: 'IS-LINK-ON-EMAIL', showCheckEmail} as const)
 
 
 //thunks
+export const isAuthMeTC = () => async (dispatch: Dispatch) => {
+    try{
+        const res = await authAPI.me()
+
+        dispatch(isInitializedAC(res.data))
+    }
+    catch (e)  {
+
+    }
+}
 
 export const onRegisterTC = (email: string, password: string) => async (dispatch: Dispatch) => {
     try {
@@ -64,23 +86,10 @@ export const onRegisterTC = (email: string, password: string) => async (dispatch
 
 export const ForgotThunk = (email: string) => (dispatch: Dispatch) => {
 
-
-    const message = 'message: `<div style="background-color: lime; padding: 15px">\t\terror: string;\t\n' +
-        '\tpassword recovery link: \t}\t\n' +
-        '\t<a href=\'http://localhost:3000/#/set-new-password/$token$\'>\t\t\n' +
-        '\tlink</a></div>` // хтмп-письмо, вместо $token$ бэк вставит токен\t\t'
-
-    const from = "test-front-admin <ai73a@yandex.by>"// можно указать разработчика фронта)
-
-    const data = {email, from: from, message: message}
-    authAPI.forgot(data)
+    authAPI.forgot(email)
         .then(res => {
             dispatch(authForgotAC(email))
-
-            dispatch(isShowInfoMessageAC(true))
-
-
-
+            dispatch(isShowCheckEmailAC(true))
 
         })
         .catch(e => {
@@ -88,7 +97,7 @@ export const ForgotThunk = (email: string) => (dispatch: Dispatch) => {
         })
 }
 
-export const createNewPassThunk = (password: string, token: {token: string}) => (dispatch: Dispatch) => {
+export const createNewPassThunk = (password: string, token: string) => (dispatch: Dispatch) => {
     try {
         const res = authAPI.setNewPass(password, token)
 
@@ -100,10 +109,34 @@ export const createNewPassThunk = (password: string, token: {token: string}) => 
 
 
 //types
+
+type InitialStateType = typeof initialState
+//     {
+//     isInitialized: boolean
+//     _id: string
+//     email: string
+//     name: string
+//     avatar: string
+//     publicCardPacksCount: number // количество колод
+//     created: Date
+//     updated: Date
+//     isAdmin: boolean
+//     verified: boolean // подтвердил ли почту
+//     rememberMe: boolean
+//     error: string
+//     showCheckEmail: boolean
+//     isRegistered: boolean
+//     isNewPassword: boolean
+// }
 type OnRegistrationACType = ReturnType<typeof onRegistrationAC>
-type IsShowInfoMessageACType = ReturnType<typeof isShowInfoMessageAC>
+type IsShowCheckEmailACType = ReturnType<typeof isShowCheckEmailAC>
 type AuthForgotACType = ReturnType<typeof authForgotAC>
 type CreateNewPasswordACType = ReturnType<typeof createNewPasswordAC>
-type ActionType = OnRegistrationACType | IsShowInfoMessageACType | AuthForgotACType | CreateNewPasswordACType
+type IsInitializedACType = ReturnType<typeof isInitializedAC>
+export type ActionType =
+    OnRegistrationACType
+    | IsShowCheckEmailACType
+    | AuthForgotACType
+    | CreateNewPasswordACType
+    | IsInitializedACType
 
-export default authReducer;
