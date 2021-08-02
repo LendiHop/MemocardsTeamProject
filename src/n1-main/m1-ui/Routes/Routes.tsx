@@ -23,7 +23,7 @@ export const Routes = () => {
             <Route path="/login" render={() => <Login/>}/>
             <Route path="/registration" render={() => <RegistrationContainer/>}/>
             <Route path="/password-recovery" render={() => <PasswordRecovery/>}/>
-            <Route path="/set-new-password" render={() => <NewPasswordContainer/>}/>
+            <Route path="/set-new-password/:token" render={() => <NewPasswordContainer/>}/>
             <Route path={"/404"} render={() => <Error404/>}/>
             <Route path={"/check-on-email"} render={() => <CheckOnEmail/>}/>
             <Redirect from="*" to="/404"/>

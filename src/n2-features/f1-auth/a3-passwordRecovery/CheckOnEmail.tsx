@@ -11,7 +11,7 @@ export const CheckOnEmail: React.FC = () => {
 
     const dispatch = useDispatch()
     const linkCallback = () => {
-        debugger
+
         dispatch(isShowCheckEmailAC(false))
     }
     return (

@@ -19,7 +19,7 @@ export const authAPI = {
     register(email: string, password: string) {
         return instance.post<RegisterResponseType>('auth/register', {email, password}).then(res => res.data)
     },
-    setNewPass(password: string, token: string = 'tokenApi') {
+    setNewPass(password: string, token: string ) {
         return instance.post<PassResponseType>('auth/set-new-password/',
             {password, resetPasswordToken: token}).then(res => res.data)
     }
