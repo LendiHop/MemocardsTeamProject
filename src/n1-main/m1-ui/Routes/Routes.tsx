@@ -9,10 +9,11 @@ import {Test} from '../../../n2-features/f0-test/t1-test/test';
 import {Main} from '../Main/Main';
 import {RegistrationContainer} from "../../../n2-features/f1-auth/a2-registration/RegistrationContainer";
 import {CheckOnEmail} from "../../../n2-features/f1-auth/a3-passwordRecovery/CheckOnEmail";
+import {useSelector} from "react-redux";
+import {AppRootStateType} from "../../m2-bll/store/redux-store";
 
 
 export const Routes = () => {
-
 
     return (
         <Switch>

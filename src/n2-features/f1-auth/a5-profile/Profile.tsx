@@ -6,26 +6,27 @@ import {ProfileDataType} from "../a1-loginization/api/api";
 import { Redirect } from 'react-router-dom';
 import {Button} from "@material-ui/core";
 import { logout } from '../a1-loginization/reducer/reducer';
+import {UserType} from "../../../n1-main/m3-dal/auth-api/auth-api";
 
 export const Profile = () => {
     const dispatch = useDispatch();
-    const profileData = useSelector<AppRootStateType, ProfileDataType>((state) => state.profile);
-    const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.login.isLoggedIn);
+    const userData = useSelector<AppRootStateType, UserType>((state) => state.profile);
+    const isInitialized = useSelector<AppRootStateType, boolean>(state => state.app.isInitialized);
 
     const logoutHandler = useCallback(() => {
         dispatch(logout())
     }, [dispatch])
 
-    if (!isLoggedIn) {
+    if (!isInitialized) {
         return <Redirect to={"/login"}/>
     }
 
     return (
         <div className="Profile">
             <h3>Profile</h3>
-            <img src={profileData.avatar} alt="avatar"/>
-            <div>{profileData.name}</div>
-            <div>{isLoggedIn && <Button variant='contained' color='primary' onClick={logoutHandler}>Log out</Button>}</div>
+            <img src={userData.avatar} alt="avatar"/>
+            <div>{userData.name}</div>
+            <div>{isInitialized && <Button variant='contained' color='primary' onClick={logoutHandler}>Log out</Button>}</div>
         </div>
     );
 }

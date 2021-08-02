@@ -52,4 +52,6 @@ type InitialStateType = {
     isLoggedIn: boolean
 }
 
+
+
 type ThunkDispatch = Dispatch<ActionsType | ReturnType<typeof setProfileData>>

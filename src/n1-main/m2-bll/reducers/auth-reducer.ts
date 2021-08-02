@@ -1,8 +1,11 @@
 import {Dispatch} from "redux";
 import {authAPI, UserType} from "../../m3-dal/auth-api/auth-api";
+import {log} from "util";
+import {handleServerNetworkError} from "../../../utils/error-utils";
+import {setAppStatusAC} from "./app-reduser";
 
 const initialState = {
-    isInitialized: false,
+
     _id: '',
     email: '',
     name: '',
@@ -21,8 +24,6 @@ const initialState = {
 
 export const authReducer = (state: InitialStateType = initialState, action: ActionType): InitialStateType => {
     switch (action.type) {
-        case "AUTH/IS-INITIALIZED":
-            return {...state, isInitialized: true, ...action.data}
 
         case 'FORGOT-PASSWORD':
 
@@ -45,7 +46,7 @@ export const authReducer = (state: InitialStateType = initialState, action: Acti
 }
 
 //actions
-export const isInitializedAC = (data: UserType) => ({type: 'AUTH/IS-INITIALIZED', data} as const)
+
 export const onRegistrationAC = () => ({type: "AUTH/CHANGE-REGISTRATION"} as const)
 export const createNewPasswordAC = (isNewPassword: boolean) => ({
     type: "AUTH/CREATE-NEW-PASSWORD",
@@ -58,52 +59,50 @@ export const isShowCheckEmailAC = (showCheckEmail: boolean) => ({type: 'IS-LINK-
 
 
 //thunks
-export const isAuthMeTC = () => async (dispatch: Dispatch) => {
-    try{
-        const res = await authAPI.me()
 
-        dispatch(isInitializedAC(res.data))
-    }
-    catch (e)  {
-
-    }
-}
 
 export const onRegisterTC = (email: string, password: string) => async (dispatch: Dispatch) => {
     try {
+        dispatch(setAppStatusAC('loading'))
 
-
-        const res = await authAPI.register(email, password)
+        const data = await authAPI.register(email, password)
 
         dispatch(onRegistrationAC())
+        dispatch(setAppStatusAC('succeeded'))
 
-    } catch (error) {
-        if (error && email === email) {
+    } catch (e) {
+        if (e && email === email) {
             dispatch(onRegistrationAC())
         }
+        handleServerNetworkError(e, dispatch)
+
     }
 }
 
-export const ForgotThunk = (email: string) => (dispatch: Dispatch) => {
+export const ForgotThunk = (email: string) => async (dispatch: Dispatch) => {
+   try {
+       dispatch(setAppStatusAC('loading'))
+       const data = await authAPI.forgot(email)
 
-    authAPI.forgot(email)
-        .then(res => {
-            dispatch(authForgotAC(email))
-            dispatch(isShowCheckEmailAC(true))
-
-        })
-        .catch(e => {
-            alert(e)
-        })
+       dispatch(authForgotAC(email))
+       dispatch(isShowCheckEmailAC(true))
+       dispatch(setAppStatusAC('succeeded'))
+   }
+   catch(e) {
+            handleServerNetworkError(e, dispatch)
+        }
 }
 
-export const createNewPassThunk = (password: string, token: string) => (dispatch: Dispatch) => {
+export const createNewPassThunk = (password: string, token: string) => async (dispatch: Dispatch) => {
     try {
-        const res = authAPI.setNewPass(password, token)
+        dispatch(setAppStatusAC('loading'))
+        const res = await authAPI.setNewPass(password, token)
 
         dispatch(createNewPasswordAC(false))
+        dispatch(setAppStatusAC('succeeded'))
+
     } catch (e) {
-        alert(e)
+        handleServerNetworkError(e, dispatch)
     }
 }
 
@@ -111,32 +110,16 @@ export const createNewPassThunk = (password: string, token: string) => (dispatch
 //types
 
 type InitialStateType = typeof initialState
-//     {
-//     isInitialized: boolean
-//     _id: string
-//     email: string
-//     name: string
-//     avatar: string
-//     publicCardPacksCount: number // количество колод
-//     created: Date
-//     updated: Date
-//     isAdmin: boolean
-//     verified: boolean // подтвердил ли почту
-//     rememberMe: boolean
-//     error: string
-//     showCheckEmail: boolean
-//     isRegistered: boolean
-//     isNewPassword: boolean
-// }
+
 type OnRegistrationACType = ReturnType<typeof onRegistrationAC>
 type IsShowCheckEmailACType = ReturnType<typeof isShowCheckEmailAC>
 type AuthForgotACType = ReturnType<typeof authForgotAC>
 type CreateNewPasswordACType = ReturnType<typeof createNewPasswordAC>
-type IsInitializedACType = ReturnType<typeof isInitializedAC>
+
 export type ActionType =
     OnRegistrationACType
     | IsShowCheckEmailACType
     | AuthForgotACType
     | CreateNewPasswordACType
-    | IsInitializedACType
+
 

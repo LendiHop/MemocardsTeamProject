@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import './NewPassword.module.css';
 import {useDispatch, useSelector} from "react-redux";
 import {useFormik} from "formik";
@@ -11,10 +11,16 @@ import {Redirect, useParams} from "react-router-dom";
 
 export const NewPasswordContainer: React.FC = () => {
     const isNewPassword = useSelector<AppRootStateType, boolean>((state) => state.auth.isNewPassword)
-
+    const [showPass, setShowPass] = useState(false)
     const dispatch = useDispatch()
-    const { token } = useParams<{token: string}>();
+    const {token} = useParams<{ token: string }>();
+    const handleClickShowPassword = () => {
+
+        const c = !showPass
+        setShowPass(c)
+    }
     const formik = useFormik<InitialValueType>({
+
         initialValues: {
 
             password: '',
@@ -35,7 +41,8 @@ export const NewPasswordContainer: React.FC = () => {
         onSubmit: (values) => {
             dispatch(createNewPassThunk(values.password, token))
             formik.resetForm()
-        }
+        },
+
     })
 
     if (!isNewPassword) {
@@ -43,11 +50,12 @@ export const NewPasswordContainer: React.FC = () => {
     }
     return (
         <Container style={{maxHeight: '100%'}}>
-            <NewPassword formik={formik}/>
+            <NewPassword formik={formik} showPass={showPass} handleClickShowPassword={handleClickShowPassword}/>
         </Container>
     );
 }
 
 export type InitialValueType = {
     password: string
+
 }

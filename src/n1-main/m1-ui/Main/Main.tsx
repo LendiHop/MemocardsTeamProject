@@ -1,16 +1,17 @@
 import React, {useEffect} from 'react';
 import './Main.module.css';
 import {useDispatch, useSelector} from "react-redux";
-import {isAuthMeTC} from "../../m2-bll/reducers/auth-reducer";
+
 import {AppRootStateType} from "../../m2-bll/store/redux-store";
 import {Redirect} from "react-router-dom";
+import {initializeAppTC} from "../../m2-bll/reducers/app-reduser";
 
 export const Main = () => {
     const dispatch = useDispatch()
     useEffect(() => {
-        dispatch(isAuthMeTC())
+        dispatch(initializeAppTC())
     },[])
-    const isInitialized = useSelector<AppRootStateType, boolean>(state => state.auth.isInitialized)
+    const isInitialized = useSelector<AppRootStateType, boolean>(state => state.app.isInitialized)
     if(isInitialized) {
         return <Redirect to={'/profile'} />
     }

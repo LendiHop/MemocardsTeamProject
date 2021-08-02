@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import './Registration.module.css';
 import {useFormik} from 'formik';
 import {useDispatch, useSelector} from "react-redux";
@@ -10,9 +10,18 @@ import {Container} from "@material-ui/core";
 
 
 export const RegistrationContainer: React.FC = () => {
-
+    const [showPass1, setShowPass1] = useState(false)
+    const [showPass2, setShowPass2] = useState(false)
     const isRegistered = useSelector<AppRootStateType, boolean>(state => state.auth.isRegistered)
     const dispatch = useDispatch()
+    const handleClickShowPassword1 = () => {
+
+        setShowPass1(!showPass1)
+    }
+    const handleClickShowPassword2 = () => {
+
+        setShowPass2(!showPass2)
+    }
     const formik = useFormik<InitialValueType>({
         initialValues: {
             email: '',
@@ -55,14 +64,16 @@ export const RegistrationContainer: React.FC = () => {
     return (
         <Container style={{maxHeight: '100%'}}>
 
-            <Registration formik={formik}/>
+            <Registration formik={formik} showPass1={showPass1} handleClickShowPassword1={handleClickShowPassword1}
+                          showPass2={showPass2} handleClickShowPassword2={handleClickShowPassword2}/>
 
         </Container>
     );
 }
 
-export type InitialValueType = {
-    email: string
-    password: string
-    password2: string
-}
+export type InitialValueType =
+    {
+        email: string
+        password: string
+        password2: string
+    }
