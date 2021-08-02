@@ -4,13 +4,11 @@ const initialState: ProfileDataType = {
     name: "",
     avatar: "",
     publicCardPacksCount: 0,
-
     created: new Date(2013, 2, 1, 0, 70),
     updated: new Date(2015, 2, 1, 0, 70),
     isAdmin: false,
     verified: false ,
     rememberMe: false,
-
     error: "",
 }
 
@@ -36,13 +34,11 @@ export type ProfileDataType = {
     name: string
     avatar?: string
     publicCardPacksCount: number // количество колод
-
     created: Date
     updated: Date
     isAdmin: boolean
     verified: boolean // подтвердил ли почту
     rememberMe: boolean
-
     error?: string
 }
 

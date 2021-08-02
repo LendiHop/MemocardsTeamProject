@@ -1,5 +1,4 @@
 import React from 'react';
-import {Login} from "../../../n2-features/f1-auth/a1-loginization/Login";
 import {Error404} from "../../../n2-features/f0-test/t2-404/Error404";
 import {Redirect, Route, Switch} from 'react-router-dom';
 import {PasswordRecovery} from "../../../n2-features/f1-auth/a3-passwordRecovery/PasswordRecovery";
@@ -10,8 +9,6 @@ import {Main} from '../Main/Main';
 import {RegistrationContainer} from "../../../n2-features/f1-auth/a2-registration/RegistrationContainer";
 import {LoginContainer} from "../../../n2-features/f1-auth/a1-loginization/LoginContainer";
 import {CheckOnEmail} from "../../../n2-features/f1-auth/a3-passwordRecovery/CheckOnEmail";
-import {useSelector} from "react-redux";
-import {AppRootStateType} from "../../m2-bll/store/redux-store";
 
 
 export const Routes = () => {

@@ -46,7 +46,6 @@ export const initializeAppTC = () => async (dispatch: Dispatch) => {
     }
 }
 
-
 export type SetAppStatusActionType = ReturnType<typeof setAppStatusAC>
 export type SetAppErrorActionType = ReturnType<typeof setAppErrorAC>
 export type SetIsInitializedAC = ReturnType<typeof setIsInitializedAC>

@@ -8,7 +8,7 @@ const instance = axios.create({
 
 export const authAPI = {
     me() {
-        return instance.post<UserType>('auth/me').then(res => res.data)
+        return instance.post<ProfileDataType>('auth/me').then(res => res.data)
     },
     login(data: LoginParamsType) {
         return instance.post<ProfileDataType>('auth/login', data);
@@ -18,7 +18,7 @@ export const authAPI = {
     },
     forgot(email: string) {
         return instance.post<PassResponseType>(`auth/forgot`, {email,
-            from: "test-front-admin <ai73a@yandex.by>", message:`<div style="background-color: lime; padding: 15px"><a href=\'http://localhost:3000/#/set-new-password/$token$\'>\t\t\n' +
+            from: "test-front-admin <ai73a@yandex.by>", message:`<div style="background-color: lime; padding: 15px"><a href='http://localhost:3000/#/set-new-password/$token$'>\t\t\n' +
         '\tlink</a></div>` }).then(res => res.data)
     },
     register(email: string, password: string) {
@@ -46,18 +46,4 @@ export type LoginParamsType = {
     email: string
     password: string
     rememberMe: boolean
-}
-
-export type UserType = {
-    _id: string;
-    email: string;
-    name: string;
-    avatar?: string;
-    publicCardPacksCount: number; // количество колод
-    created: Date;
-    updated: Date;
-    isAdmin: boolean;
-    verified: boolean; // подтвердил ли почту
-    rememberMe: boolean;
-    error?: string;
 }

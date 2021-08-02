@@ -7,11 +7,10 @@ import EmailTwoToneIcon from '@material-ui/icons/EmailTwoTone';
 
 export const CheckOnEmail: React.FC = () => {
 
-    const email = useSelector<AppRootStateType, string>((state) => state.auth.email)
+    const email = useSelector<AppRootStateType, string>((state) => state.profile.email)
 
     const dispatch = useDispatch()
     const linkCallback = () => {
-        debugger
         dispatch(isShowCheckEmailAC(false))
     }
     return (

@@ -22,4 +22,4 @@ export const handleServerNetworkError = (e: any, dispatch: ErrorUtilsDispatchTyp
     dispatch(setAppStatusAC('failed'))
 }
 
-type ErrorUtilsDispatchType = Dispatch<SetAppErrorActionType | SetAppStatusActionType>
+export type ErrorUtilsDispatchType = Dispatch<SetAppErrorActionType | SetAppStatusActionType>

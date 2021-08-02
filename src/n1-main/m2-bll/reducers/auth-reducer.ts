@@ -1,28 +1,13 @@
 import { Dispatch } from "redux";
 import {authAPI, LoginParamsType} from "../../m3-dal/auth-api/auth-api";
 import {setProfileData} from "./profile-reducer";
-import {Dispatch} from "redux";
-import {authAPI, UserType} from "../../m3-dal/auth-api/auth-api";
-import {log} from "util";
 import {handleServerNetworkError} from "../../../utils/error-utils";
-import {setAppStatusAC} from "./app-reduser";
+import {SetAppErrorActionType, setAppStatusAC, SetAppStatusActionType} from "./app-reduser";
 
 const initialState: InitialStateType = {
-    _id: '',
-    email: '',
-    name: '',
-    avatar: '',
-    publicCardPacksCount: 0, // количество колод
-    created: new Date,
-    updated: new Date,
-    isAdmin: false,
-    verified: false, // подтвердил ли почту
-    rememberMe: false,
-    error: '',
-    showCheckEmail: false,
-    isRegistered: false,
-    isNewPassword: true
     message: '',
+    showCheckEmail: false,
+    isNewPassword: true,
     isRegistered: false,
     isLoggedIn: false
 };
@@ -98,7 +83,7 @@ export const logoutTC = () => (dispatch: ThunkDispatch) => {
         })
 }
 
-export const onRegisterTC = (email: string, password: string) => async (dispatch: Dispatch) => {
+export const onRegisterTC = (email: string, password: string) => async (dispatch: ThunkDispatch) => {
     try {
         dispatch(setAppStatusAC('loading'))
 
@@ -112,11 +97,10 @@ export const onRegisterTC = (email: string, password: string) => async (dispatch
             dispatch(onRegistrationAC())
         }
         handleServerNetworkError(e, dispatch)
-
     }
 }
 
-export const ForgotThunk = (email: string) => async (dispatch: Dispatch) => {
+export const ForgotThunk = (email: string) => async (dispatch: ThunkDispatch) => {
     try {
         dispatch(setAppStatusAC('loading'))
         const data = await authAPI.forgot(email)
@@ -130,7 +114,7 @@ export const ForgotThunk = (email: string) => async (dispatch: Dispatch) => {
     }
 }
 
-export const createNewPassThunk = (password: string, token: string) => async (dispatch: Dispatch) => {
+export const createNewPassThunk = (password: string, token: string) => async (dispatch: ThunkDispatch) => {
     try {
         dispatch(setAppStatusAC('loading'))
         const res = await authAPI.setNewPass(password, token)
@@ -145,8 +129,9 @@ export const createNewPassThunk = (password: string, token: string) => async (di
 
 //types
 type InitialStateType = {
-    email: string
     message: string
+    showCheckEmail: boolean
+    isNewPassword: boolean
     isRegistered: boolean
     isLoggedIn: boolean
 }
@@ -157,6 +142,6 @@ type ActionsType = ReturnType<typeof onRegistrationAC>
     | ReturnType<typeof authForgotAC>
     | ReturnType<typeof createNewPasswordAC>
 
-type ThunkDispatch = Dispatch<ActionsType | ReturnType<typeof setProfileData>>
+type ThunkDispatch = Dispatch<ActionsType | ReturnType<typeof setProfileData> | ReturnType<typeof setAppStatusAC> | SetAppErrorActionType | SetAppStatusActionType>
 
 export default authReducer;
