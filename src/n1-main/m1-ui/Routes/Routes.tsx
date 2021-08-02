@@ -1,13 +1,18 @@
 import React from 'react';
+import {Login} from "../../../n2-features/f1-auth/a1-loginization/Login";
 import {Error404} from "../../../n2-features/f0-test/t2-404/Error404";
 import {Redirect, Route, Switch} from 'react-router-dom';
 import {PasswordRecovery} from "../../../n2-features/f1-auth/a3-passwordRecovery/PasswordRecovery";
-import {EnterPassword} from "../../../n2-features/f1-auth/a4-enterPassword/EnterPassword";
+import {NewPasswordContainer} from "../../../n2-features/f1-auth/a4-enterPassword/NewPasswordContainer";
 import {Profile} from "../../../n2-features/f1-auth/a5-profile/Profile";
 import {Test} from '../../../n2-features/f0-test/t1-test/test';
 import {Main} from '../Main/Main';
 import {RegistrationContainer} from "../../../n2-features/f1-auth/a2-registration/RegistrationContainer";
 import {LoginContainer} from "../../../n2-features/f1-auth/a1-loginization/LoginContainer";
+import {CheckOnEmail} from "../../../n2-features/f1-auth/a3-passwordRecovery/CheckOnEmail";
+import {useSelector} from "react-redux";
+import {AppRootStateType} from "../../m2-bll/store/redux-store";
+
 
 export const Routes = () => {
     return (
@@ -18,8 +23,9 @@ export const Routes = () => {
             <Route path="/login" render={() => <LoginContainer/>}/>
             <Route path="/registration" render={() => <RegistrationContainer/>}/>
             <Route path="/password-recovery" render={() => <PasswordRecovery/>}/>
-            <Route path="/enter-password" render={() => <EnterPassword/>}/>
+            <Route path="/set-new-password" render={() => <NewPasswordContainer/>}/>
             <Route path={"/404"} render={() => <Error404/>}/>
+            <Route path={"/check-on-email"} render={() => <CheckOnEmail/>}/>
             <Redirect from="*" to="/404"/>
         </Switch>
     );
