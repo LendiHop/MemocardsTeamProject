@@ -12,21 +12,17 @@ export const App = () => {
 
     const status = useSelector((state: AppRootStateType): RequestStatusType => state.app.status)
 
-
     const dispatch = useDispatch()
 
     useEffect(() => {
         dispatch(initializeAppTC())
-    }, [])
-
-
+    }, [dispatch])
 
     return (
         <div className="App">
             <ErrorSnackbar/>
             <Header/>
             {status === "loading" && <LinearProgress color="secondary"/>}
-
             <Routes/>
         </div>
     );

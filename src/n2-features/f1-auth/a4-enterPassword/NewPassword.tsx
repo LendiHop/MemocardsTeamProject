@@ -9,8 +9,7 @@ import {
     IconButton,
     Input,
     InputLabel,
-    Paper,
-    TextField
+    Paper
 } from "@material-ui/core";
 import {InitialValueType} from "./NewPasswordContainer";
 import InputAdornment from '@material-ui/core/InputAdornment/InputAdornment';

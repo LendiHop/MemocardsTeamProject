@@ -71,9 +71,8 @@ export const RegistrationContainer: React.FC = () => {
     );
 }
 
-export type InitialValueType =
-    {
-        email: string
-        password: string
-        password2: string
-    }
+export type InitialValueType = {
+    email: string
+    password: string
+    password2: string
+}

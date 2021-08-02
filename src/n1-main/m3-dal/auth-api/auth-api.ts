@@ -1,19 +1,24 @@
 import axios from "axios";
+import { ProfileDataType } from "../../m2-bll/reducers/profile-reducer";
 
 const instance = axios.create({
     withCredentials: true,
     baseURL: 'https://neko-back.herokuapp.com/2.0/',
 });
 
-//раскомментируете и пишете свою часть
 export const authAPI = {
     me() {
-        return instance.post<UserType>('auth/me').then(res => res.data)
+        return instance.post<ProfileDataType>('auth/me').then(res => res.data)
     },
-
+    login(data: LoginParamsType) {
+        return instance.post<ProfileDataType>('auth/login', data);
+    },
+    logout() {
+        return instance.delete<{info: string, error: string}>('auth/me');
+    },
     forgot(email: string) {
         return instance.post<PassResponseType>(`auth/forgot`, {email,
-            from: "test-front-admin <ai73a@yandex.by>", message:`<div style="background-color: lime; padding: 15px"><a href=\'http://localhost:3000/#/set-new-password/$token$\'>\t\t\n' +
+            from: "test-front-admin <ai73a@yandex.by>", message:`<div style="background-color: lime; padding: 15px"><a href='http://localhost:3000/#/set-new-password/$token$'>\t\t\n' +
         '\tlink</a></div>` }).then(res => res.data)
     },
     register(email: string, password: string) {
@@ -25,6 +30,8 @@ export const authAPI = {
     }
 }
 
+//types
+
 type PassResponseType = {
     info: string
     error?: string
@@ -34,16 +41,9 @@ type RegisterResponseType = {
     addedUser: any
     error?: string
 }
-export type UserType = {
-    _id: string;
-    email: string;
-    name: string;
-    avatar?: string;
-    publicCardPacksCount: number; // количество колод
-    created: Date;
-    updated: Date;
-    isAdmin: boolean;
-    verified: boolean; // подтвердил ли почту
-    rememberMe: boolean;
-    error?: string;
+
+export type LoginParamsType = {
+    email: string
+    password: string
+    rememberMe: boolean
 }
