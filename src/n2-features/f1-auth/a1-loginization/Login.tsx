@@ -1,9 +1,7 @@
 import React from 'react';
 import s from './Login.module.css';
-import {useDispatch, useSelector} from "react-redux";
-import {AppRootStateType} from "../../../n1-main/m2-bll/store/redux-store";
-import {useFormik} from "formik";
-import {Redirect, Link} from "react-router-dom";
+import {FormikProps} from "formik";
+import {Link} from "react-router-dom";
 import {
     Button,
     Checkbox,
@@ -14,46 +12,13 @@ import {
     Paper,
     TextField
 } from "@material-ui/core";
-import {login} from './reducer/reducer';
+import {FormikLoginInitValues} from "./LoginContainer";
 
-export const Login = () => {
-    const dispatch = useDispatch();
+type TProps = {
+    formik: FormikProps<FormikLoginInitValues>
+}
 
-    const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.login.isLoggedIn);
-
-    type FormikErrorType = {
-        email?: string
-        password?: string
-        rememberMe?: boolean
-    }
-
-    const formik = useFormik({
-        initialValues: {
-            email: "daniok2021@lendi.com",
-            password: "qwezxc123",
-            rememberMe: false
-        },
-        validate: (values) => {
-            const errors: FormikErrorType = {};
-            if (!values.email) {
-                errors.email = 'Email is required';
-            } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-                errors.email = 'Invalid email address';
-            }
-            if (!values.password) {
-                errors.password = 'Password is required';
-            }
-            return errors;
-        },
-        onSubmit: values => {
-            dispatch(login(values));
-            formik.resetForm();
-        },
-    })
-
-    if (isLoggedIn) {
-        return <Redirect to={"/profile"}/>
-    }
+export const Login: React.FC<TProps> = ({formik}) => {
 
     return <Grid container justify="center" alignItems="center" className={s.container}>
         <Grid item>

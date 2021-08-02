@@ -2,7 +2,6 @@ import React, {useEffect} from 'react';
 import './PasswordRecovery.module.css';
 import {Button, FormControl, FormGroup, FormLabel, Grid, TextField} from "@material-ui/core";
 import {useDispatch} from "react-redux";
-import {ForgotThunk} from "../../../n1-main/m2-bll/reducers/auth-reducer";
 import {useFormik} from "formik";
 import {Redirect} from "react-router-dom";
 
@@ -13,7 +12,7 @@ export const PasswordRecovery = () => {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        dispatch(ForgotThunk)
+        //dispatch(ForgotThunk)
     }, [])
     const formikForgotAuth = useFormik({
         initialValues: {
@@ -30,7 +29,7 @@ export const PasswordRecovery = () => {
             return errors;
         },
         onSubmit: values => {
-            dispatch(ForgotThunk)
+            //dispatch(ForgotThunk)
             formikForgotAuth.resetForm()
 
         },

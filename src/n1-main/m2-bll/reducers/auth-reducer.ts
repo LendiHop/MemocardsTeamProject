@@ -1,21 +1,20 @@
 import { Dispatch } from "redux";
-import { authAPI } from "../../m3-dal/auth-api/auth-api";
+import {authAPI, LoginParamsType} from "../../m3-dal/auth-api/auth-api";
+import {setProfileData} from "./profile-reducer";
 
-let initialState = {
+let initialState: InitialStateType = {
     email: '',
     message: '',
-    isRegistered: false
+    isRegistered: false,
+    isLoggedIn: false
 };
 
-const authReducer = (state: any = initialState, action: any) => {
+const authReducer = (state: InitialStateType = initialState, action: ActionsType) => {
     switch (action.type) {
-        case 'FORGOT-PASSWORD':
-            return {...state, email: action.email}
-        case "INITIALIZE_SUCCESS":
-            return {
-                ...state,
-                initialized: true
-            };
+        case 'login/SET-IS-LOGGED-IN':
+            return {...state, isLoggedIn: action.value}
+        // case 'FORGOT-PASSWORD':
+        //     return {...state, email: action.email}
         case "AUTH/CHANGE-REGISTRATION":
             return {
                 ...state,
@@ -28,20 +27,49 @@ const authReducer = (state: any = initialState, action: any) => {
 
 //actions
 
+export const setIsLoggedIn = (value: boolean) =>
+    ({type: 'login/SET-IS-LOGGED-IN', value} as const)
+
 export const onRegistrationAC = () =>
     ({type: "AUTH/CHANGE-REGISTRATION"} as const)
 
 export const AuthForgot = (email: string) => {
     return {type: 'FORGOT-PASSWORD', email}
-
 }
 
 //thunks
 
-export const onRegisterTC = (email: string, password: string) => async (dispatch: Dispatch) => {
-    try {
+export const loginTC = (data: LoginParamsType) => (dispatch: ThunkDispatch) => {
+    authAPI.login(data)
+        .then(res => {
+            dispatch(setIsLoggedIn(true))
+            dispatch(setProfileData(res.data))
+        })
+        .catch ((e) => {
+            const error = e.response
+                ? e.response.data.error
+                : (e.message + ', more details in the console');
+            alert(error);
+            console.log('Error: ', {...e})
+        })
+}
 
-        // const res = await authAPI.register(email, password)
+export const logoutTC = () => (dispatch: ThunkDispatch) => {
+    authAPI.logout()
+        .then(() => {
+            dispatch(setIsLoggedIn(false))
+        })
+        .catch ((e) => {
+            const error = e.response
+                ? e.response.data.error
+                : (e.message + ', more details in the console');
+            alert(error);
+            console.log('Error: ', {...e})
+        })
+}
+
+export const onRegisterTC = (email: string, password: string) => async (dispatch: ThunkDispatch) => {
+    try {
         const res = await authAPI.register(email, password)
         alert(res)
         // dispatch(onRegistrationAC())
@@ -52,19 +80,27 @@ export const onRegisterTC = (email: string, password: string) => async (dispatch
     }
 }
 
-export const ForgotThunk = (email: string) => (dispatch: Dispatch) => {
-    authAPI.forgot(email)
-        .then(res => {
-            if (res.data.resultCode === 0) {
-                const action = AuthForgot(email)
-                dispatch(action)
-            }
-
-        })
-}
+// export const ForgotThunk = (email: string) => (dispatch: ThunkDispatch) => {
+//     authAPI.forgot(email)
+//         .then(res => {
+//             if (res.data.resultCode === 0) {
+//                 const action = AuthForgot(email)
+//                 dispatch(action)
+//             }
+//
+//         })
+// }
 
 //types
-type OnRegistrationAC = ReturnType<typeof onRegistrationAC>
-type ActionType = OnRegistrationAC
+type InitialStateType = {
+    email: string
+    message: string
+    isRegistered: boolean
+    isLoggedIn: boolean
+}
+
+type ActionsType = ReturnType<typeof onRegistrationAC> | ReturnType<typeof setIsLoggedIn>
+
+type ThunkDispatch = Dispatch<ActionsType | ReturnType<typeof setProfileData>>
 
 export default authReducer;

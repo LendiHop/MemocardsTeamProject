@@ -1,5 +1,3 @@
-import {ProfileDataType} from "../../a1-loginization/api/api";
-
 const initialState: ProfileDataType = {
     _id: "",
     email: "",
@@ -25,8 +23,27 @@ export const profileReducer = (state: ProfileDataType = initialState, action: Ac
     }
 }
 
+//actions
+
 export const setProfileData = (data: ProfileDataType) =>
     ({type: 'profile/SET-PROFILE-DATA', data} as const)
 
+//types
+
+export type ProfileDataType = {
+    _id: string
+    email: string
+    name: string
+    avatar?: string
+    publicCardPacksCount: number // количество колод
+
+    created: Date
+    updated: Date
+    isAdmin: boolean
+    verified: boolean // подтвердил ли почту
+    rememberMe: boolean
+
+    error?: string
+}
 
 type ActionsType = ReturnType<typeof setProfileData>
