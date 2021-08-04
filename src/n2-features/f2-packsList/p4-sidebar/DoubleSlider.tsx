@@ -11,9 +11,14 @@ function valuetext(value: number) {
     return `${value}°C`;
 }
 
-export const DoubleSlider:React.FC = () => {
+type PropsType = {
+    min: number
+    max: number
+}
+
+export const DoubleSlider:React.FC<PropsType> = ({min, max}) => {
     const classes = useStyles();
-    const [value, setValue] = React.useState<number[]>([20, 37]);
+    const [value, setValue] = React.useState<number[]>([min, max]);
 
     const handleChange = (event: any, newValue: number | number[]) => {
         setValue(newValue as number[]);

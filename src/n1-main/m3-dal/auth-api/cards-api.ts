@@ -1,12 +1,12 @@
 import {instance} from "./auth-api";
 
 
-export const cardsAPI = {
+export const cardsApi = {
     getCards(packId: string) {
         return instance.get<ResponseGetCardsType>(`cards/card?cardsPack_id=${packId}`).then(res => res.data)
     },
-    postCards(cards: RequestPostCardType) {
-        return instance.post<{ newCard: object }>('cards/card', {cards}).then(res => res.data)
+    postCards(postCards: RequestPostCardType) {
+        return instance.post<{ newCard: object }>('cards/card', {postCards}).then(res => res.data)
     },
     deleteCards(id: string) {
         return instance.delete(`cards/card?${id}`).then(res => res.data)
@@ -36,10 +36,11 @@ export type CardType = {
     user_id: string
     created: string
     updated: string
-
+    __v: number
+    _id: string
 }
 
-type ResponseGetCardsType = {
+export type ResponseGetCardsType = {
     cards: Array<CardType>
     cardsTotalCount: number
     maxGrade: number
@@ -49,7 +50,7 @@ type ResponseGetCardsType = {
     packUserId: string
 }
 
-type RequestPostCardType = {
+export type RequestPostCardType = {
     answer?: string
     question?: string
     cardsPack_id: string
@@ -63,7 +64,7 @@ type RequestPostCardType = {
     questionVideo?: string
 
 }
-type RequestUpdateCard = {
+export type RequestUpdateCard = {
     _id: string
     question?: string // не обязательно
     answer?: string

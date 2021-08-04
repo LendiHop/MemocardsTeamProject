@@ -9,7 +9,7 @@ export const PackList: React.FC = () => {
     const clickCardsCallback = () => {
         dispatch(getCardsTC('610a9eeb84e42f00045c32f6'))
     }
-const clickPacksCallback = () => {
+    const clickPacksCallback = () => {
         dispatch(getPacksTC())
     }
     return (

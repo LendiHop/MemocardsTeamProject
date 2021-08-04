@@ -16,7 +16,8 @@ import {PackList} from "../../../n2-features/f2-packsList/PackList";
 export const Routes = () => {
     return (
         <Switch>
-            <Route exact path="/" render={() => <PackList/>}/>
+            <Route exact path="/" render={() => <Main/>}/>
+            <Route path="/packs-list" render={() => <PackList/>}/>
             <Route path="/profile" render={() => <Profile/>}/>
             <Route path="/pack-list" render={() => <PackList/>}/>
             <Route path="/test" render={() => <Test/>}/>
