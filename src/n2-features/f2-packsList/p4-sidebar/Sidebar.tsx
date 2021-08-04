@@ -1,6 +1,6 @@
 import React from 'react'
-import {Button, ButtonGroup, Grid, Slider, Typography} from "@material-ui/core";
-import RangeSlider from "./DoubleSlider";
+import {Button, ButtonGroup, Grid, Typography} from "@material-ui/core";
+import {DoubleSlider} from "./DoubleSlider";
 
 export const Sidebar: React.FC = () => {
 
@@ -19,7 +19,7 @@ export const Sidebar: React.FC = () => {
                     </ButtonGroup>
                 </Grid>
                 <Grid item xs={4}>
-                    <RangeSlider />
+                    <DoubleSlider />
                 </Grid>
             </Grid>
         </>

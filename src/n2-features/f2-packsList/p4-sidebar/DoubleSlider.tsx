@@ -11,7 +11,7 @@ function valuetext(value: number) {
     return `${value}°C`;
 }
 
-export default function RangeSlider() {
+export const DoubleSlider:React.FC = () => {
     const classes = useStyles();
     const [value, setValue] = React.useState<number[]>([20, 37]);
 
@@ -25,6 +25,7 @@ export default function RangeSlider() {
                 Number of cards
             </Typography>
             <Slider
+                style={{width: '170px'}}
                 value={value}
                 onChange={handleChange}
                 valueLabelDisplay="auto"

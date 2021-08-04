@@ -1,9 +1,10 @@
 import axios from "axios";
 import { ProfileDataType } from "../../m2-bll/reducers/profile-reducer";
 
-const instance = axios.create({
+export const instance = axios.create({
     withCredentials: true,
-    baseURL: 'https://neko-back.herokuapp.com/2.0/',
+    baseURL: "http://localhost:7542/2.0/",
+    // baseURL: 'https://neko-back.herokuapp.com/2.0/',
 });
 
 export const authAPI = {
@@ -27,6 +28,12 @@ export const authAPI = {
     setNewPass(password: string, token: string ) {
         return instance.post<PassResponseType>('auth/set-new-password/',
             {password, resetPasswordToken: token}).then(res => res.data)
+    }
+}
+
+export const useCards = {
+    getCards() {
+        return instance.get('cards/card?erttyyuy')
     }
 }
 
