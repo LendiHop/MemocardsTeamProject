@@ -1,7 +1,1 @@
-export const Pagination = () => {
-    return (
-        <div className="Pagination">
-            Pagination
-        </div>
-    );
-}
+export default 2

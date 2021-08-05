@@ -4,13 +4,15 @@ import authReducer from "../reducers/auth-reducer";
 import {profileReducer} from "../reducers/profile-reducer";
 import {appReducer} from "../reducers/app-reduser";
 import {packsReducer} from "../reducers/packs-reducer";
+import {cardsReducer} from "../reducers/cards-reduser";
 import { composeWithDevTools } from 'redux-devtools-extension';
 
 const reducers = combineReducers({
     app: appReducer,
     auth: authReducer,
     profile: profileReducer,
-    packs: packsReducer
+    packs: packsReducer,
+    cards: cardsReducer
 });
 
 const store = createStore(reducers, composeWithDevTools(

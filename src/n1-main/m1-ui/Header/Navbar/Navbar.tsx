@@ -11,7 +11,7 @@ export function Navbar() {
             <NavLink to='/login' className={s.item} activeClassName={s.active}>Login</NavLink>
             <NavLink to='/registration' className={s.item} activeClassName={s.active}>Registration</NavLink>
             <NavLink to='/password-recovery' className={s.item} activeClassName={s.active}>Password recovery</NavLink>
-            <NavLink to='/set-new-password' className={s.item} activeClassName={s.active}>Enter password</NavLink>
+            <NavLink to='/set-new-password/:token' className={s.item} activeClassName={s.active}>Enter password</NavLink>
         </nav>
     );
 }

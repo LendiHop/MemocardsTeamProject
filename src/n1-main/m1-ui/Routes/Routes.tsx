@@ -9,18 +9,22 @@ import {Main} from '../Main/Main';
 import {RegistrationContainer} from "../../../n2-features/f1-auth/a2-registration/RegistrationContainer";
 import {LoginContainer} from "../../../n2-features/f1-auth/a1-loginization/LoginContainer";
 import {CheckOnEmail} from "../../../n2-features/f1-auth/a3-passwordRecovery/CheckOnEmail";
+import {Sidebar} from "../../../n2-features/f2-packsList/p4-sidebar/Sidebar";
+import {PackList} from "../../../n2-features/f2-packsList/PackList";
 
 
 export const Routes = () => {
     return (
         <Switch>
             <Route exact path="/" render={() => <Main/>}/>
+            <Route path="/packs-list" render={() => <PackList/>}/>
             <Route path="/profile" render={() => <Profile/>}/>
+            <Route path="/pack-list" render={() => <PackList/>}/>
             <Route path="/test" render={() => <Test/>}/>
             <Route path="/login" render={() => <LoginContainer/>}/>
             <Route path="/registration" render={() => <RegistrationContainer/>}/>
             <Route path="/password-recovery" render={() => <PasswordRecovery/>}/>
-            <Route path="/set-new-password" render={() => <NewPasswordContainer/>}/>
+            <Route path="/set-new-password/:token" render={() => <NewPasswordContainer/>}/>
             <Route path={"/404"} render={() => <Error404/>}/>
             <Route path={"/check-on-email"} render={() => <CheckOnEmail/>}/>
             <Redirect from="*" to="/404"/>

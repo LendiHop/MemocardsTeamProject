@@ -12,6 +12,7 @@ export const Profile = () => {
     const dispatch = useDispatch();
     const profileData = useSelector<AppRootStateType, ProfileDataType>((state) => state.profile);
     const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn);
+    const packsTrue = useSelector<AppRootStateType, boolean>(state => state.cards.packsTrue);
 
     const logoutHandler = useCallback(() => {
         dispatch(logoutTC())
@@ -19,6 +20,8 @@ export const Profile = () => {
 
     if (!isLoggedIn) {
         return <Redirect to={"/login"}/>
+    } else if (packsTrue) {
+        return <Redirect to={'/packs-list'}/>
     }
 
     return (
