@@ -6,6 +6,7 @@ import { Redirect } from 'react-router-dom';
 import {Button} from "@material-ui/core";
 import { ProfileDataType } from '../../../n1-main/m2-bll/reducers/profile-reducer';
 import { logoutTC } from '../../../n1-main/m2-bll/reducers/auth-reducer';
+import SuperTable from "../../f2-packsList/p3-table/Table";
 
 export const Profile = () => {
     const dispatch = useDispatch();
@@ -26,6 +27,8 @@ export const Profile = () => {
             <img src={profileData.avatar} alt="avatar"/>
             <div>{profileData.name}</div>
             <div>{isLoggedIn && <Button variant='contained' color='primary' onClick={logoutHandler}>Log out</Button>}</div>
+            <hr/>
+            <SuperTable/>
         </div>
     );
 }
