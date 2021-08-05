@@ -9,17 +9,17 @@ import {Main} from '../Main/Main';
 import {RegistrationContainer} from "../../../n2-features/f1-auth/a2-registration/RegistrationContainer";
 import {LoginContainer} from "../../../n2-features/f1-auth/a1-loginization/LoginContainer";
 import {CheckOnEmail} from "../../../n2-features/f1-auth/a3-passwordRecovery/CheckOnEmail";
-import {Sidebar} from "../../../n2-features/f2-packsList/p4-sidebar/Sidebar";
-import {PackList} from "../../../n2-features/f2-packsList/PackList";
+import {PacksList} from "../../../n2-features/f2-packsList/PacksList";
+import {CardsList} from "../../../n2-features/f2-packsList/CardsList";
 
 
 export const Routes = () => {
     return (
         <Switch>
             <Route exact path="/" render={() => <Main/>}/>
-            <Route path="/packs-list" render={() => <PackList/>}/>
+            <Route path="/packs-list" render={() => <PacksList/>}/>
+            <Route path="/cards-list" render={() => <CardsList/>}/>
             <Route path="/profile" render={() => <Profile/>}/>
-            <Route path="/pack-list" render={() => <PackList/>}/>
             <Route path="/test" render={() => <Test/>}/>
             <Route path="/login" render={() => <LoginContainer/>}/>
             <Route path="/registration" render={() => <RegistrationContainer/>}/>

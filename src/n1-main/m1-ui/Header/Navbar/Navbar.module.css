@@ -1,12 +1,12 @@
 .nav {
-  width: 600px;
+  width: 100%;
   display: flex;
   justify-content: space-between;
 }
 
 .nav .item {
   text-decoration: none;
-  color: black;
+  color: white;
   font-family: 'Roboto', sans-serif;
   font-size: 15px;
   font-weight: 500;
@@ -16,9 +16,9 @@
 }
 
 .item:hover {
-  color: #904120;
+  color: #3f50b5;
 }
 
 .nav .active {
-  color: #904120;
+  color: #3f50b5;
 }

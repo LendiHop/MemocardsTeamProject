@@ -1,24 +1,18 @@
-import {instance} from "./auth-api";
-
+import { instance } from "./auth-api"
 
 export const cardsApi = {
     getCards(packId: string) {
         return instance.get<ResponseGetCardsType>(`cards/card?cardsPack_id=${packId}`).then(res => res.data)
     },
-    postCards(postCards: RequestPostCardType) {
-        return instance.post<{ newCard: object }>('cards/card', {postCards}).then(res => res.data)
+    postCard(card: RequestPostCardType) {
+        return instance.post<{ newCard: object }>('cards/card', {card}).then(res => res.data)
     },
-    deleteCards(id: string) {
-        return instance.delete(`cards/card?${id}`).then(res => res.data)
+    deleteCard(id: string) {
+        return instance.delete(`cards/card?id=${id}`).then(res => res.data)
     },
-    updateCards(card: RequestUpdateCard) {
+    updateCard(card: RequestUpdateCard) {
         return instance.put<{ updateCard: object }>('cards/card', {card}).then(res => res.data)
     },
-}
-export const packsAPI = {
-    getPacks() {
-        return instance.get('cards/pack').then(res => res.data)
-    }
 }
 
 //types

@@ -1,12 +1,16 @@
 import {Dispatch} from "redux"
-import {cardsApi, CardType, packsAPI, RequestPostCardType, RequestUpdateCard, ResponseGetCardsType} from "../../m3-dal/auth-api/cards-api";
-import {ThunkAction, ThunkDispatch} from "redux-thunk";
+import {cardsApi, CardType, RequestPostCardType, RequestUpdateCard, ResponseGetCardsType} from "../../m3-dal/api/cards-api";
+import {ThunkAction} from "redux-thunk";
 import {AppRootStateType} from "../store/redux-store";
 
-const GET_CARDS = 'Cards/GET-CARDS'
+const GET_CARDS = 'cards/GET-CARDS'
 
 
 const initialState = {
+    currentPackData: {
+        id: "",
+        name: "",
+    },
     cards: [{
         answer: '',
         question: '',
@@ -35,26 +39,27 @@ type InitialStateType = typeof initialState
 
 export const cardsReducer = (state: InitialStateType = initialState, action: ActionType): InitialStateType => {
     switch (action.type) {
-        case "Cards/GET-CARDS":
+        case "cards/GET-CARDS":
             const copyState = {...state, cards: {...state.cards}}
             return {
                 ...copyState,
                 ...action.cards
 
             }
-
+        case "SET-CURRENT-PACK-ID":
+            return {...state, currentPackData: action.data}
         default:
                 return state
     }
 }
 
 export const getCardsAC = (cards: ResponseGetCardsType) => ({type: GET_CARDS, cards} as const)
+export const setCurrentPackDataAC = (data: {id: string, name: string}) => ({type: "SET-CURRENT-PACK-ID", data} as const)
 
 
 // thunk
 
 export const getCardsTC = (cardsPackId: string) => async (dispatch: Dispatch) => {
-
     try {
         const data = await cardsApi.getCards(cardsPackId)
         dispatch(getCardsAC(data))
@@ -63,11 +68,17 @@ export const getCardsTC = (cardsPackId: string) => async (dispatch: Dispatch) =>
     }
 }
 export const postCardsTC = (cardsPackId: string):ThunkAction<void, AppRootStateType, unknown,  ActionType> => async (dispatch) => {
-    const postCard = {} as RequestPostCardType
-    try {
-        const data = await cardsApi.postCards(postCard)
+    const postCard = {
+        cardsPack_id: cardsPackId,
+        answer: "TestAnswer",
+        question: "TestQuestion"
 
-        dispatch(getCardsTC(cardsPackId))
+    } as RequestPostCardType
+
+    try {
+        const data = await cardsApi.postCard(postCard)
+
+        await dispatch(getCardsTC(cardsPackId))
     } catch (e) {
         console.log('e:' + e)
     }
@@ -76,35 +87,28 @@ export const postCardsTC = (cardsPackId: string):ThunkAction<void, AppRootStateT
 export const deleteCardsTC = (cardsPackId: string, id: string):ThunkAction<void, AppRootStateType, unknown,  ActionType> => async (dispatch) => {
 
     try {
-        const data = await cardsApi.deleteCards(id)
+        const data = await cardsApi.deleteCard(id)
 
-        dispatch(getCardsTC(cardsPackId))
+        await dispatch(getCardsTC(cardsPackId))
     } catch (e) {
         console.log('e:' + e)
     }
 }
 
 export const updateCardsTC = (cardsPackId: string, cardId: string):ThunkAction<void, AppRootStateType, unknown,  ActionType> => async (dispatch) => {
-    const updateCard = {_id: cardId} as RequestUpdateCard
+    const updateCard = {
+        _id: cardId,
+        answer: "-UpdatedTestAnswer-",
+        question: "-UpdatedTestQuestion-"
+    } as RequestUpdateCard
     try {
-        const data = await cardsApi.updateCards(updateCard)
+        const data = await cardsApi.updateCard(updateCard)
 
-        dispatch(getCardsTC(cardsPackId))
+        await dispatch(getCardsTC(cardsPackId))
     } catch (e) {
         console.log('e:' + e)
     }
 }
 
+type ActionType = ReturnType<typeof getCardsAC> | ReturnType<typeof setCurrentPackDataAC>
 
-
-export const getPacksTC = () => async (dispatch: Dispatch) => {
-
-    try {
-        const data = await packsAPI.getPacks()
-        console.log('data:' + data)
-    } catch (e) {
-        console.log('e:' + e)
-    }
-}
-
-type ActionType = ReturnType<typeof getCardsAC>

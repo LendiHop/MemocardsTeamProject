@@ -1,5 +1,5 @@
 import { Dispatch } from "redux";
-import {authAPI, LoginParamsType} from "../../m3-dal/auth-api/auth-api";
+import {authAPI, LoginParamsType} from "../../m3-dal/api/auth-api";
 import {setProfileData} from "./profile-reducer";
 import {handleServerNetworkError} from "../../../utils/error-utils";
 import {SetAppErrorActionType, setAppStatusAC, SetAppStatusActionType} from "./app-reduser";
@@ -57,10 +57,8 @@ export const isShowCheckEmailAC = (showCheckEmail: boolean) =>
 export const loginTC = (data: LoginParamsType) => (dispatch: ThunkDispatch) => {
     authAPI.login(data)
         .then(res => {
-            dispatch(setAppStatusAC('loading'))
             dispatch(setIsLoggedIn(true))
             dispatch(setProfileData(res.data))
-            dispatch(setAppStatusAC('succeeded'))
         })
         .catch ((e) => {
             const error = e.response
@@ -68,16 +66,13 @@ export const loginTC = (data: LoginParamsType) => (dispatch: ThunkDispatch) => {
                 : (e.message + ', more details in the console');
             alert(error);
             console.log('Error: ', {...e})
-            handleServerNetworkError(e, dispatch)
         })
 }
 
 export const logoutTC = () => (dispatch: ThunkDispatch) => {
     authAPI.logout()
         .then(() => {
-            dispatch(setAppStatusAC('loading'))
             dispatch(setIsLoggedIn(false))
-            dispatch(setAppStatusAC('succeeded'))
         })
         .catch ((e) => {
             const error = e.response
@@ -85,7 +80,6 @@ export const logoutTC = () => (dispatch: ThunkDispatch) => {
                 : (e.message + ', more details in the console');
             alert(error);
             console.log('Error: ', {...e})
-            handleServerNetworkError(e, dispatch)
         })
 }
 

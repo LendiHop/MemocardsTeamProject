@@ -1,13 +1,13 @@
-import {AddedPackType, packsAPI, packsParamsType, UpdatedPackType} from "../../m3-dal/packs-api/packs-api";
+import {AddedPackType, packsAPI, packsParamsType, UpdatedPackType} from "../../m3-dal/api/packs-api";
 import {Dispatch} from "redux";
-import {SetAppErrorActionType, setAppStatusAC, SetAppStatusActionType} from "./app-reduser";
-import {handleServerNetworkError} from "../../../utils/error-utils";
+import {setAppStatusAC} from "./app-reduser";
 
 const initialState: PacksDataType = {
     cardPacks: [
         {
             _id: "",
             user_id: "",
+            user_name: "",
             name: "",
             path: "",
             cardsCount: 0,
@@ -59,9 +59,7 @@ export const updatePack = (data: UpdatedPackType) =>
 export const getCardPacksTC = (params?: packsParamsType) => (dispatch: ThunkDispatch) => {
     packsAPI.getPacks(params)
         .then(data => {
-            dispatch(setAppStatusAC('loading'))
             dispatch(setPacksData(data))
-            dispatch(setAppStatusAC('succeeded'))
         })
         .catch ((e) => {
             const error = e.response
@@ -69,16 +67,13 @@ export const getCardPacksTC = (params?: packsParamsType) => (dispatch: ThunkDisp
                 : (e.message + ', more details in the console');
             alert(error);
             console.log('Error: ', {...e})
-            handleServerNetworkError(e, dispatch)
         })
 }
 
 export const addCardPackTC = (data: AddedPackType) => (dispatch: ThunkDispatch) => {
     packsAPI.addPack(data)
         .then(data => {
-            dispatch(setAppStatusAC('loading'))
             dispatch(addNewPack(data))
-            dispatch(setAppStatusAC('succeeded'))
         })
         .catch ((e) => {
             const error = e.response
@@ -86,16 +81,13 @@ export const addCardPackTC = (data: AddedPackType) => (dispatch: ThunkDispatch) 
                 : (e.message + ', more details in the console');
             alert(error);
             console.log('Error: ', {...e})
-            handleServerNetworkError(e, dispatch)
         })
 }
 
 export const deleteCardPackTC = (id: string) => (dispatch: ThunkDispatch) => {
     packsAPI.deletePack(id)
         .then(() => {
-            dispatch(setAppStatusAC('loading'))
             dispatch(deletePack(id))
-            dispatch(setAppStatusAC('succeeded'))
         })
         .catch ((e) => {
             const error = e.response
@@ -103,16 +95,13 @@ export const deleteCardPackTC = (id: string) => (dispatch: ThunkDispatch) => {
                 : (e.message + ', more details in the console');
             alert(error);
             console.log('Error: ', {...e})
-            handleServerNetworkError(e, dispatch)
         })
 }
 
 export const updateCardPackTC = (data: UpdatedPackType) => (dispatch: ThunkDispatch) => {
     packsAPI.updatePack(data)
         .then(() => {
-            dispatch(setAppStatusAC('loading'))
             dispatch(updatePack(data))
-            dispatch(setAppStatusAC('succeeded'))
         })
         .catch ((e) => {
             const error = e.response
@@ -120,7 +109,6 @@ export const updateCardPackTC = (data: UpdatedPackType) => (dispatch: ThunkDispa
                 : (e.message + ', more details in the console');
             alert(error);
             console.log('Error: ', {...e})
-            handleServerNetworkError(e, dispatch)
         })
 }
 
@@ -129,6 +117,7 @@ export const updateCardPackTC = (data: UpdatedPackType) => (dispatch: ThunkDispa
 export type CardPackType = {
     _id: string
     user_id: string
+    user_name: string
     name: string
     path: string
     cardsCount: number
@@ -150,7 +139,7 @@ type PacksDataType = {
     pageCount: number // количество элементов на странице
 }
 
-type ThunkDispatch = Dispatch<ActionsType | ReturnType<typeof setAppStatusAC> | SetAppErrorActionType | SetAppStatusActionType>
+type ThunkDispatch = Dispatch<ActionsType | ReturnType<typeof setAppStatusAC>>
 type ActionsType = ReturnType<typeof setPacksData>
     | ReturnType<typeof addNewPack>
     | ReturnType<typeof deletePack>

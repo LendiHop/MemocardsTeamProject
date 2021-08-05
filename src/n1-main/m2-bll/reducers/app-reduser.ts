@@ -1,5 +1,5 @@
 import {Dispatch} from "redux"
-import {authAPI} from "../../m3-dal/auth-api/auth-api";
+import {authAPI} from "../../m3-dal/api/auth-api";
 import {handleServerNetworkError} from "../../../utils/error-utils";
 
 export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'

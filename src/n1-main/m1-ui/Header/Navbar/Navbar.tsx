@@ -7,6 +7,8 @@ export function Navbar() {
         <nav className={s.nav}>
             <NavLink exact to='/' className={s.item} activeClassName={s.active}>Main</NavLink>
             <NavLink to='/profile' className={s.item} activeClassName={s.active}>Profile</NavLink>
+            <NavLink to='/packs-list' className={s.item} activeClassName={s.active}>PacksList</NavLink>
+            <NavLink to='/cards-list' className={s.item} activeClassName={s.active}>CardsList</NavLink>
             <NavLink to='/test' className={s.item} activeClassName={s.active}>Test</NavLink>
             <NavLink to='/login' className={s.item} activeClassName={s.active}>Login</NavLink>
             <NavLink to='/registration' className={s.item} activeClassName={s.active}>Registration</NavLink>

@@ -1,11 +1,11 @@
 .header {
   height: 8vh;
-  background-color: slategrey;
+  background-color: black;
 }
 
 .container {
   height: 100%;
-  width: 80%;
+  max-width: 1000px;
   margin: 0 auto;
   display: flex;
   justify-content: center;
