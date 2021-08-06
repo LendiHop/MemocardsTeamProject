@@ -6,13 +6,11 @@ import {useSelector} from "react-redux";
 import {AppRootStateType} from "../../m2-bll/store/redux-store";
 
 export const Header = () => {
-    // const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn)
+    const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn)
     return (
         <div className={s.header}>
-            <div className={s.container}>
-                <Navbar/>
-            </div>
-            {/*{isLoggedIn? <ButtonAppBar/> : <Navbar/>}*/}
+
+            {isLoggedIn? <ButtonAppBar/> : <Navbar/>}
         </div>
     );
 }

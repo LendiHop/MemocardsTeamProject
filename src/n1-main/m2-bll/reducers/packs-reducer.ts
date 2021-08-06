@@ -1,6 +1,8 @@
 import {AddedPackType, packsAPI, packsParamsType, UpdatedPackType} from "../../m3-dal/api/packs-api";
 import {Dispatch} from "redux";
 import {setAppStatusAC} from "./app-reduser";
+import {AppRootStateType} from "../store/redux-store";
+import {ThunkAction} from "redux-thunk";
 
 const initialState: PacksDataType = {
     cardPacks: [
@@ -56,12 +58,20 @@ export const updatePack = (data: UpdatedPackType) =>
 
 //thunks
 
-export const getCardPacksTC = (params?: packsParamsType) => (dispatch: ThunkDispatch) => {
+export const getCardPacksTC = (value?: number[]): ThunkType => (dispatch, getState) => {
+    const state = getState()
+    let params: packsParamsType = {pageCount: 7}
+        if(value) {
+            params = {...params, min: value[0], max: value[1]}
+        }
+    if (state.cards.privatCards) {
+        params = {...params, user_id: state.profile._id}
+    }
     packsAPI.getPacks(params)
         .then(data => {
             dispatch(setPacksData(data))
         })
-        .catch ((e) => {
+        .catch((e) => {
             const error = e.response
                 ? e.response.data.error
                 : (e.message + ', more details in the console');
@@ -70,12 +80,13 @@ export const getCardPacksTC = (params?: packsParamsType) => (dispatch: ThunkDisp
         })
 }
 
-export const addCardPackTC = (data: AddedPackType) => (dispatch: ThunkDispatch) => {
+export const addCardPackTC = (data: AddedPackType): ThunkType => (dispatch) => {
     packsAPI.addPack(data)
         .then(data => {
             dispatch(addNewPack(data))
+            dispatch(getCardPacksTC())
         })
-        .catch ((e) => {
+        .catch((e) => {
             const error = e.response
                 ? e.response.data.error
                 : (e.message + ', more details in the console');
@@ -84,12 +95,13 @@ export const addCardPackTC = (data: AddedPackType) => (dispatch: ThunkDispatch) 
         })
 }
 
-export const deleteCardPackTC = (id: string) => (dispatch: ThunkDispatch) => {
+export const deleteCardPackTC = (id: string): ThunkType => (dispatch) => {
     packsAPI.deletePack(id)
-        .then(() => {
-            dispatch(deletePack(id))
+        .then((data) => {
+            // dispatch(deletePack(id))
+            dispatch(getCardPacksTC())
         })
-        .catch ((e) => {
+        .catch((e) => {
             const error = e.response
                 ? e.response.data.error
                 : (e.message + ', more details in the console');
@@ -98,12 +110,17 @@ export const deleteCardPackTC = (id: string) => (dispatch: ThunkDispatch) => {
         })
 }
 
-export const updateCardPackTC = (data: UpdatedPackType) => (dispatch: ThunkDispatch) => {
+export const updateCardPackTC = (data: UpdatedPackType): ThunkType =>
+    (dispatch, setState) => {
+   const state = setState()
+    const value = [state.packs.minCardsCount, state.packs.maxCardsCount]
     packsAPI.updatePack(data)
         .then(() => {
-            dispatch(updatePack(data))
+
+            // dispatch(updatePack(data))
+            dispatch(getCardPacksTC(value))
         })
-        .catch ((e) => {
+        .catch((e) => {
             const error = e.response
                 ? e.response.data.error
                 : (e.message + ', more details in the console');
@@ -113,7 +130,7 @@ export const updateCardPackTC = (data: UpdatedPackType) => (dispatch: ThunkDispa
 }
 
 //types
-
+type ThunkType = ThunkAction<void, AppRootStateType, unknown, ActionsType>
 export type CardPackType = {
     _id: string
     user_id: string

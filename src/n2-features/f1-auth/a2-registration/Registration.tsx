@@ -80,17 +80,12 @@ export const Registration: React.FC<PropsType> = ({formik, showPass1, handleClic
                                 </FormControl>
                                 {formik.touched.password && formik.errors.password &&
                                 <div style={{color: 'red'}}>{formik.errors.password}</div>}
-                                {/*<TextField*/}
-                                {/*    type="password"*/}
-                                {/*    label="Password2"*/}
-                                {/*    margin="normal"*/}
-                                {/*    {...formik.getFieldProps('password2')}*/}
-                                {/*/>*/}
+
                                 <FormControl>
                                     <InputLabel htmlFor="standard-adornment-password">Password</InputLabel>
                                     <Input
                                         id="standard-adornment-password"
-                                        type={showPass2 ? 'text' : 'password2'}
+                                        type={showPass2 ? 'text' : 'password'}
                                         {...formik.getFieldProps('password2')}
                                         endAdornment={
                                             <InputAdornment position="end">

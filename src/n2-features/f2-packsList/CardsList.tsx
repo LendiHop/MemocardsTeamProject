@@ -1,12 +1,15 @@
-import React from "react";
+import React, {useEffect} from "react";
 import CardsTable from "./p3-tables/CardsTable";
 import {Container, Grid, Icon} from "@material-ui/core";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../n1-main/m2-bll/store/redux-store";
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import {Link} from "react-router-dom";
 
 export const CardsList: React.FC = () => {
+
+    const dispatch = useDispatch()
+
     const packName = useSelector<AppRootStateType, string>(state => state.cards.currentPackData.name);
 
     return (

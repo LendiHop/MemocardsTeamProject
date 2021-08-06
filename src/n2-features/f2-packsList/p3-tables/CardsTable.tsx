@@ -15,21 +15,22 @@ import {deleteCardsTC, postCardsTC, updateCardsTC} from "../../../n1-main/m2-bll
 export default function CardsTable() {
     const dispatch = useDispatch();
     const cards = useSelector<AppRootStateType, Array<CardType>>(state => state.cards.cards);
-    const packId = useSelector<AppRootStateType, string>(state => state.cards.currentPackData.id);
+    const packIdForAdd = useSelector<AppRootStateType, string>(state => state.cards.currentPackData.id);
 
     const classes = useStyles();
 
     const addCardHandler = useCallback(() => {
-        dispatch(postCardsTC(packId))
-    }, [dispatch, packId])
+        dispatch(postCardsTC(packIdForAdd))
+    }, [])
 
-    const deleteCardHandler = useCallback((e, id: string) => {
+    const deleteCardHandler = useCallback((e, id: string, packId: string) => {
+        debugger
         dispatch(deleteCardsTC(packId, id))
-    }, [dispatch, packId])
+    }, [])
 
-    const updateCardHandler = useCallback((e, id: string) => {
+    const updateCardHandler = useCallback((e, id: string, packId: string) => {
         dispatch(updateCardsTC(packId, id))
-    }, [dispatch, packId])
+    }, [])
 
     return (
         <TableContainer component={Paper}>
@@ -55,8 +56,8 @@ export default function CardsTable() {
                             <StyledTableCell align="right">{card.updated.toString().slice(0, 10)}</StyledTableCell>
                             <StyledTableCell align="right">{card.grade}</StyledTableCell>
                             <StyledTableCell align="right">
-                                <Button onClick={e => deleteCardHandler(e, card._id)}>Delete</Button>
-                                <Button onClick={e => updateCardHandler(e, card._id)}>Edit</Button>
+                                <Button onClick={e => deleteCardHandler(e, card._id, card.cardsPack_id)}>Delete</Button>
+                                <Button onClick={e => updateCardHandler(e, card._id, card.cardsPack_id)}>Edit</Button>
                             </StyledTableCell>
                         </StyledTableRow>
                     ))}

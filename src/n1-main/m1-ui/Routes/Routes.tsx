@@ -11,12 +11,19 @@ import {LoginContainer} from "../../../n2-features/f1-auth/a1-loginization/Login
 import {CheckOnEmail} from "../../../n2-features/f1-auth/a3-passwordRecovery/CheckOnEmail";
 import {PacksList} from "../../../n2-features/f2-packsList/PacksList";
 import {CardsList} from "../../../n2-features/f2-packsList/CardsList";
+import {useSelector} from "react-redux";
+import {AppRootStateType} from "../../m2-bll/store/redux-store";
 
 
 export const Routes = () => {
+    // const isInitialized = useSelector<AppRootStateType, boolean>(state => state.app.isInitialized)
+    // if (isInitialized) {
+    //     return <Redirect to={'/profile'}/>
+    // }
+    console.log('routes')
     return (
         <Switch>
-            <Route exact path="/" render={() => <Main/>}/>
+            <Route exact path="/" strict render={() => <Main/>}/>
             <Route path="/packs-list" render={() => <PacksList/>}/>
             <Route path="/cards-list" render={() => <CardsList/>}/>
             <Route path="/profile" render={() => <Profile/>}/>
@@ -24,7 +31,7 @@ export const Routes = () => {
             <Route path="/login" render={() => <LoginContainer/>}/>
             <Route path="/registration" render={() => <RegistrationContainer/>}/>
             <Route path="/password-recovery" render={() => <PasswordRecovery/>}/>
-            <Route path="/set-new-password/:token" render={() => <NewPasswordContainer/>}/>
+            <Route path="/set-new-password/:token?" render={() => <NewPasswordContainer/>}/>
             <Route path={"/404"} render={() => <Error404/>}/>
             <Route path={"/check-on-email"} render={() => <CheckOnEmail/>}/>
             <Redirect from="*" to="/404"/>

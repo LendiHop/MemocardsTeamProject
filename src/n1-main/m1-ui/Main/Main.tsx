@@ -7,6 +7,7 @@ import {Redirect} from "react-router-dom";
 import {initializeAppTC} from "../../m2-bll/reducers/app-reduser";
 
 export const Main = () => {
+    console.log('main')
     const dispatch = useDispatch()
     useEffect(() => {
         dispatch(initializeAppTC())

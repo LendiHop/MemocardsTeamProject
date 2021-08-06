@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../../n1-main/m2-bll/store/redux-store";
 import {useFormik} from "formik";
@@ -21,8 +21,13 @@ type FormikErrorType = {
 
 export const LoginContainer: React.FC = () => {
     const dispatch = useDispatch();
-
+    const [showPass, setShowPass] = useState(false)
     const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn);
+    const handleClickShowPassword = () => {
+
+        const c = !showPass
+        setShowPass(c)
+    }
 
     const formik = useFormik({
         initialValues: {
@@ -52,5 +57,5 @@ export const LoginContainer: React.FC = () => {
         return <Redirect to={"/profile"}/>
     }
 
-    return <Login formik={formik}/>
+    return <Login formik={formik} showPass={showPass} handleClickShowPassword={handleClickShowPassword}/>
 }

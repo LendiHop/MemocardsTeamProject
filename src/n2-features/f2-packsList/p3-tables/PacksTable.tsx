@@ -51,9 +51,7 @@ export const useStyles = makeStyles({
 export default function PacksTable() {
     const dispatch = useDispatch();
 
-    useEffect(() => {
-        dispatch(getCardPacksTC({pageCount: 8}))
-    }, [dispatch]);
+
 
     const cardPacks = useSelector<AppRootStateType, Array<CardPackType>>(state => state.packs.cardPacks);
 
@@ -61,23 +59,24 @@ export default function PacksTable() {
 
     const addPackHandler = useCallback(() => {
         dispatch(addCardPackTC({name: "-TestPackName-"}))
-        dispatch(getCardPacksTC({pageCount: 8}))
-    }, [dispatch])
+        // dispatch(getCardPacksTC({pageCount: 8}))
+    }, [])
 
     const deletePackHandler = useCallback((e, id: string) => {
         dispatch(deleteCardPackTC(id))
-        dispatch(getCardPacksTC({pageCount: 8}))
-    }, [dispatch])
+        // dispatch(getCardPacksTC({pageCount: 8}))
+    }, [])
 
     const updatePackHandler = useCallback((e, id: string) => {
         dispatch(updateCardPackTC({_id: id, name: "-UpdatedTestPackName-"}))
-        dispatch(getCardPacksTC({pageCount: 8}))
-    }, [dispatch])
+        // dispatch(getCardPacksTC({pageCount: 8}))
+    }, [])
 
     const getCardsHandler = useCallback((e, id: string, name: string) => {
+
         dispatch(setCurrentPackDataAC({id, name}))
         dispatch(getCardsTC(id))
-    }, [dispatch])
+    }, [])
 
     return (
         <TableContainer component={Paper}>

@@ -8,18 +8,24 @@ import {
     FormControl,
     FormControlLabel,
     FormGroup,
-    Grid,
+    Grid, IconButton, Input, InputLabel,
     Paper,
     TextField
 } from "@material-ui/core";
 import {FormikLoginInitValues} from "./LoginContainer";
+import InputAdornment from "@material-ui/core/InputAdornment/InputAdornment";
+import {Visibility, VisibilityOff} from "@material-ui/icons";
 
 type TProps = {
     formik: FormikProps<FormikLoginInitValues>
+    showPass: boolean
+    handleClickShowPassword: () => void
+
 }
 
-export const Login: React.FC<TProps> = ({formik}) => {
-
+export const Login: React.FC<TProps> = ({formik,
+                                        showPass, handleClickShowPassword}) => {
+    console.log('login')
     return <Grid container justify="center" alignItems="center" className={s.container}>
         <Grid item>
             <Paper style={{padding: '15px'}}>
@@ -34,12 +40,31 @@ export const Login: React.FC<TProps> = ({formik}) => {
                             />
                             {formik.touched.email && formik.errors.email ?
                                 <div style={{color: "red"}}>{formik.errors.email}</div> : null}
-                            <TextField
-                                type="password"
-                                label="Password"
-                                margin="normal"
-                                {...formik.getFieldProps("password")}
-                            />
+                            {/*<TextField*/}
+                            {/*    type="password"*/}
+                            {/*    label="Password"*/}
+                            {/*    margin="normal"*/}
+                            {/*    {...formik.getFieldProps("password")}*/}
+                            {/*/>*/}
+                            <FormControl >
+                                <InputLabel htmlFor="standard-adornment-password">Password</InputLabel>
+                                <Input
+                                    id="standard-adornment-password"
+                                    type={showPass ? 'text' : 'password'}
+                                    {...formik.getFieldProps('password')}
+                                    endAdornment={
+                                        <InputAdornment position="end">
+                                            <IconButton
+                                                aria-label="toggle password visibility"
+                                                onClick={handleClickShowPassword}
+
+                                            >
+                                                {showPass ? <Visibility /> : <VisibilityOff />}
+                                            </IconButton>
+                                        </InputAdornment>
+                                    }
+                                />
+                            </FormControl>
                             {formik.touched.password && formik.errors.password ?
                                 <div style={{color: "red"}}>{formik.errors.password}</div> : null}
                             <FormControlLabel

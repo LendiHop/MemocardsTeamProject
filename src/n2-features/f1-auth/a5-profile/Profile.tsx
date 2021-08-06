@@ -8,6 +8,7 @@ import { ProfileDataType } from '../../../n1-main/m2-bll/reducers/profile-reduce
 import { logoutTC } from '../../../n1-main/m2-bll/reducers/auth-reducer';
 
 export const Profile = () => {
+    console.log('profile')
     const dispatch = useDispatch();
     const profileData = useSelector<AppRootStateType, ProfileDataType>((state) => state.profile);
     const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn);

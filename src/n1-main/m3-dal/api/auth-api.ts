@@ -31,11 +31,7 @@ export const authAPI = {
     }
 }
 
-export const useCards = {
-    getCards() {
-        return instance.get('cards/card?erttyyuy')
-    }
-}
+
 
 //types
 
