@@ -42,7 +42,7 @@ const initialState = {
     pageCount: 0,
     packUserId: '',
     packsTrue: false,
-    privatCards: false,
+    privatCards: {value: false},
 }
 
 type InitialStateType = typeof initialState
@@ -61,7 +61,7 @@ export const cardsReducer = (state: InitialStateType = initialState, action: Act
         case ON_CHANGE_PRIVATE:
             return {
                 ...state,
-                privatCards: action.value
+                privatCards: {...state.privatCards, value: action.value}
             }
 
 

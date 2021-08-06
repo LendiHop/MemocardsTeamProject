@@ -13,10 +13,10 @@ export const PacksList: React.FC = () => {
     const [value, setValue] = React.useState<number[]>([minCardsCount, maxCardsCount]);
 
     const dispatch = useDispatch();
-    const privatCards = useSelector<AppRootStateType, boolean>(state => state.cards.privatCards)
+    const privatCards = useSelector<AppRootStateType, { value: boolean }>(state => state.cards.privatCards)
     useEffect(() => {
         dispatch(getCardPacksTC(value))
-    }, [privatCards, value]);
+    }, [privatCards]);
     console.log('value'+ value)
     const packsTrue = useSelector<AppRootStateType, boolean>(state => state.cards.packsTrue)
     if (!packsTrue) {

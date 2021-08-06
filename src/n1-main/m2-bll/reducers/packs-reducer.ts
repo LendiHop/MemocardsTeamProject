@@ -64,7 +64,7 @@ export const getCardPacksTC = (value?: number[]): ThunkType => (dispatch, getSta
         if(value) {
             params = {...params, min: value[0], max: value[1]}
         }
-    if (state.cards.privatCards) {
+    if (state.cards.privatCards.value) {
         params = {...params, user_id: state.profile._id}
     }
     packsAPI.getPacks(params)
