@@ -6,7 +6,6 @@ import {Redirect} from 'react-router-dom';
 import {Button} from "@material-ui/core";
 import {ProfileDataType} from '../../../n1-main/m2-bll/reducers/profile-reducer';
 import {logoutTC} from '../../../n1-main/m2-bll/reducers/auth-reducer';
-import {Packs} from "../../f2-packsList/Packs";
 
 
 export const Profile = () => {
@@ -33,7 +32,6 @@ export const Profile = () => {
             <div>{profileData.name}</div>
             <div>{isLoggedIn &&
             <Button variant='contained' color='primary' onClick={logoutHandler}>Log out</Button>}</div>
-            <Packs/>
         </div>
     );
 }

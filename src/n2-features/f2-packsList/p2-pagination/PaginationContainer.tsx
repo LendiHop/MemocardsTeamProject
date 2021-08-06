@@ -4,8 +4,6 @@ import {PaginationPage} from "./Pagination";
 export const PaginationContainer = () => {
     return <>
         <PaginationPage/>
-
-
     </>
 
 }

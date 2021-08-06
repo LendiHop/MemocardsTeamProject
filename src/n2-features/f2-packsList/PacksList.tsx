@@ -6,6 +6,8 @@ import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../n1-main/m2-bll/store/redux-store";
 import {Redirect} from "react-router-dom";
 import {getCardPacksTC} from "../../n1-main/m2-bll/reducers/packs-reducer";
+import {SearchContainer} from "./p1-search/SearchContainer";
+import {PaginationContainer} from "./p2-pagination/PaginationContainer";
 
 export const PacksList: React.FC = () => {
     const maxCardsCount = useSelector<AppRootStateType, number>(state => state.packs.maxCardsCount)
@@ -35,7 +37,9 @@ export const PacksList: React.FC = () => {
                     <Sidebar value={value} setValue={setValue}/>
                 </Grid>
                 <Grid item>
+                    <SearchContainer/>
                     <PacksTable/>
+                    <PaginationContainer/>
                 </Grid>
             </Grid>
         </Container>

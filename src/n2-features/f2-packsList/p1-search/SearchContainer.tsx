@@ -5,6 +5,5 @@ import {SearchPacks} from "./Search";
 export const SearchContainer = () => {
     return <div>
         <SearchPacks/>
-
     </div>
 }

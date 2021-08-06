@@ -1,5 +1,5 @@
 import React from "react";
-import {IconButton, InputBase, InputLabel, Paper} from "@material-ui/core";
+import {IconButton, InputBase, Paper} from "@material-ui/core";
 import style from './Search.module.css'
 import {Search} from '@material-ui/icons'
 
