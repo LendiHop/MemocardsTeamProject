@@ -1,6 +1,8 @@
 import {Dispatch} from "redux"
 import {authAPI} from "../../m3-dal/api/auth-api";
 import {handleServerNetworkError} from "../../../utils/error-utils";
+import {setProfileData} from "./profile-reducer";
+import {setIsLoggedIn} from "./auth-reducer";
 
 export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
 
@@ -28,17 +30,19 @@ export const appReducer = (state: AppInitialStateType = initialState, action: Ap
 
 export const setAppStatusAC = (status: RequestStatusType) => ({type: 'APP/SET-STATUS', status} as const)
 export const setAppErrorAC = (error: string | null) => ({type: 'APP/SET-ERROR', error} as const)
-export const setIsInitializedAC  = (isInitialized: boolean) => ({type: 'APP/SET-IS-INITIALIZED', isInitialized} as const)
+export const setIsInitializedAC = (isInitialized: boolean) => ({type: 'APP/SET-IS-INITIALIZED', isInitialized} as const)
 
 
 export const initializeAppTC = () => async (dispatch: Dispatch) => {
     try {
         dispatch(setAppStatusAC('loading'))
-        const res = await authAPI.me()
+        const data = await authAPI.me()
 
-            dispatch(setIsInitializedAC(true))
+        dispatch(setIsInitializedAC(true))
+        dispatch(setIsLoggedIn(true))
+        dispatch(setProfileData(data))
 
-            dispatch(setAppStatusAC('succeeded'))
+        dispatch(setAppStatusAC('succeeded'))
 
     } catch (e) {
 
