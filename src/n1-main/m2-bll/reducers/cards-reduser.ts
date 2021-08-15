@@ -8,6 +8,7 @@ import {
 } from "../../m3-dal/api/cards-api";
 import {ThunkAction} from "redux-thunk";
 import {AppRootStateType} from "../store/redux-store";
+import {setAppStatusAC} from "./app-reduser";
 
 const SET_CARDS = 'cards/SET-CARDS'
 const ON_PACKS_TRUE = 'cards/ON_PACKS_TRUE'
@@ -50,6 +51,7 @@ type InitialStateType = typeof initialState
 export const cardsReducer = (state: InitialStateType = initialState, action: ActionType): InitialStateType => {
     switch (action.type) {
         case "cards/SET-CARDS":
+
             const copyState = {...state, ...action.cards}
             return copyState
 
@@ -86,18 +88,19 @@ export const setCurrentPackDataAC = (data: { id: string, name: string }) => ({
 
 export const getCardsTC = (cardsPackId: string) => async (dispatch: Dispatch) => {
     try {
-
+        dispatch(setAppStatusAC('loading'))
         const data = await cardsApi.getCards(cardsPackId)
         dispatch(getCardsAC(data))
+        dispatch(setAppStatusAC('succeeded'))
     } catch (e) {
         console.log('e:' + e)
     }
 }
-export const postCardsTC = (cardsPackId: string): ThunkType => async (dispatch) => {
+export const postCardsTC = (cardsPackId: string, question: string, answer: string): ThunkType => async (dispatch) => {
     const postCard = {
         cardsPack_id: cardsPackId,
-        answer: "TestAnswer",
-        question: "TestQuestion"
+        answer: answer,
+        question: question
 
     } as RequestPostCardType
 
@@ -121,11 +124,11 @@ export const deleteCardsTC = (cardsPackId: string, id: string): ThunkType => asy
     }
 }
 
-export const updateCardsTC = (cardsPackId: string, cardId: string): ThunkType => async (dispatch) => {
+export const updateCardsTC = (cardsPackId: string, cardId: string,question: string, answer: string,): ThunkType => async (dispatch) => {
     const updateCard = {
         _id: cardId,
-        answer: "-UpdatedTestAnswer-",
-        question: "-UpdatedTestQuestion-"
+        answer: answer,
+        question: question
     } as RequestUpdateCard
     try {
         const data = await cardsApi.updateCard(updateCard)

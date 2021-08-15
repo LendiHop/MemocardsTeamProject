@@ -1,17 +1,18 @@
 import {instance} from "./auth-api";
 
 export const packsAPI = {
-    getPacks(params?: packsParamsType) {
-        return instance.get('cards/pack', {params}).then(res => res.data)
+    getPacks( ) {
+        return instance.get(`cards/pack`
+        ).then(res => res.data)
     },
     addPack(data: AddedPackType) {
         return instance.post('cards/pack', {cardsPack: data}).then(res => res.data)
     },
     deletePack(id: string) {
-        return instance.delete('cards/pack', {params: {id}}).then(res => res.data)
+        return instance.delete(`cards/pack?${id}`).then(res => res.data)
     },
-    updatePack(data: UpdatedPackType) {
-        return instance.put('cards/pack', {cardsPack: data}).then(res => res.data)
+    updatePack(cardsPack: UpdatedPackType) {
+        return instance.put('cards/pack', { cardsPack}).then(res => res.data)
     },
 }
 

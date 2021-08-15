@@ -61,11 +61,7 @@ export const loginTC = (data: LoginParamsType) => (dispatch: ThunkDispatch) => {
             dispatch(setProfileData(res.data))
         })
         .catch ((e) => {
-            const error = e.response
-                ? e.response.data.error
-                : (e.message + ', more details in the console');
-            alert(error);
-            console.log('Error: ', {...e})
+            handleServerNetworkError(e, dispatch)
         })
 }
 
@@ -75,11 +71,7 @@ export const logoutTC = () => (dispatch: ThunkDispatch) => {
             dispatch(setIsLoggedIn(false))
         })
         .catch ((e) => {
-            const error = e.response
-                ? e.response.data.error
-                : (e.message + ', more details in the console');
-            alert(error);
-            console.log('Error: ', {...e})
+            handleServerNetworkError(e, dispatch)
         })
 }
 

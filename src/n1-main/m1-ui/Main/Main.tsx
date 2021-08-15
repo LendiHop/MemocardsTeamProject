@@ -5,6 +5,7 @@ import {AppRootStateType} from "../../m2-bll/store/redux-store";
 import {Redirect} from "react-router-dom";
 import {initializeAppTC} from "../../m2-bll/reducers/app-reduser";
 import CircularProgress from '@material-ui/core/CircularProgress/CircularProgress';
+import {Login} from "../../../n2-features/f1-auth/a1-loginization/Login";
 
 
 export const Main = () => {
@@ -15,9 +16,12 @@ export const Main = () => {
     //     dispatch(initializeAppTC())
     // }, [])
     const isInitialized = useSelector<AppRootStateType, boolean>(state => state.app.isInitialized)
+    const packsTrue = useSelector<AppRootStateType, boolean>(state => state.cards.packsTrue)
 
     if (!isInitialized) {
-        return <CircularProgress />
+        return <Redirect to={'/login'} />
+    }else if (packsTrue) {
+        return <Redirect to={'/packs-list'}/>
     }
 
     return (

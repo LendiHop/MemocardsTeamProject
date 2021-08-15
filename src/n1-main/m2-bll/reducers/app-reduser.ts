@@ -45,7 +45,7 @@ export const initializeAppTC = () => async (dispatch: Dispatch) => {
         dispatch(setAppStatusAC('succeeded'))
 
     } catch (e) {
-
+        dispatch(setIsInitializedAC(true))
         handleServerNetworkError(e, dispatch)
     }
 }

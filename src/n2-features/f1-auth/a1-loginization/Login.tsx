@@ -26,7 +26,7 @@ type TProps = {
 export const Login: React.FC<TProps> = ({formik,
                                         showPass, handleClickShowPassword}) => {
     console.log('login')
-    return <Grid container justify="center" alignItems="center" className={s.container}>
+    return <Grid container justifyContent="center" alignItems="center" className={s.container}>
         <Grid item>
             <Paper style={{padding: '15px'}}>
                 <h2>Sign In</h2>

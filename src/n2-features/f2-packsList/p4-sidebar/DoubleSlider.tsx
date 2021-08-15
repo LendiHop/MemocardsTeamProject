@@ -14,14 +14,17 @@ function valuetext(value: number) {
 type PropsType = {
     value: number []
     setValue: Function
+    searchSlider: () => void
+
 }
 
-export const DoubleSlider:React.FC<PropsType> = ({value, setValue}) => {
+export const DoubleSlider:React.FC<PropsType> = ({value, setValue, searchSlider}) => {
     const classes = useStyles();
 
 
     const handleChange = (event: any, newValue: number | number[]) => {
-        setValue(newValue as number[]);
+        setValue(newValue as number[])
+
     };
 
     return (
@@ -30,6 +33,7 @@ export const DoubleSlider:React.FC<PropsType> = ({value, setValue}) => {
                 Number of cards
             </Typography>
             <Slider
+                // onBlur={searchSlider}
                 style={{width: '170px'}}
                 value={value}
                 onChange={handleChange}

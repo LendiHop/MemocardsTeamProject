@@ -67,7 +67,7 @@ export const getCardPacksTC = (value?: number[]): ThunkType => (dispatch, getSta
     if (state.cards.privatCards.value) {
         params = {...params, user_id: state.profile._id}
     }
-    packsAPI.getPacks(params)
+    packsAPI.getPacks()
         .then(data => {
             dispatch(setPacksData(data))
         })
@@ -113,12 +113,13 @@ export const deleteCardPackTC = (id: string): ThunkType => (dispatch) => {
 export const updateCardPackTC = (data: UpdatedPackType): ThunkType =>
     (dispatch, setState) => {
    const state = setState()
-    const value = [state.packs.minCardsCount, state.packs.maxCardsCount]
+
+    // const value = [state.packs.minCardsCount, state.packs.maxCardsCount]
     packsAPI.updatePack(data)
         .then(() => {
 
             // dispatch(updatePack(data))
-            dispatch(getCardPacksTC(value))
+            dispatch(getCardPacksTC())
         })
         .catch((e) => {
             const error = e.response

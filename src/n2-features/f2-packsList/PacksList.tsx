@@ -17,9 +17,9 @@ export const PacksList: React.FC = () => {
     const dispatch = useDispatch();
     const privatCards = useSelector<AppRootStateType, { value: boolean }>(state => state.cards.privatCards)
     useEffect(() => {
-        dispatch(getCardPacksTC(value))
+        dispatch(getCardPacksTC())
     }, [privatCards]);
-    console.log('value'+ value)
+
     const packsTrue = useSelector<AppRootStateType, boolean>(state => state.cards.packsTrue)
     if (!packsTrue) {
         return <Redirect to={'/profile'}/>

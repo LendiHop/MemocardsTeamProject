@@ -6,10 +6,11 @@ import {Redirect} from 'react-router-dom';
 import {Button, LinearProgress} from "@material-ui/core";
 import {ProfileDataType} from '../../../n1-main/m2-bll/reducers/profile-reducer';
 import {logoutTC} from '../../../n1-main/m2-bll/reducers/auth-reducer';
+import ModalContainer from "../../../common/ModalContainer";
 
 
-export const Profile = () => {
-    console.log('profile')
+export const Profile: React.FC = () => {
+
     const dispatch = useDispatch();
     const profileData = useSelector<AppRootStateType, ProfileDataType>((state) => state.profile);
     const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn);
@@ -19,12 +20,10 @@ export const Profile = () => {
     const logoutHandler = useCallback(() => {
         dispatch(logoutTC())
     }, [dispatch])
-if (!isInitialized) {
-    return <LinearProgress color={"secondary"}/>
-} else
     if (!isLoggedIn) {
         return <Redirect to={"/login"}/>
-    } else if (packsTrue) {
+    }
+    if (packsTrue) {
         return <Redirect to={'/packs-list'}/>
     }
 
@@ -35,6 +34,7 @@ if (!isInitialized) {
             <div>{profileData.name}</div>
             <div>{isLoggedIn &&
             <Button variant='contained' color='primary' onClick={logoutHandler}>Log out</Button>}</div>
+            <ModalContainer/>
         </div>
     );
 }

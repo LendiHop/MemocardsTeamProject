@@ -7,14 +7,22 @@ import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import {Link, Redirect} from "react-router-dom";
 import {SearchContainer} from "./p1-search/SearchContainer";
 import {PaginationContainer} from "./p2-pagination/PaginationContainer";
+import {getCardsTC} from "../../n1-main/m2-bll/reducers/cards-reduser";
 
 export const CardsList: React.FC = () => {
+
 
     const dispatch = useDispatch()
 
     const packName = useSelector<AppRootStateType, string>(state => state.cards.currentPackData.name);
+    const id = useSelector<AppRootStateType, string>(state => state.cards.currentPackData.id);
 
     const packsTrue = useSelector<AppRootStateType, boolean>(state => state.cards.packsTrue)
+
+    useEffect(() => {
+        dispatch(getCardsTC(id))
+    }, [])
+
     if (!packsTrue) {
         return <Redirect to={'/profile'}/>
     }

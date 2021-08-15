@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {createStyles, makeStyles, Theme, withStyles} from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -19,6 +19,8 @@ import {AppRootStateType} from "../../../n1-main/m2-bll/store/redux-store";
 import {Button} from "@material-ui/core";
 import {Link} from "react-router-dom";
 import {getCardsTC, setCurrentPackDataAC} from "../../../n1-main/m2-bll/reducers/cards-reduser";
+import {AddPackModalContainer} from "../../../common/AddPackModalContainer";
+import {UpdatePackModalContainer} from "../../../common/UpdatePackModalContainer";
 
 export const StyledTableCell = withStyles((theme: Theme) =>
     createStyles({
@@ -51,15 +53,18 @@ export const useStyles = makeStyles({
 export default function PacksTable() {
     const dispatch = useDispatch();
 
-
+    const [showAddPackModal, setShowAddPackModal] = useState(false)
+    const [showUpdatePackModal, setShowUpdatePackModal] = useState(false)
 
     const cardPacks = useSelector<AppRootStateType, Array<CardPackType>>(state => state.packs.cardPacks);
 
     const classes = useStyles();
 
     const addPackHandler = useCallback(() => {
-        dispatch(addCardPackTC({name: "-TestPackName-"}))
+        // dispatch(addCardPackTC({name: "-TestPackName-"}))
         // dispatch(getCardPacksTC({pageCount: 8}))
+        setShowAddPackModal(true)
+
     }, [])
 
     const deletePackHandler = useCallback((e, id: string) => {
@@ -67,15 +72,16 @@ export default function PacksTable() {
         // dispatch(getCardPacksTC({pageCount: 8}))
     }, [])
 
-    const updatePackHandler = useCallback((e, id: string) => {
-        dispatch(updateCardPackTC({_id: id, name: "-UpdatedTestPackName-"}))
+    const updatePackHandler = useCallback(() => {
+        setShowUpdatePackModal(true)
+        // dispatch(updateCardPackTC({_id: id, name: "-UpdatedTestPackName-"}))
         // dispatch(getCardPacksTC({pageCount: 8}))
     }, [])
 
-    const getCardsHandler = useCallback((e, id: string, name: string) => {
+    const getCardsHandler = useCallback(( id: string, name: string) => {
 
         dispatch(setCurrentPackDataAC({id, name}))
-        dispatch(getCardsTC(id))
+        // dispatch(getCardsTC(id))
     }, [])
 
     return (
@@ -91,6 +97,8 @@ export default function PacksTable() {
                             <Button variant="contained" onClick={addPackHandler}>
                                 Add New Pack
                             </Button>
+                            {showAddPackModal &&
+                            <AddPackModalContainer show={showAddPackModal} setShow={setShowAddPackModal}/>}
                         </StyledTableCell>
                     </TableRow>
                 </TableHead>
@@ -98,14 +106,19 @@ export default function PacksTable() {
                     {cardPacks.map((pack) => (
                         <StyledTableRow key={pack.updated.toString()}>
                             <StyledTableCell component="th" scope="row">
-                                <Link to='/cards-list' onClick={e => getCardsHandler(e, pack._id, pack.name)}>{pack.name}</Link>
+                                <Link to='/cards-list' onClick={() => getCardsHandler( pack._id, pack.name)}>{pack.name}</Link>
                             </StyledTableCell>
                             <StyledTableCell align="right">{pack.cardsCount}</StyledTableCell>
                             <StyledTableCell align="right">{pack.updated.toString().slice(0, 10)}</StyledTableCell>
                             <StyledTableCell align="right">{pack.user_name}</StyledTableCell>
                             <StyledTableCell align="right">
                                 <Button onClick={e => deletePackHandler(e, pack._id)}>Delete</Button>
-                                <Button onClick={e => updatePackHandler(e, pack._id)}>Edit</Button>
+                                <Button onClick={updatePackHandler}>Edit</Button>
+                                {showUpdatePackModal &&
+                                <UpdatePackModalContainer
+                                    show={showUpdatePackModal} setShow={setShowUpdatePackModal}
+                                packId={pack._id}
+                                />}
                             </StyledTableCell>
                         </StyledTableRow>
                     ))}

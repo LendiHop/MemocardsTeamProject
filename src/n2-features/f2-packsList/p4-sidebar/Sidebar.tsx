@@ -3,6 +3,7 @@ import {Button, ButtonGroup, Grid, Typography} from "@material-ui/core";
 import {DoubleSlider} from "./DoubleSlider";
 import {useDispatch} from "react-redux";
 import {onChangePrivateAC} from "../../../n1-main/m2-bll/reducers/cards-reduser";
+import {getCardPacksTC} from "../../../n1-main/m2-bll/reducers/packs-reducer";
 
 type PropsType = {
     value: number []
@@ -20,6 +21,9 @@ export const Sidebar: React.FC<PropsType> = (props) => {
         dispatch(onChangePrivateAC(false))
     }
 
+    const searchSlider = () => {
+
+    }
     return (
         <>
             <Grid container direction={'column'} justifyContent={'center'}
@@ -35,7 +39,7 @@ export const Sidebar: React.FC<PropsType> = (props) => {
                     </ButtonGroup>
                 </Grid>
                 <Grid item xs={4}>
-                    <DoubleSlider value={props.value} setValue={props.setValue}/>
+                    <DoubleSlider searchSlider={searchSlider} value={props.value} setValue={props.setValue}/>
                 </Grid>
             </Grid>
         </>
