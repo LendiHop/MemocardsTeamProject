@@ -33,7 +33,7 @@ export const DoubleSlider:React.FC<PropsType> = ({value, setValue, searchSlider}
                 Number of cards
             </Typography>
             <Slider
-                // onBlur={searchSlider}
+                onMouseUp={searchSlider}
                 style={{width: '170px'}}
                 value={value}
                 onChange={handleChange}

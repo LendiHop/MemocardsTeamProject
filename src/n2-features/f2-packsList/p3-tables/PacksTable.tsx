@@ -49,8 +49,11 @@ export const useStyles = makeStyles({
         minWidth: 700,
     },
 });
+type PropsType = {
+    userId: string
+}
 
-export default function PacksTable() {
+export default function PacksTable(props: PropsType) {
     const dispatch = useDispatch();
 
     const [showAddPackModal, setShowAddPackModal] = useState(false)
@@ -61,27 +64,25 @@ export default function PacksTable() {
     const classes = useStyles();
 
     const addPackHandler = useCallback(() => {
-        // dispatch(addCardPackTC({name: "-TestPackName-"}))
-        // dispatch(getCardPacksTC({pageCount: 8}))
+
         setShowAddPackModal(true)
 
     }, [])
 
-    const deletePackHandler = useCallback((e, id: string) => {
+    const deletePackHandler = useCallback(( id: string) => {
         dispatch(deleteCardPackTC(id))
-        // dispatch(getCardPacksTC({pageCount: 8}))
+
     }, [])
 
     const updatePackHandler = useCallback(() => {
         setShowUpdatePackModal(true)
-        // dispatch(updateCardPackTC({_id: id, name: "-UpdatedTestPackName-"}))
-        // dispatch(getCardPacksTC({pageCount: 8}))
+
     }, [])
 
-    const getCardsHandler = useCallback(( id: string, name: string) => {
+    const getCardsHandler = useCallback((id: string, name: string) => {
 
         dispatch(setCurrentPackDataAC({id, name}))
-        // dispatch(getCardsTC(id))
+
     }, [])
 
     return (
@@ -106,18 +107,21 @@ export default function PacksTable() {
                     {cardPacks.map((pack) => (
                         <StyledTableRow key={pack.updated.toString()}>
                             <StyledTableCell component="th" scope="row">
-                                <Link to='/cards-list' onClick={() => getCardsHandler( pack._id, pack.name)}>{pack.name}</Link>
+                                <Link to='/cards-list'
+                                      onClick={() => getCardsHandler(pack._id, pack.name)}>{pack.name}</Link>
                             </StyledTableCell>
                             <StyledTableCell align="right">{pack.cardsCount}</StyledTableCell>
                             <StyledTableCell align="right">{pack.updated.toString().slice(0, 10)}</StyledTableCell>
                             <StyledTableCell align="right">{pack.user_name}</StyledTableCell>
                             <StyledTableCell align="right">
-                                <Button onClick={e => deletePackHandler(e, pack._id)}>Delete</Button>
-                                <Button onClick={updatePackHandler}>Edit</Button>
+                                <Button onClick={() => deletePackHandler( pack._id)}
+                                        disabled={!(pack.user_id === props.userId)}>Delete</Button>
+                                <Button onClick={updatePackHandler}
+                                        disabled={!(pack.user_id === props.userId)}>Edit</Button>
                                 {showUpdatePackModal &&
                                 <UpdatePackModalContainer
                                     show={showUpdatePackModal} setShow={setShowUpdatePackModal}
-                                packId={pack._id}
+                                    packId={pack._id}
                                 />}
                             </StyledTableCell>
                         </StyledTableRow>

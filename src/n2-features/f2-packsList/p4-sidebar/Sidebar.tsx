@@ -1,9 +1,10 @@
 import React from 'react'
 import {Button, ButtonGroup, Grid, Typography} from "@material-ui/core";
 import {DoubleSlider} from "./DoubleSlider";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {onChangePrivateAC} from "../../../n1-main/m2-bll/reducers/cards-reduser";
 import {getCardPacksTC} from "../../../n1-main/m2-bll/reducers/packs-reducer";
+import {AppRootStateType} from "../../../n1-main/m2-bll/store/redux-store";
 
 type PropsType = {
     value: number []
@@ -13,6 +14,7 @@ type PropsType = {
 export const Sidebar: React.FC<PropsType> = (props) => {
     const dispatch = useDispatch()
 
+    const privatCards = useSelector<AppRootStateType, { value: boolean }>(state => state.cards.privatCards)
 
     const privatCardsTrue = () => {
         dispatch(onChangePrivateAC(true))
@@ -23,6 +25,7 @@ export const Sidebar: React.FC<PropsType> = (props) => {
 
     const searchSlider = () => {
 
+        dispatch(getCardPacksTC({min: props.value[0], max: props.value[1]}))
     }
     return (
         <>

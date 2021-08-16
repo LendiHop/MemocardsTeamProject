@@ -23,10 +23,10 @@ const initialState: PacksDataType = {
         },
     ],
     cardPacksTotalCount: 0, // количество колод
-    maxCardsCount: 0,
+    maxCardsCount: 100,
     minCardsCount: 0,
     page: 0, // выбранная страница
-    pageCount: 0, // количество элементов на странице
+    pageCount: 7, // количество элементов на странице
 }
 
 export const packsReducer = (state: PacksDataType = initialState, action: ActionsType): PacksDataType => {
@@ -58,16 +58,15 @@ export const updatePack = (data: UpdatedPackType) =>
 
 //thunks
 
-export const getCardPacksTC = (value?: number[]): ThunkType => (dispatch, getState) => {
+export const getCardPacksTC = (param: packsParamsType): ThunkType => (dispatch, getState) => {
     const state = getState()
-    let params: packsParamsType = {pageCount: 7}
-        if(value) {
-            params = {...params, min: value[0], max: value[1]}
-        }
-    if (state.cards.privatCards.value) {
-        params = {...params, user_id: state.profile._id}
-    }
-    packsAPI.getPacks()
+    if (state.cards.privatCards.value === true) {
+        param = {...param, user_id: state.profile._id}
+    } 
+    let params: packsParamsType = {...param}
+
+
+    packsAPI.getPacks(params)
         .then(data => {
             dispatch(setPacksData(data))
         })
@@ -84,7 +83,7 @@ export const addCardPackTC = (data: AddedPackType): ThunkType => (dispatch) => {
     packsAPI.addPack(data)
         .then(data => {
             dispatch(addNewPack(data))
-            dispatch(getCardPacksTC())
+            dispatch(getCardPacksTC({}))
         })
         .catch((e) => {
             const error = e.response
@@ -99,7 +98,7 @@ export const deleteCardPackTC = (id: string): ThunkType => (dispatch) => {
     packsAPI.deletePack(id)
         .then((data) => {
             // dispatch(deletePack(id))
-            dispatch(getCardPacksTC())
+            dispatch(getCardPacksTC({}))
         })
         .catch((e) => {
             const error = e.response
@@ -114,12 +113,12 @@ export const updateCardPackTC = (data: UpdatedPackType): ThunkType =>
     (dispatch, setState) => {
    const state = setState()
 
-    // const value = [state.packs.minCardsCount, state.packs.maxCardsCount]
+
     packsAPI.updatePack(data)
         .then(() => {
 
-            // dispatch(updatePack(data))
-            dispatch(getCardPacksTC())
+
+            dispatch(getCardPacksTC({}))
         })
         .catch((e) => {
             const error = e.response

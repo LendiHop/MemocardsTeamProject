@@ -16,8 +16,11 @@ export const PacksList: React.FC = () => {
 
     const dispatch = useDispatch();
     const privatCards = useSelector<AppRootStateType, { value: boolean }>(state => state.cards.privatCards)
+    const userId = useSelector<AppRootStateType, string>(state => state.profile._id)
     useEffect(() => {
-        dispatch(getCardPacksTC())
+
+            dispatch(getCardPacksTC({min: value[0], max: value[1]}))
+
     }, [privatCards]);
 
     const packsTrue = useSelector<AppRootStateType, boolean>(state => state.cards.packsTrue)
@@ -38,7 +41,7 @@ export const PacksList: React.FC = () => {
                 </Grid>
                 <Grid item>
                     <SearchContainer/>
-                    <PacksTable/>
+                    <PacksTable userId={userId}/>
                     <PaginationContainer/>
                 </Grid>
             </Grid>
