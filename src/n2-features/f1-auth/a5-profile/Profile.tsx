@@ -6,7 +6,6 @@ import {Redirect} from 'react-router-dom';
 import {Button, LinearProgress} from "@material-ui/core";
 import {ProfileDataType} from '../../../n1-main/m2-bll/reducers/profile-reducer';
 import {logoutTC} from '../../../n1-main/m2-bll/reducers/auth-reducer';
-import ModalContainer from "../../../common/ModalContainer";
 
 
 export const Profile: React.FC = () => {
@@ -20,21 +19,22 @@ export const Profile: React.FC = () => {
     const logoutHandler = useCallback(() => {
         dispatch(logoutTC())
     }, [dispatch])
-    if (!isLoggedIn) {
+
+    if (!isInitialized) {
+        return <LinearProgress color={"secondary"}/>
+    } else if (!isLoggedIn) {
         return <Redirect to={"/login"}/>
-    }
-    if (packsTrue) {
+    } else if (packsTrue) {
         return <Redirect to={'/packs-list'}/>
     }
-
     return (
         <div className="Profile">
             <h3>Profile</h3>
             <img src={profileData.avatar} alt="avatar"/>
             <div>{profileData.name}</div>
             <div>{isLoggedIn &&
-            <Button variant='contained' color='primary' onClick={logoutHandler}>Log out</Button>}</div>
-            <ModalContainer/>
+            <Button variant='contained' color='primary' onClick={logoutHandler}>Log out</Button>}
+            </div>
         </div>
     );
 }
