@@ -4,7 +4,7 @@ import {
     CardType,
     RequestPostCardType,
     RequestUpdateCard,
-    ResponseGetCardsType
+    ResponseGetCardsType, updatedGradeType
 } from "../../m3-dal/api/cards-api";
 import {ThunkAction} from "redux-thunk";
 import {AppRootStateType} from "../store/redux-store";
@@ -13,14 +13,10 @@ import {setAppStatusAC} from "./app-reduser";
 const SET_CARDS = 'cards/SET-CARDS'
 const ON_PACKS_TRUE = 'cards/ON_PACKS_TRUE'
 const ON_CHANGE_PRIVATE = 'cards/ON-CHANGE_PRIVATE'
-const ON_PRIVATE_CARDS = 'cards/ON-PRIVATE-CARDS'
+const UPDATE_CARD_GRADE = 'cards/UPDATE_CARD_GRADE'
 
 
 const initialState = {
-    currentPackData: {
-        id: "",
-        name: "",
-    },
     cards: [{
         answer: '',
         question: '',
@@ -65,10 +61,18 @@ export const cardsReducer = (state: InitialStateType = initialState, action: Act
                 ...state,
                 privatCards: {...state.privatCards, value: action.value}
             }
-
-
-        case "SET-CURRENT-PACK-ID":
-            return {...state, currentPackData: action.data}
+        case UPDATE_CARD_GRADE:
+            const {card_id, grade, shots} = action.data;
+            return {
+                ...state,
+                cards: state.cards.map(card => {
+                    if (card._id === card_id) {
+                        card.grade = grade;
+                        card.shots = shots;
+                    }
+                    return card;
+                })
+            }
         default:
             return state
     }
@@ -77,12 +81,7 @@ export const cardsReducer = (state: InitialStateType = initialState, action: Act
 export const getCardsAC = (cards: ResponseGetCardsType) => ({type: SET_CARDS, cards} as const)
 export const onPacksTrueAC = (value: boolean) => ({type: ON_PACKS_TRUE, value} as const)
 export const onChangePrivateAC = (value: boolean) => ({type: ON_CHANGE_PRIVATE, value} as const)
-
-export const setCurrentPackDataAC = (data: { id: string, name: string }) => ({
-    type: "SET-CURRENT-PACK-ID",
-    data
-} as const)
-
+export const updateCardGradeAC = (data: updatedGradeType) => ({type: UPDATE_CARD_GRADE, data} as const)
 
 // thunk
 
@@ -139,9 +138,19 @@ export const updateCardsTC = (cardsPackId: string, cardId: string,question: stri
     }
 }
 
+export const updateGradeTC = (cardId: string, grade: number) => async (dispatch: Dispatch) => {
+    try {
+        const data = await cardsApi.updateGrade(grade, cardId)
+        dispatch(updateCardGradeAC(data))
+
+    } catch (e) {
+        console.log('e:' + e)
+    }
+}
+
 type ActionType = ReturnType<typeof getCardsAC>
     | ReturnType<typeof onPacksTrueAC>
     | ReturnType<typeof onChangePrivateAC>
-    | ReturnType<typeof setCurrentPackDataAC>
+    | ReturnType<typeof updateCardGradeAC>
 
 type ThunkType = ThunkAction<void, AppRootStateType, unknown, ActionType>

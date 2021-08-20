@@ -13,11 +13,14 @@ export const cardsApi = {
     updateCard(card: RequestUpdateCard) {
         return instance.put<{ updateCard: object }>('cards/card', {card}).then(res => res.data)
     },
+    updateGrade(grade: number, card_id: string) {
+        return instance.put<updatedGradeType>('cards/grade', {grade, card_id}).then(res => res.data)
+    },
 }
 
 //types
 
-type CardsTypeType = 'card' | 'pack'
+type CardsTypeType = 'card' | 'pack' | ''
 
 export type CardType = {
     answer: string
@@ -27,6 +30,7 @@ export type CardType = {
     rating: number
     shots: number
     type: CardsTypeType
+    more_id: string
     user_id: string
     created: string
     updated: string
@@ -42,6 +46,15 @@ export type ResponseGetCardsType = {
     page: number
     pageCount: number
     packUserId: string
+}
+
+export type updatedGradeType = {
+    _id: string
+    cardsPack_id: string
+    card_id: string
+    user_id: string
+    grade: number
+    shots: number
 }
 
 export type RequestPostCardType = {
