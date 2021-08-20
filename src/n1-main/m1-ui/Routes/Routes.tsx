@@ -11,21 +11,16 @@ import {LoginContainer} from "../../../n2-features/f1-auth/a1-loginization/Login
 import {CheckOnEmail} from "../../../n2-features/f1-auth/a3-passwordRecovery/CheckOnEmail";
 import {PacksList} from "../../../n2-features/f2-packsList/PacksList";
 import {CardsList} from "../../../n2-features/f2-packsList/CardsList";
-import {useSelector} from "react-redux";
-import {AppRootStateType} from "../../m2-bll/store/redux-store";
+import LearnPage from "../../../n2-features/f3-learning/LearnPage";
 
 
 export const Routes = () => {
-    // const isInitialized = useSelector<AppRootStateType, boolean>(state => state.app.isInitialized)
-    // if (isInitialized) {
-    //     return <Redirect to={'/profile'}/>
-    // }
-    console.log('routes')
     return (
         <Switch>
             <Route exact path="/" strict render={() => <Main/>}/>
             <Route path="/packs-list" render={() => <PacksList/>}/>
-            <Route path="/cards-list" render={() => <CardsList/>}/>
+            <Route path="/cards-list/:name/:id" render={() => <CardsList/>}/>
+            <Route path="/learn/:name/:id" render={() => <LearnPage />}/>
             <Route path="/profile" render={() => <Profile/>}/>
             <Route path="/test" render={() => <Test/>}/>
             <Route path="/login" render={() => <LoginContainer/>}/>
