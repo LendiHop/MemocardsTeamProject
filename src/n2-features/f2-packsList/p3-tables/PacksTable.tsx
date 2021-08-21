@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import {createStyles, makeStyles, Theme, withStyles} from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -9,16 +9,12 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import {useDispatch, useSelector} from "react-redux";
 import {
-    addCardPackTC,
     CardPackType,
     deleteCardPackTC,
-    getCardPacksTC,
-    updateCardPackTC
 } from "../../../n1-main/m2-bll/reducers/packs-reducer";
 import {AppRootStateType} from "../../../n1-main/m2-bll/store/redux-store";
 import {Button} from "@material-ui/core";
-import {Link} from "react-router-dom";
-import {getCardsTC, setCurrentPackDataAC} from "../../../n1-main/m2-bll/reducers/cards-reduser";
+import {Link, Redirect} from "react-router-dom";
 import {AddPackModalContainer} from "../../../common/AddPackModalContainer";
 import {UpdatePackModalContainer} from "../../../common/UpdatePackModalContainer";
 
@@ -79,12 +75,6 @@ export default function PacksTable(props: PropsType) {
 
     }, [])
 
-    const getCardsHandler = useCallback((id: string, name: string) => {
-
-        dispatch(setCurrentPackDataAC({id, name}))
-
-    }, [])
-
     return (
         <TableContainer component={Paper}>
             <Table className={classes.table} aria-label="customized table">
@@ -107,8 +97,7 @@ export default function PacksTable(props: PropsType) {
                     {cardPacks.map((pack) => (
                         <StyledTableRow key={pack.updated.toString()}>
                             <StyledTableCell component="th" scope="row">
-                                <Link to='/cards-list'
-                                      onClick={() => getCardsHandler(pack._id, pack.name)}>{pack.name}</Link>
+                                <Link to={`/cards-list/${pack.name}/${pack._id}`}>{pack.name}</Link>
                             </StyledTableCell>
                             <StyledTableCell align="right">{pack.cardsCount}</StyledTableCell>
                             <StyledTableCell align="right">{pack.updated.toString().slice(0, 10)}</StyledTableCell>
@@ -118,6 +107,7 @@ export default function PacksTable(props: PropsType) {
                                         disabled={!(pack.user_id === props.userId)}>Delete</Button>
                                 <Button onClick={updatePackHandler}
                                         disabled={!(pack.user_id === props.userId)}>Edit</Button>
+                                <Link to={`/learn/${pack.name}/${pack._id}`}>Learn</Link>
                                 {showUpdatePackModal &&
                                 <UpdatePackModalContainer
                                     show={showUpdatePackModal} setShow={setShowUpdatePackModal}

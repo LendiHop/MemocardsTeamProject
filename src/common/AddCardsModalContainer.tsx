@@ -1,11 +1,10 @@
 import React from 'react';
 import Modal from "./Modal";
 import {Button, FormControl, FormGroup, TextField} from "@material-ui/core";
-import {useDispatch, useSelector} from "react-redux";
-import {addCardPackTC} from "../n1-main/m2-bll/reducers/packs-reducer";
+import {useDispatch} from "react-redux";
 import {useFormik} from "formik";
 import {postCardsTC} from "../n1-main/m2-bll/reducers/cards-reduser";
-import {AppRootStateType} from "../n1-main/m2-bll/store/redux-store";
+import {useParams} from "react-router-dom";
 
 type AddCardsModalContainerPropsType = {
     show: boolean
@@ -19,7 +18,7 @@ type FormikErrorType = {
 
 export const AddCardsModalContainer: React.FC<AddCardsModalContainerPropsType> = ({show, setShow}) => {
     const dispatch = useDispatch()
-    const packIdForAdd = useSelector<AppRootStateType, string>(state => state.cards.currentPackData.id)
+    const {id} = useParams<{id: string, name: string}>()
 
     const formik = useFormik({
         initialValues: {
@@ -44,7 +43,7 @@ export const AddCardsModalContainer: React.FC<AddCardsModalContainerPropsType> =
         onSubmit: values => {
 
             setShow(false)
-            dispatch(postCardsTC(packIdForAdd, values.question, values.answer))
+            dispatch(postCardsTC(id, values.question, values.answer))
             formik.resetForm();
         },
     })
