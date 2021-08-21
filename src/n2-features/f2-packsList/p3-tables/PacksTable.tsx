@@ -121,7 +121,7 @@ export default function PacksTable(props: PropsType) {
                                 {showUpdatePackModal &&
                                 <UpdatePackModalContainer
                                     show={showUpdatePackModal} setShow={setShowUpdatePackModal}
-                                    packId={pack._id}
+                                    packId={pack.user_id}
                                 />}
                             </StyledTableCell>
                         </StyledTableRow>

@@ -11,8 +11,9 @@ export const packsAPI = {
     deletePack(id: string) {
         return instance.delete(`cards/pack?${id}`).then(res => res.data)
     },
-    updatePack(cardsPack: UpdatedPackType) {
-        return instance.put('cards/pack', {cardsPack}).then(res => res.data)
+    updatePack(data: UpdatedPackType) {
+        // const id = data._id
+        return instance.put('cards/pack', {cardsPack: {...data}}).then(res => res.data)
     },
 }
 

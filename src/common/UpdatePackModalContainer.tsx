@@ -36,7 +36,7 @@ export const UpdatePackModalContainer: React.FC<UpdatePackModalContainerPropsTyp
         onSubmit: values => {
 
             setShow(false)
-            dispatch(updateCardPackTC({_id: packId, name: values.packName}))
+            dispatch(updateCardPackTC({_id: packId}))
             formik.resetForm();
         },
     })

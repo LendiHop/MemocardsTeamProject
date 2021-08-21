@@ -118,7 +118,7 @@ export const updateCardPackTC = (data: UpdatedPackType): ThunkType =>
         .then(() => {
 
 
-            dispatch(getCardPacksTC({}))
+            dispatch(getCardPacksTC({min: initialState.minCardsCount, max: initialState.maxCardsCount}))
         })
         .catch((e) => {
             const error = e.response
