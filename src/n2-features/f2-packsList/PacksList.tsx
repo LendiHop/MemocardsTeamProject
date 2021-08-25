@@ -10,18 +10,22 @@ import {SearchContainer} from "./p1-search/SearchContainer";
 import {PaginationContainer} from "./p2-pagination/PaginationContainer";
 
 export const PacksList: React.FC = () => {
-    const maxCardsCount = useSelector<AppRootStateType, number>(state => state.packs.maxCardsCount)
-    const minCardsCount = useSelector<AppRootStateType, number>(state => state.packs.minCardsCount)
-    const [value, setValue] = React.useState<number[]>([minCardsCount, maxCardsCount]);
-
     const dispatch = useDispatch();
+
+    const page = useSelector<AppRootStateType, number>(state => state.packs.page);
+    const pageCount = useSelector<AppRootStateType, number>(state => state.packs.pageCount);
+    const searchQuery = useSelector<AppRootStateType, string>(state => state.packs.searchQuery);
+    const sort = useSelector<AppRootStateType, boolean>(state => state.packs.sort);
+
+    const max = useSelector<AppRootStateType, number>(state => state.packs.max)
+    const min = useSelector<AppRootStateType, number>(state => state.packs.min)
+
     const privatCards = useSelector<AppRootStateType, { value: boolean }>(state => state.cards.privatCards)
     const userId = useSelector<AppRootStateType, string>(state => state.profile._id)
+
     useEffect(() => {
-
-            dispatch(getCardPacksTC({min: value[0], max: value[1]}))
-
-    }, [privatCards]);
+            dispatch(getCardPacksTC());
+    }, [privatCards, min, max, page, pageCount, searchQuery, sort]);
 
     const packsTrue = useSelector<AppRootStateType, boolean>(state => state.cards.packsTrue)
     if (!packsTrue) {
@@ -37,7 +41,7 @@ export const PacksList: React.FC = () => {
                 style={{height: "92vh"}}
             >
                 <Grid item>
-                    <Sidebar value={value} setValue={setValue}/>
+                    <Sidebar/>
                 </Grid>
                 <Grid item>
                     <SearchContainer/>

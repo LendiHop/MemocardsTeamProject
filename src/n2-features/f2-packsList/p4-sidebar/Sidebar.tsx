@@ -1,20 +1,11 @@
 import React from 'react'
 import {Button, ButtonGroup, Grid, Typography} from "@material-ui/core";
-import {DoubleSlider} from "./DoubleSlider";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 import {onChangePrivateAC} from "../../../n1-main/m2-bll/reducers/cards-reduser";
-import {getCardPacksTC} from "../../../n1-main/m2-bll/reducers/packs-reducer";
-import {AppRootStateType} from "../../../n1-main/m2-bll/store/redux-store";
+import RangeSlider from "./RangeSlider";
 
-type PropsType = {
-    value: number []
-    setValue: (value: number[]) => void
-}
-
-export const Sidebar: React.FC<PropsType> = (props) => {
+export const Sidebar: React.FC = () => {
     const dispatch = useDispatch()
-
-    const privatCards = useSelector<AppRootStateType, { value: boolean }>(state => state.cards.privatCards)
 
     const privatCardsTrue = () => {
         dispatch(onChangePrivateAC(true))
@@ -23,10 +14,6 @@ export const Sidebar: React.FC<PropsType> = (props) => {
         dispatch(onChangePrivateAC(false))
     }
 
-    const searchSlider = () => {
-
-        dispatch(getCardPacksTC({min: props.value[0], max: props.value[1]}))
-    }
     return (
         <>
             <Grid container direction={'column'} justifyContent={'center'}
@@ -42,7 +29,7 @@ export const Sidebar: React.FC<PropsType> = (props) => {
                     </ButtonGroup>
                 </Grid>
                 <Grid item xs={4}>
-                    <DoubleSlider searchSlider={searchSlider} value={props.value} setValue={props.setValue}/>
+                    <RangeSlider/>
                 </Grid>
             </Grid>
         </>

@@ -44,8 +44,9 @@ export type AddedPackType = {
 export type packsParamsType = {
     min?: number
     max?: number
-    sortPacks?: number
+    sortPacks?: string
     page?: number
     pageCount?: number
     user_id?: string
+    packName?: string
 }

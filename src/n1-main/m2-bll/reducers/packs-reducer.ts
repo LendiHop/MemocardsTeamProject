@@ -22,11 +22,17 @@ const initialState: PacksDataType = {
             __v: 0
         },
     ],
-    cardPacksTotalCount: 0, // количество колод
-    maxCardsCount: 100,
-    minCardsCount: 0,
-    page: 0, // выбранная страница
-    pageCount: 7, // количество элементов на странице
+    cardPacksTotalCount: 14, // количество колод
+    maxCardsCount: 103, //constant max value of cards
+    minCardsCount: 0, //constant min value of cards
+
+    min: 0,
+    max: 100,
+
+    page: 1, // выбранная страница
+    searchQuery: "",
+    sort: false,
+    pageCount: 10, // количество элементов на странице
 }
 
 export const packsReducer = (state: PacksDataType = initialState, action: ActionsType): PacksDataType => {
@@ -37,12 +43,45 @@ export const packsReducer = (state: PacksDataType = initialState, action: Action
             return {...state, ...action.data}
         case 'packs/DELETE-PACK':
             return {...state, cardPacks: state.cardPacks.filter(p => p._id !== action.id)}
+        case 'packs/SET-PAGE':
+            return {...state, page: action.page}
+        case 'packs/SET-PAGE-COUNT':
+            return {...state, pageCount: action.PageCount}
+        case 'packs/SET-MIN-MAX-VALUES':
+            return {...state, min: action.min, max: action.max}
+        case 'packs/SET-SEARCH-QUERY':
+            return {...state, searchQuery: action.value}
+        case 'packs/SET-SORT-VALUE':
+            return {...state, sort: action.value}
         default:
             return state
     }
 }
 
-//actions
+//slider action
+
+export const setMinMaxValues = (values: number[]) =>
+    ({type: 'packs/SET-MIN-MAX-VALUES', min: values[0], max: values[1]} as const)
+
+//sort action
+
+export const setPacksSortValue = (value: boolean) =>
+    ({type: 'packs/SET-SORT-VALUE', value} as const)
+
+//search action
+
+export const setSearchQuery = (value: string) =>
+    ({type: 'packs/SET-SEARCH-QUERY', value} as const)
+
+//pagination actions
+
+export const setPage = (page: number) =>
+    ({type: 'packs/SET-PAGE', page} as const)
+
+export const setPageCount = (PageCount: number) =>
+    ({type: 'packs/SET-PAGE-COUNT', PageCount} as const)
+
+//packs actions
 
 export const setPacksData = (data: PacksDataType) =>
     ({type: 'packs/SET-PACKS-DATA', data} as const)
@@ -58,13 +97,21 @@ export const updatePack = (data: UpdatedPackType) =>
 
 //thunks
 
-export const getCardPacksTC = (param: packsParamsType): ThunkType => (dispatch, getState) => {
+export const getCardPacksTC = (): ThunkType => (dispatch, getState) => {
     const state = getState()
-    if (state.cards.privatCards.value === true) {
-        param = {...param, user_id: state.profile._id}
-    } 
-    let params: packsParamsType = {...param}
 
+    let params: packsParamsType = {
+        packName: state.packs.searchQuery,
+        min: state.packs.min,
+        max: state.packs.max,
+        page: state.packs.page,
+        pageCount: state.packs.pageCount,
+        sortPacks: +state.packs.sort + "updated",
+    }
+
+    if (state.cards.privatCards.value) {
+        params = {...params, user_id: state.profile._id}
+    } 
 
     packsAPI.getPacks(params)
         .then(data => {
@@ -83,7 +130,6 @@ export const addCardPackTC = (data: AddedPackType): ThunkType => (dispatch) => {
     packsAPI.addPack(data)
         .then(data => {
             dispatch(addNewPack(data))
-            dispatch(getCardPacksTC({}))
         })
         .catch((e) => {
             const error = e.response
@@ -97,8 +143,8 @@ export const addCardPackTC = (data: AddedPackType): ThunkType => (dispatch) => {
 export const deleteCardPackTC = (id: string): ThunkType => (dispatch) => {
     packsAPI.deletePack(id)
         .then((data) => {
-            // dispatch(deletePack(id))
-            dispatch(getCardPacksTC({}))
+            dispatch(deletePack(id))
+            dispatch(getCardPacksTC())
         })
         .catch((e) => {
             const error = e.response
@@ -116,9 +162,7 @@ export const updateCardPackTC = (data: UpdatedPackType): ThunkType =>
 
     packsAPI.updatePack(data)
         .then(() => {
-
-
-            dispatch(getCardPacksTC({}))
+            dispatch(getCardPacksTC())
         })
         .catch((e) => {
             const error = e.response
@@ -154,6 +198,10 @@ type PacksDataType = {
     minCardsCount: number
     page: number // выбранная страница
     pageCount: number // количество элементов на странице
+    min: number
+    max: number
+    searchQuery: string
+    sort: boolean
 }
 
 type ThunkDispatch = Dispatch<ActionsType | ReturnType<typeof setAppStatusAC>>
@@ -161,3 +209,8 @@ type ActionsType = ReturnType<typeof setPacksData>
     | ReturnType<typeof addNewPack>
     | ReturnType<typeof deletePack>
     | ReturnType<typeof updatePack>
+    | ReturnType<typeof setPage>
+    | ReturnType<typeof setPageCount>
+    | ReturnType<typeof setMinMaxValues>
+    | ReturnType<typeof setSearchQuery>
+    | ReturnType<typeof setPacksSortValue>

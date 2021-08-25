@@ -40,12 +40,6 @@ export const Login: React.FC<TProps> = ({formik,
                             />
                             {formik.touched.email && formik.errors.email ?
                                 <div style={{color: "red"}}>{formik.errors.email}</div> : null}
-                            {/*<TextField*/}
-                            {/*    type="password"*/}
-                            {/*    label="Password"*/}
-                            {/*    margin="normal"*/}
-                            {/*    {...formik.getFieldProps("password")}*/}
-                            {/*/>*/}
                             <FormControl >
                                 <InputLabel htmlFor="standard-adornment-password">Password</InputLabel>
                                 <Input

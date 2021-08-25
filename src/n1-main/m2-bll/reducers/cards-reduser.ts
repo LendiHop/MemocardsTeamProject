@@ -14,6 +14,7 @@ const SET_CARDS = 'cards/SET-CARDS'
 const ON_PACKS_TRUE = 'cards/ON_PACKS_TRUE'
 const ON_CHANGE_PRIVATE = 'cards/ON-CHANGE_PRIVATE'
 const UPDATE_CARD_GRADE = 'cards/UPDATE_CARD_GRADE'
+const SET_SORT_VALUE = 'cards/SET-SORT-VALUE'
 
 
 const initialState = {
@@ -40,6 +41,7 @@ const initialState = {
     packUserId: '',
     packsTrue: false,
     privatCards: {value: false},
+    sort: false,
 }
 
 type InitialStateType = typeof initialState
@@ -73,6 +75,8 @@ export const cardsReducer = (state: InitialStateType = initialState, action: Act
                     return card;
                 })
             }
+        case SET_SORT_VALUE:
+            return {...state, sort: action.value}
         default:
             return state
     }
@@ -82,6 +86,10 @@ export const getCardsAC = (cards: ResponseGetCardsType) => ({type: SET_CARDS, ca
 export const onPacksTrueAC = (value: boolean) => ({type: ON_PACKS_TRUE, value} as const)
 export const onChangePrivateAC = (value: boolean) => ({type: ON_CHANGE_PRIVATE, value} as const)
 export const updateCardGradeAC = (data: updatedGradeType) => ({type: UPDATE_CARD_GRADE, data} as const)
+
+//sort action
+export const setCardsSortValue = (value: boolean) =>
+    ({type: SET_SORT_VALUE, value} as const)
 
 // thunk
 
@@ -152,5 +160,6 @@ type ActionType = ReturnType<typeof getCardsAC>
     | ReturnType<typeof onPacksTrueAC>
     | ReturnType<typeof onChangePrivateAC>
     | ReturnType<typeof updateCardGradeAC>
+    | ReturnType<typeof setCardsSortValue>
 
 type ThunkType = ThunkAction<void, AppRootStateType, unknown, ActionType>

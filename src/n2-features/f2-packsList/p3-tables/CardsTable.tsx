@@ -10,12 +10,19 @@ import {AppRootStateType} from "../../../n1-main/m2-bll/store/redux-store";
 import {StyledTableCell, StyledTableRow, useStyles} from './PacksTable';
 import {CardType} from "../../../n1-main/m3-dal/api/cards-api";
 import {Button} from "@material-ui/core";
-import {deleteCardsTC, updateCardsTC} from "../../../n1-main/m2-bll/reducers/cards-reduser";
+import {deleteCardsTC, setCardsSortValue} from "../../../n1-main/m2-bll/reducers/cards-reduser";
 import {AddCardsModalContainer} from "../../../common/AddCardsModalContainer";
 import {UpdateCardsModalContainer} from "../../../common/UpdateCardsModalContainer";
+import {SortArrow} from "../p5-sort/SortArrow";
 
 export default function CardsTable() {
     const dispatch = useDispatch();
+
+    const sort = useSelector<AppRootStateType, boolean>(state => state.cards.sort);
+    const handleSortArrowClick = () => {
+        dispatch(setCardsSortValue(!sort));
+    }
+
     const cards = useSelector<AppRootStateType, Array<CardType>>(state => state.cards.cards);
     const packUserId = useSelector<AppRootStateType, string>(state => state.cards.packUserId);
     const userId = useSelector<AppRootStateType, string>(state => state.profile._id);
@@ -37,7 +44,6 @@ export default function CardsTable() {
 
     const updateCardHandler = useCallback(( ) => {
         setShowUpdateCardsModal(true)
-        // dispatch(updateCardsTC(packId, id))
     }, [])
 
     return (
@@ -48,7 +54,7 @@ export default function CardsTable() {
                         <StyledTableCell>Question</StyledTableCell>
                         <StyledTableCell align="right">Answer</StyledTableCell>
                         <StyledTableCell align="right">Last Update</StyledTableCell>
-                        <StyledTableCell align="right">Grade</StyledTableCell>
+                        <StyledTableCell align="right">Grade <SortArrow value={sort} handleClick={handleSortArrowClick}/></StyledTableCell>
                         <StyledTableCell align="right">
                             <Button variant="contained" onClick={addCardHandler} disabled={!(userId === packUserId)}>
                                 Add New Card

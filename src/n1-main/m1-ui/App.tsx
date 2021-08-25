@@ -17,7 +17,6 @@ export const App = () => {
             dispatch(initializeAppTC())
     }, [])
 
-
     return (
         <div className="App">
             <ErrorSnackbar/>

@@ -12,13 +12,15 @@ import {getCardsTC} from "../../n1-main/m2-bll/reducers/cards-reduser";
 export const CardsList: React.FC = () => {
     const dispatch = useDispatch()
 
+    const sort = useSelector<AppRootStateType, boolean>(state => state.cards.sort);
+
     const {id, name} = useParams<{id: string, name: string}>(); //current pack data
 
     const packsTrue = useSelector<AppRootStateType, boolean>(state => state.cards.packsTrue)
 
     useEffect(() => {
         dispatch(getCardsTC(id))
-    }, [id])
+    }, [id, sort])
 
     if (!packsTrue) {
         return <Redirect to={'/profile'}/>

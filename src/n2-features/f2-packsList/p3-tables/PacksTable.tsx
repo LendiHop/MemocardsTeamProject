@@ -10,13 +10,14 @@ import Paper from '@material-ui/core/Paper';
 import {useDispatch, useSelector} from "react-redux";
 import {
     CardPackType,
-    deleteCardPackTC,
+    deleteCardPackTC, setPacksSortValue,
 } from "../../../n1-main/m2-bll/reducers/packs-reducer";
 import {AppRootStateType} from "../../../n1-main/m2-bll/store/redux-store";
 import {Button} from "@material-ui/core";
-import {Link, Redirect} from "react-router-dom";
+import {Link} from "react-router-dom";
 import {AddPackModalContainer} from "../../../common/AddPackModalContainer";
 import {UpdatePackModalContainer} from "../../../common/UpdatePackModalContainer";
+import {SortArrow} from "../p5-sort/SortArrow";
 
 export const StyledTableCell = withStyles((theme: Theme) =>
     createStyles({
@@ -52,6 +53,11 @@ type PropsType = {
 export default function PacksTable(props: PropsType) {
     const dispatch = useDispatch();
 
+    const sort = useSelector<AppRootStateType, boolean>(state => state.packs.sort);
+    const handleSortArrowClick = () => {
+        dispatch(setPacksSortValue(!sort));
+    }
+
     const [showAddPackModal, setShowAddPackModal] = useState(false)
     const [showUpdatePackModal, setShowUpdatePackModal] = useState(false)
 
@@ -82,7 +88,7 @@ export default function PacksTable(props: PropsType) {
                     <TableRow>
                         <StyledTableCell>Name</StyledTableCell>
                         <StyledTableCell align="right">Cards</StyledTableCell>
-                        <StyledTableCell align="right">Last Update</StyledTableCell>
+                        <StyledTableCell align="right">Last Update <SortArrow value={sort} handleClick={handleSortArrowClick}/></StyledTableCell>
                         <StyledTableCell align="right">Created by</StyledTableCell>
                         <StyledTableCell align="right">
                             <Button variant="contained" onClick={addPackHandler}>
