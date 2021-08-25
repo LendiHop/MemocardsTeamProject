@@ -1,8 +1,8 @@
 import { instance } from "./auth-api"
 
 export const cardsApi = {
-    getCards(packId: string) {
-        return instance.get<ResponseGetCardsType>(`cards/card?cardsPack_id=${packId}`).then(res => res.data)
+    getCards(params: cardsParamsType) {
+        return instance.get<ResponseGetCardsType>("cards/card", {params}).then(res => res.data)
     },
     postCard(card: RequestPostCardType) {
         return instance.post<{ newCard: object }>('cards/card', {card}).then(res => res.data)
@@ -77,4 +77,15 @@ export type RequestUpdateCard = {
     answer?: string
     comments?: string // не обязателен
 
+}
+
+export type cardsParamsType = {
+    min?: number
+    max?: number
+    sortCards?: string
+    page?: number
+    pageCount?: number
+    cardsPack_id?: string
+    cardAnswer?: string
+    cardQuestion?: string
 }

@@ -38,15 +38,17 @@ export const initializeAppTC = () => async (dispatch: Dispatch) => {
         dispatch(setAppStatusAC('loading'))
         const data = await authAPI.me()
 
-        dispatch(setIsInitializedAC(true))
         dispatch(setIsLoggedIn(true))
         dispatch(setProfileData(data))
 
         dispatch(setAppStatusAC('succeeded'))
 
     } catch (e) {
-        dispatch(setIsInitializedAC(true))
+
         handleServerNetworkError(e, dispatch)
+    }
+    finally {
+        dispatch(setIsInitializedAC(true))
     }
 }
 

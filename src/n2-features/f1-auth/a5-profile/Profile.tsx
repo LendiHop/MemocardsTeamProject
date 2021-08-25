@@ -14,15 +14,13 @@ export const Profile: React.FC = () => {
     const profileData = useSelector<AppRootStateType, ProfileDataType>((state) => state.profile);
     const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn);
     const packsTrue = useSelector<AppRootStateType, boolean>(state => state.cards.packsTrue);
-    const isInitialized = useSelector<AppRootStateType, boolean>(state => state.app.isInitialized);
+
 
     const logoutHandler = useCallback(() => {
         dispatch(logoutTC())
     }, [dispatch])
 
-    if (!isInitialized) {
-        return <LinearProgress color={"secondary"}/>
-    } else if (!isLoggedIn) {
+    if (!isLoggedIn) {
         return <Redirect to={"/login"}/>
     } else if (packsTrue) {
         return <Redirect to={'/packs-list'}/>

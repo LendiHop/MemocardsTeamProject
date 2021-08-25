@@ -31,8 +31,6 @@ export const authAPI = {
     }
 }
 
-
-
 //types
 
 type PassResponseType = {

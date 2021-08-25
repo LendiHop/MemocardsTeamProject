@@ -10,12 +10,17 @@ import {AppRootStateType} from '../m2-bll/store/redux-store';
 
 export const App = () => {
     console.log('app')
+    const isInitialized = useSelector<AppRootStateType, boolean>(state => state.app.isInitialized);
     const status = useSelector((state: AppRootStateType): RequestStatusType => state.app.status)
     const dispatch = useDispatch()
 
     useEffect(() => {
             dispatch(initializeAppTC())
     }, [])
+
+    if (!isInitialized) {
+        return <LinearProgress color={"secondary"}/>
+    }
 
     return (
         <div className="App">

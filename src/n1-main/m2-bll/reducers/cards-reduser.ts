@@ -1,6 +1,6 @@
 import {Dispatch} from "redux"
 import {
-    cardsApi,
+    cardsApi, cardsParamsType,
     CardType,
     RequestPostCardType,
     RequestUpdateCard,
@@ -9,6 +9,7 @@ import {
 import {ThunkAction} from "redux-thunk";
 import {AppRootStateType} from "../store/redux-store";
 import {setAppStatusAC} from "./app-reduser";
+import {packsParamsType} from "../../m3-dal/api/packs-api";
 
 const SET_CARDS = 'cards/SET-CARDS'
 const ON_PACKS_TRUE = 'cards/ON_PACKS_TRUE'
@@ -93,10 +94,21 @@ export const setCardsSortValue = (value: boolean) =>
 
 // thunk
 
-export const getCardsTC = (cardsPackId: string) => async (dispatch: Dispatch) => {
+export const getCardsTC = (cardsPackId: string): ThunkType => async (dispatch: Dispatch, getState) => {
     try {
+        const state = getState();
+
+        const params: cardsParamsType = {
+            // min: state.cards.min,
+            // max: state.packs.max,
+            // page: state.packs.page,
+            // pageCount: state.packs.pageCount,
+            cardsPack_id: cardsPackId,
+            sortCards: +state.cards.sort + "grade",
+        };
+
         dispatch(setAppStatusAC('loading'))
-        const data = await cardsApi.getCards(cardsPackId)
+        const data = await cardsApi.getCards(params)
         dispatch(getCardsAC(data))
         dispatch(setAppStatusAC('succeeded'))
     } catch (e) {

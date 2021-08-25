@@ -29,7 +29,7 @@ export default function RangeSlider() {
     return (
         <div className={classes.root}>
             <Typography id="range-slider" gutterBottom>
-                Set min/max number of cards in every pack:
+                Number of cards:
             </Typography>
             <Slider
                 onMouseUp={handleSearch}
