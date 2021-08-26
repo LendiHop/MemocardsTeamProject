@@ -13,7 +13,7 @@ import {
     deleteCardPackTC, setPacksSortValue,
 } from "../../../../m2-bll/b1-reducers/packs-reducer";
 import {AppRootStateType} from "../../../../m2-bll/b0-store/redux-store";
-import {Button} from "@material-ui/core";
+import Button from "@material-ui/core/Button";
 import {Link} from "react-router-dom";
 import {AddPackModalContainer} from "../../f4-modals/AddPackModalContainer";
 import {UpdatePackModalContainer} from "../../f4-modals/UpdatePackModalContainer";
@@ -58,27 +58,25 @@ export default function PacksTable(props: PropsType) {
         dispatch(setPacksSortValue(!sort));
     }
 
-    const [showAddPackModal, setShowAddPackModal] = useState(false)
-    const [showUpdatePackModal, setShowUpdatePackModal] = useState(false)
+    const [showAddPackModal, setShowAddPackModal] = useState(false);
+    const [showUpdatePackModal, setShowUpdatePackModal] = useState(false);
+    const [currentPackData, setCurrentPackData] = useState(["id", "name"]);
 
     const cardPacks = useSelector<AppRootStateType, Array<CardPackType>>(state => state.packs.cardPacks);
 
     const classes = useStyles();
 
     const addPackHandler = useCallback(() => {
-
         setShowAddPackModal(true)
-
     }, [])
 
     const deletePackHandler = useCallback(( id: string) => {
         dispatch(deleteCardPackTC(id))
+    }, [dispatch])
 
-    }, [])
-
-    const updatePackHandler = useCallback(() => {
+    const updatePackHandler = useCallback((id: string, name: string) => {
+        setCurrentPackData([id, name]);
         setShowUpdatePackModal(true)
-
     }, [])
 
     return (
@@ -94,8 +92,6 @@ export default function PacksTable(props: PropsType) {
                             <Button variant="contained" onClick={addPackHandler}>
                                 Add New Pack
                             </Button>
-                            {showAddPackModal &&
-                            <AddPackModalContainer show={showAddPackModal} setShow={setShowAddPackModal}/>}
                         </StyledTableCell>
                     </TableRow>
                 </TableHead>
@@ -109,21 +105,26 @@ export default function PacksTable(props: PropsType) {
                             <StyledTableCell align="right">{pack.updated.toString().slice(0, 10)}</StyledTableCell>
                             <StyledTableCell align="right">{pack.user_name}</StyledTableCell>
                             <StyledTableCell align="right">
-                                <Button onClick={() => deletePackHandler( pack._id)}
+                                <Button onClick={() => deletePackHandler(pack._id)}
                                         disabled={!(pack.user_id === props.userId)}>Delete</Button>
-                                <Button onClick={updatePackHandler}
+                                <Button onClick={() => updatePackHandler(pack._id, pack.name)}
                                         disabled={!(pack.user_id === props.userId)}>Edit</Button>
                                 <Link to={`/learn/${pack.name}/${pack._id}`}>Learn</Link>
-                                {showUpdatePackModal &&
-                                <UpdatePackModalContainer
-                                    show={showUpdatePackModal} setShow={setShowUpdatePackModal}
-                                    packId={pack._id}
-                                />}
                             </StyledTableCell>
                         </StyledTableRow>
                     ))}
                 </TableBody>
             </Table>
+
+            {showAddPackModal &&
+            <AddPackModalContainer show={showAddPackModal} setShow={setShowAddPackModal}/>}
+
+            {showUpdatePackModal &&
+            <UpdatePackModalContainer
+                show={showUpdatePackModal} setShow={setShowUpdatePackModal}
+                packId={currentPackData[0]} packName={currentPackData[1]}
+            />}
+
         </TableContainer>
     );
 }

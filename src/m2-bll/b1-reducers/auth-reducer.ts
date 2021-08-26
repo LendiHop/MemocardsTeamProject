@@ -79,13 +79,13 @@ export const onRegisterTC = (email: string, password: string) => async (dispatch
     try {
         dispatch(setAppStatusAC('loading'))
 
-        const data = await authAPI.register(email, password)
+        await authAPI.register(email, password)
 
         dispatch(onRegistrationAC())
         dispatch(setAppStatusAC('succeeded'))
 
     } catch (e) {
-        if (e && email === email) {
+        if (e && email) {
             dispatch(onRegistrationAC())
         }
         handleServerNetworkError(e, dispatch)
@@ -95,7 +95,7 @@ export const onRegisterTC = (email: string, password: string) => async (dispatch
 export const ForgotThunk = (email: string) => async (dispatch: ThunkDispatch) => {
     try {
         dispatch(setAppStatusAC('loading'))
-        const data = await authAPI.forgot(email)
+        await authAPI.forgot(email)
 
         dispatch(authForgotAC(email))
         dispatch(isShowCheckEmailAC(true))
@@ -109,7 +109,7 @@ export const ForgotThunk = (email: string) => async (dispatch: ThunkDispatch) =>
 export const createNewPassThunk = (password: string, token: string) => async (dispatch: ThunkDispatch) => {
     try {
         dispatch(setAppStatusAC('loading'))
-        const res = await authAPI.setNewPass(password, token)
+        await authAPI.setNewPass(password, token)
 
         dispatch(createNewPasswordAC(false))
         dispatch(setAppStatusAC('succeeded'))

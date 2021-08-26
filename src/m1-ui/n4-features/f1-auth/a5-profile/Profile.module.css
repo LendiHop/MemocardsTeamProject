@@ -1,12 +1,12 @@
 .profile {
     min-width: 100%;
-    /* min-height: 100vh; */
-    margin-left: auto;
+    margin: 100px auto;
     color: black;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    font-family: 'Roboto', sans-serif;
 }
 
 .title {
@@ -31,5 +31,5 @@
 
 .userPacks {
     color: #e92539;
-    font-size: 1.3em;
+    font-size: 1.2em;
 }

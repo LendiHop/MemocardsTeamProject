@@ -5,7 +5,7 @@ import {AppRootStateType} from "../../../../m2-bll/b0-store/redux-store";
 import {Redirect} from 'react-router-dom';
 import {ProfileDataType} from '../../../../m2-bll/b1-reducers/profile-reducer';
 import {RequestStatusType} from "../../../../m2-bll/b1-reducers/app-reduser";
-import {LinearProgress} from "@material-ui/core";
+import LinearProgress from "@material-ui/core/LinearProgress";
 
 
 export const Profile: React.FC = () => {

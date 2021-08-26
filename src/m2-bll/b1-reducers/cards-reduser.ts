@@ -112,7 +112,7 @@ export const postCardsTC = (cardsPackId: string, question: string, answer: strin
     } as RequestPostCardType
 
     try {
-        const data = await cardsApi.postCard(postCard)
+        await cardsApi.postCard(postCard)
 
         await dispatch(getCardsTC(cardsPackId))
     } catch (e) {
@@ -123,7 +123,7 @@ export const postCardsTC = (cardsPackId: string, question: string, answer: strin
 export const deleteCardsTC = (cardsPackId: string, id: string): ThunkType => async (dispatch) => {
 
     try {
-        const data = await cardsApi.deleteCard(id)
+        await cardsApi.deleteCard(id)
 
         await dispatch(getCardsTC(cardsPackId))
     } catch (e) {
@@ -138,7 +138,7 @@ export const updateCardsTC = (cardsPackId: string, cardId: string,question: stri
         question: question
     } as RequestUpdateCard
     try {
-        const data = await cardsApi.updateCard(updateCard)
+        await cardsApi.updateCard(updateCard)
 
         await dispatch(getCardsTC(cardsPackId))
     } catch (e) {

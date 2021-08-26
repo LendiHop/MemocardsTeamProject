@@ -9,7 +9,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../../../m2-bll/b0-store/redux-store";
 import {StyledTableCell, StyledTableRow, useStyles} from './PacksTable';
 import {CardType} from "../../../../m3-dal/cards-api";
-import {Button} from "@material-ui/core";
+import Button from "@material-ui/core/Button";
 import {deleteCardsTC, setCardsSortValue} from "../../../../m2-bll/b1-reducers/cards-reduser";
 import {AddCardsModalContainer} from "../../f4-modals/AddCardsModalContainer";
 import {UpdateCardsModalContainer} from "../../f4-modals/UpdateCardsModalContainer";
@@ -25,9 +25,12 @@ export default function CardsTable() {
 
     const cards = useSelector<AppRootStateType, Array<CardType>>(state => state.cards.cards);
     const packUserId = useSelector<AppRootStateType, string>(state => state.cards.packUserId);
+
     const userId = useSelector<AppRootStateType, string>(state => state.profile._id);
-    const [showAddCardsModal, setShowAddCardsModal] = useState(false)
-    const [showUpdateCardsModal, setShowUpdateCardsModal] = useState(false)
+    const [showAddCardsModal, setShowAddCardsModal] = useState(false);
+    const [showUpdateCardsModal, setShowUpdateCardsModal] = useState(false);
+    const [currentCardData, setCurrentCardData] = useState(["id", "packId"]);
+
     const classes = useStyles();
 
     const addCardHandler = useCallback(() => {
@@ -37,12 +40,13 @@ export default function CardsTable() {
 
     }, [])
 
-    const deleteCardHandler = useCallback(( id: string, packId: string) => {
+    const deleteCardHandler = useCallback((id: string, packId: string) => {
 
         dispatch(deleteCardsTC(packId, id))
-    }, [])
+    }, [dispatch])
 
-    const updateCardHandler = useCallback(( ) => {
+    const updateCardHandler = useCallback((id: string, packId: string) => {
+        setCurrentCardData([id, packId]);
         setShowUpdateCardsModal(true)
     }, [])
 
@@ -59,9 +63,6 @@ export default function CardsTable() {
                             <Button variant="contained" onClick={addCardHandler} disabled={!(userId === packUserId)}>
                                 Add New Card
                             </Button>
-                            {showAddCardsModal &&
-                            <AddCardsModalContainer show={showAddCardsModal} setShow={setShowAddCardsModal}/>}
-
 
                         </StyledTableCell>
                     </TableRow>
@@ -74,18 +75,22 @@ export default function CardsTable() {
                             <StyledTableCell align="right">{card.updated.toString().slice(0, 10)}</StyledTableCell>
                             <StyledTableCell align="right">{card.grade}</StyledTableCell>
                             <StyledTableCell align="right">
-                                <Button onClick={() => deleteCardHandler( card._id, card.cardsPack_id)}>Delete</Button>
-                                <Button onClick={() => updateCardHandler( )}>Edit</Button>
-                                {showUpdateCardsModal &&
-                                <UpdateCardsModalContainer
-                                    show={showUpdateCardsModal} setShow={setShowUpdateCardsModal}
-                                    cardsPackId={card.cardsPack_id} cardId={card._id}
-                                />}
+                                <Button onClick={() => deleteCardHandler(card._id, card.cardsPack_id)}>Delete</Button>
+                                <Button onClick={() => updateCardHandler(card._id, card.cardsPack_id)}>Edit</Button>
                             </StyledTableCell>
                         </StyledTableRow>
                     ))}
                 </TableBody>
             </Table>
+
+            {showAddCardsModal &&
+            <AddCardsModalContainer show={showAddCardsModal} setShow={setShowAddCardsModal}/>}
+
+            {showUpdateCardsModal &&
+            <UpdateCardsModalContainer
+                show={showUpdateCardsModal} setShow={setShowUpdateCardsModal}
+                cardId={currentCardData[0]} cardsPackId={currentCardData[1]}
+            />}
         </TableContainer>
     );
 }

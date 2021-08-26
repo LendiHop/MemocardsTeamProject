@@ -1,6 +1,9 @@
 import React from 'react';
 import Modal from "./Modal";
-import {Button, FormControl, FormGroup, TextField} from "@material-ui/core";
+import Button from "@material-ui/core/Button";
+import FormControl from "@material-ui/core/FormControl";
+import FormGroup from "@material-ui/core/FormGroup";
+import TextareaAutosize from "@material-ui/core/TextareaAutosize";
 import {useDispatch} from "react-redux";
 import {useFormik} from "formik";
 import {postCardsTC} from "../../../m2-bll/b1-reducers/cards-reduser";
@@ -68,14 +71,12 @@ export const AddCardsModalContainer: React.FC<AddCardsModalContainerPropsType> =
                     <FormControl>
                         <FormGroup>
 
-                            <TextField label="enter question"
-                                       margin="normal"
+                            <TextareaAutosize placeholder="enter question"
                                        {...formik.getFieldProps("question")}/>
                             {formik.touched.question && formik.errors.question ?
                                 <div style={{color: "red"}}>{formik.errors.question}</div> : null}
 
-                            <TextField label="enter answer"
-                                       margin="normal"
+                            <TextareaAutosize placeholder="enter answer"
                                        {...formik.getFieldProps("answer")}/>
                             {formik.touched.answer && formik.errors.answer ?
                                 <div style={{color: "red"}}>{formik.errors.answer}</div> : null}

@@ -18,7 +18,7 @@ export const CardsList: React.FC = () => {
 
     useEffect(() => {
         dispatch(getCardsTC(id))
-    }, [id, sort])
+    }, [dispatch, id, sort])
 
     return (
         <Container>

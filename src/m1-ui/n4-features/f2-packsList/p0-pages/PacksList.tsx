@@ -1,10 +1,10 @@
 import React, {useEffect} from "react";
-import {Container, Grid} from "@material-ui/core";
+import Container from '@material-ui/core/Container';
+import Grid from '@material-ui/core/Grid';
 import {Sidebar} from "../p4-sidebar/Sidebar";
 import PacksTable from "../p3-tables/PacksTable";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../../../m2-bll/b0-store/redux-store";
-import {Redirect} from "react-router-dom";
 import {getCardPacksTC} from "../../../../m2-bll/b1-reducers/packs-reducer";
 import {SearchContainer} from "../p1-search/SearchContainer";
 import {PaginationContainer} from "../p2-pagination/PaginationContainer";
@@ -25,7 +25,7 @@ export const PacksList: React.FC = () => {
 
     useEffect(() => {
             dispatch(getCardPacksTC());
-    }, [privatCards, min, max, page, pageCount, searchQuery, sort]);
+    }, [dispatch, privatCards, min, max, page, pageCount, searchQuery, sort]);
 
     return (
         <Container>

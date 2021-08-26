@@ -3,10 +3,10 @@ import h from './Header.module.css';
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../m2-bll/b0-store/redux-store";
 import {logoutTC} from "../../m2-bll/b1-reducers/auth-reducer";
-import {Button} from "@material-ui/core";
 import {RequestStatusType} from "../../m2-bll/b1-reducers/app-reduser";
 import { NavLink } from 'react-router-dom';
 import {PATH} from "../n3-routes/Routes";
+import Button from '@material-ui/core/Button';
 
 export const Header = () => {
     const dispatch = useDispatch();

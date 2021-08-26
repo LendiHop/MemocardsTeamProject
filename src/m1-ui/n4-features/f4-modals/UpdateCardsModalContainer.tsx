@@ -1,11 +1,12 @@
 import React from 'react';
 import Modal from "./Modal";
-import {Button, FormControl, FormGroup, TextField} from "@material-ui/core";
-import {useDispatch, useSelector} from "react-redux";
-import {addCardPackTC} from "../../../m2-bll/b1-reducers/packs-reducer";
+import Button from "@material-ui/core/Button";
+import FormControl from "@material-ui/core/FormControl";
+import FormGroup from "@material-ui/core/FormGroup";
+import TextareaAutosize from "@material-ui/core/TextareaAutosize";
+import {useDispatch} from "react-redux";
 import {useFormik} from "formik";
-import {postCardsTC, updateCardsTC} from "../../../m2-bll/b1-reducers/cards-reduser";
-import {AppRootStateType} from "../../../m2-bll/b0-store/redux-store";
+import {updateCardsTC} from "../../../m2-bll/b1-reducers/cards-reduser";
 
 type UpdateCardsModalContainerPropsType = {
     show: boolean
@@ -54,8 +55,6 @@ export const UpdateCardsModalContainer: React.FC<UpdateCardsModalContainerPropsT
 
     return (
         <>
-
-
             <Modal
                 enableBackground={true}
                 backgroundOnClick={() => setShow(false)}
@@ -72,14 +71,12 @@ export const UpdateCardsModalContainer: React.FC<UpdateCardsModalContainerPropsT
                     <FormControl>
                         <FormGroup>
 
-                            <TextField label="enter question"
-                                       margin="normal"
+                            <TextareaAutosize  placeholder="enter question"
                                        {...formik.getFieldProps("question")}/>
                             {formik.touched.question && formik.errors.question ?
                                 <div style={{color: "red"}}>{formik.errors.question}</div> : null}
 
-                            <TextField label="enter answer"
-                                       margin="normal"
+                            <TextareaAutosize  placeholder="enter answer"
                                        {...formik.getFieldProps("answer")}/>
                             {formik.touched.answer && formik.errors.answer ?
                                 <div style={{color: "red"}}>{formik.errors.answer}</div> : null}

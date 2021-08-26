@@ -1,6 +1,4 @@
 import {AddedPackType, packsAPI, packsParamsType, UpdatedPackType} from "../../m3-dal/packs-api";
-import {Dispatch} from "redux";
-import {setAppStatusAC} from "./app-reduser";
 import {AppRootStateType} from "../b0-store/redux-store";
 import {ThunkAction} from "redux-thunk";
 
@@ -130,6 +128,7 @@ export const addCardPackTC = (data: AddedPackType): ThunkType => (dispatch) => {
     packsAPI.addPack(data)
         .then(data => {
             dispatch(addNewPack(data))
+            dispatch(getCardPacksTC())
         })
         .catch((e) => {
             const error = e.response
@@ -156,9 +155,7 @@ export const deleteCardPackTC = (id: string): ThunkType => (dispatch) => {
 }
 
 export const updateCardPackTC = (data: UpdatedPackType): ThunkType =>
-    (dispatch, setState) => {
-   const state = setState()
-
+    (dispatch) => {
 
     packsAPI.updatePack(data)
         .then(() => {
@@ -204,7 +201,7 @@ type PacksDataType = {
     sort: boolean
 }
 
-type ThunkDispatch = Dispatch<ActionsType | ReturnType<typeof setAppStatusAC>>
+// type ThunkDispatch = Dispatch<ActionsType | ReturnType<typeof setAppStatusAC>>
 type ActionsType = ReturnType<typeof setPacksData>
     | ReturnType<typeof addNewPack>
     | ReturnType<typeof deletePack>

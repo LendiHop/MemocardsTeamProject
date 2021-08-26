@@ -9,14 +9,13 @@ import LinearProgress from '@material-ui/core/LinearProgress/LinearProgress';
 import {AppRootStateType} from '../../m2-bll/b0-store/redux-store';
 
 export const App = () => {
-    console.log('app')
     const isInitialized = useSelector<AppRootStateType, boolean>(state => state.app.isInitialized);
     const status = useSelector((state: AppRootStateType): RequestStatusType => state.app.status)
     const dispatch = useDispatch()
 
     useEffect(() => {
             dispatch(initializeAppTC())
-    }, [])
+    }, [dispatch])
 
     if (!isInitialized) {
         return <LinearProgress color={"secondary"}/>

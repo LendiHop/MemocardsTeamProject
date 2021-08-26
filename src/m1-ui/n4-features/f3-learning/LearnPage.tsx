@@ -80,8 +80,8 @@ const LearnPage: React.FC = () => {
             <Grid item>
                 <Paper style={{padding: '15px'}}>
                     <Link to='/packs-list'><ArrowBackIcon style={{ fontSize: 30 }}/></Link>
-                    <h2>Learn "{name}"</h2>
                     <div>Go to pack lists</div>
+                    <h2>Learn "{name}"</h2>
                     <h5>Question: "{card.question}"</h5>
 
                     {isChecked || (

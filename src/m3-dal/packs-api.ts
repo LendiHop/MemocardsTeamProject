@@ -9,7 +9,7 @@ export const packsAPI = {
         return instance.post('cards/pack', {cardsPack: data}).then(res => res.data)
     },
     deletePack(id: string) {
-        return instance.delete(`cards/pack?${id}`).then(res => res.data)
+        return instance.delete(`cards/pack?id=${id}`).then(res => res.data)
     },
     updatePack(cardsPack: UpdatedPackType) {
         return instance.put('cards/pack', {cardsPack}).then(res => res.data)
