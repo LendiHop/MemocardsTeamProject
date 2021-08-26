@@ -62,17 +62,14 @@ export const setMinMaxValues = (values: number[]) =>
     ({type: 'packs/SET-MIN-MAX-VALUES', min: values[0], max: values[1]} as const)
 
 //sort action
-
 export const setPacksSortValue = (value: boolean) =>
     ({type: 'packs/SET-SORT-VALUE', value} as const)
 
 //search action
-
 export const setSearchQuery = (value: string) =>
     ({type: 'packs/SET-SEARCH-QUERY', value} as const)
 
 //pagination actions
-
 export const setPage = (page: number) =>
     ({type: 'packs/SET-PAGE', page} as const)
 
@@ -80,7 +77,6 @@ export const setPageCount = (PageCount: number) =>
     ({type: 'packs/SET-PAGE-COUNT', PageCount} as const)
 
 //packs actions
-
 export const setPacksData = (data: PacksDataType) =>
     ({type: 'packs/SET-PACKS-DATA', data} as const)
 
@@ -94,7 +90,6 @@ export const updatePack = (data: UpdatedPackType) =>
     ({type: 'packs/UPDATE-PACK', data} as const)
 
 //thunks
-
 export const getCardPacksTC = (): ThunkType => (dispatch, getState) => {
     const state = getState()
 

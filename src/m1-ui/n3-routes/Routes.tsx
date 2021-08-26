@@ -7,8 +7,8 @@ import {Profile} from "../n4-features/f1-auth/a5-profile/Profile";
 import {RegistrationContainer} from "../n4-features/f1-auth/a2-registration/RegistrationContainer";
 import {LoginContainer} from "../n4-features/f1-auth/a1-login/LoginContainer";
 import {CheckOnEmail} from "../n4-features/f1-auth/a3-passwordRecovery/CheckOnEmail";
-import {PacksList} from "../n4-features/f2-packsList/p0-pages/PacksList";
-import {CardsList} from "../n4-features/f2-packsList/p0-pages/CardsList";
+import {PacksList} from "../n4-features/f2-packsList/p1-pages/PacksList";
+import {CardsList} from "../n4-features/f2-packsList/p1-pages/CardsList";
 import LearnPage from "../n4-features/f3-learning/LearnPage";
 
 export const PATH = {

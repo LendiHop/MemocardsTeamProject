@@ -14,6 +14,10 @@ const SET_CARDS = 'cards/SET-CARDS'
 const ON_CHANGE_PRIVATE = 'cards/ON-CHANGE_PRIVATE'
 const UPDATE_CARD_GRADE = 'cards/UPDATE_CARD_GRADE'
 const SET_SORT_VALUE = 'cards/SET-SORT-VALUE'
+const SET_SEARCH_BY_QUESTION_QUERY = 'cards/SET-SEARCH-BY-QUESTION-QUERY'
+const SET_SEARCH_BY_ANSWER_QUERY = 'cards/SET-SEARCH-BY-ANSWER-QUERY'
+const SET_PAGE = 'cards/SET-PAGE'
+const SET_PAGE_COUNT = 'cards/SET-PAGE-COUNT'
 
 
 const initialState = {
@@ -40,6 +44,8 @@ const initialState = {
     packUserId: '',
     privatCards: false,
     sort: false,
+    SearchByQuestionQuery: "",
+    SearchByAnswerQuery: "",
 }
 
 type InitialStateType = typeof initialState
@@ -53,6 +59,16 @@ export const cardsReducer = (state: InitialStateType = initialState, action: Act
                 ...state,
                 privatCards: action.value
             }
+        case SET_SEARCH_BY_QUESTION_QUERY:
+            return {
+                ...state,
+                SearchByQuestionQuery: action.value
+            }
+        case SET_SEARCH_BY_ANSWER_QUERY:
+            return {
+                ...state,
+                SearchByAnswerQuery: action.value
+            }
         case UPDATE_CARD_GRADE:
             const {card_id, grade, shots} = action.data;
             return {
@@ -65,6 +81,10 @@ export const cardsReducer = (state: InitialStateType = initialState, action: Act
                     return card;
                 })
             }
+        case SET_PAGE:
+            return {...state, page: action.page}
+        case SET_PAGE_COUNT:
+            return {...state, pageCount: action.PageCount}
         case SET_SORT_VALUE:
             return {...state, sort: action.value}
         default:
@@ -76,23 +96,36 @@ export const getCardsAC = (cards: ResponseGetCardsType) => ({type: SET_CARDS, ca
 export const onChangePrivateAC = (value: boolean) => ({type: ON_CHANGE_PRIVATE, value} as const)
 export const updateCardGradeAC = (data: updatedGradeType) => ({type: UPDATE_CARD_GRADE, data} as const)
 
+//search actions
+export const setSearchByQuestionQuery = (value: string) =>
+    ({type: SET_SEARCH_BY_QUESTION_QUERY, value} as const)
+
+export const setSearchByAnswerQuery = (value: string) =>
+    ({type: SET_SEARCH_BY_ANSWER_QUERY, value} as const)
+
+//pagination actions
+export const setCardsPage = (page: number) =>
+    ({type: 'cards/SET-PAGE', page} as const)
+
+export const setCardsPageCount = (PageCount: number) =>
+    ({type: 'cards/SET-PAGE-COUNT', PageCount} as const)
+
 //sort action
 export const setCardsSortValue = (value: boolean) =>
     ({type: SET_SORT_VALUE, value} as const)
 
 // thunk
-
 export const getCardsTC = (cardsPackId: string): ThunkType => async (dispatch: Dispatch, getState) => {
     try {
         const state = getState();
 
         const params: cardsParamsType = {
-            // min: state.cards.min,
-            // max: state.packs.max,
-            // page: state.packs.page,
-            // pageCount: state.packs.pageCount,
+            page: state.cards.page,
+            pageCount: state.cards.pageCount,
             cardsPack_id: cardsPackId,
             sortCards: +state.cards.sort + "grade",
+            cardAnswer: state.cards.SearchByAnswerQuery,
+            cardQuestion: state.cards.SearchByQuestionQuery,
         };
 
         dispatch(setAppStatusAC('loading'))
@@ -160,5 +193,9 @@ type ActionType = ReturnType<typeof getCardsAC>
     | ReturnType<typeof onChangePrivateAC>
     | ReturnType<typeof updateCardGradeAC>
     | ReturnType<typeof setCardsSortValue>
+    | ReturnType<typeof setSearchByQuestionQuery>
+    | ReturnType<typeof setSearchByAnswerQuery>
+    | ReturnType<typeof setCardsPage>
+    | ReturnType<typeof setCardsPageCount>
 
 type ThunkType = ThunkAction<void, AppRootStateType, unknown, ActionType>

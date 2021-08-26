@@ -7,15 +7,16 @@ type SearchProps = {
     handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void
     handleClick: () => void
     handleEnter: (event: React.KeyboardEvent<HTMLButtonElement>) => void
+    placeholder: string
 }
 
-export const SuperSearch: React.FC<SearchProps> = ({handleChange, handleClick, handleEnter}) => {
+export const SearchInput: React.FC<SearchProps> = ({placeholder, handleChange, handleEnter, handleClick}) => {
     return <div>
         <Paper component={'form'} className={style.root}>
             <InputBase
                 className={style.input}
                 onChange={handleChange}
-                placeholder="Search…"
+                placeholder={placeholder}
                 inputProps={{'aria-label': 'search'}}
             />
             <IconButton type="submit" className={style.iconButton} aria-label="search-icon" onClick={handleClick} onKeyDown={handleEnter}>

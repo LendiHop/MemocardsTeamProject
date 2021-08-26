@@ -2,8 +2,9 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Slider from '@material-ui/core/Slider';
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {setMinMaxValues} from "../../../../m2-bll/b1-reducers/packs-reducer";
+import {AppRootStateType} from "../../../../m2-bll/b0-store/redux-store";
 
 const useStyles = makeStyles({
     root: {
@@ -13,8 +14,10 @@ const useStyles = makeStyles({
 
 export default function RangeSlider() {
     const dispatch = useDispatch();
+    const max = useSelector<AppRootStateType, number>(state => state.packs.max)
+    const min = useSelector<AppRootStateType, number>(state => state.packs.min)
 
-    const [value, setValue] = React.useState<number[]>([0, 100]);
+    const [value, setValue] = React.useState<number[]>([min, max]);
 
     const classes = useStyles();
 
