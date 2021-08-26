@@ -2,9 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
-import store from "./n1-main/m2-bll/store/redux-store";
+import store from "./m2-bll/b0-store/redux-store";
 import {Provider} from "react-redux";
-import {App} from "./n1-main/m1-ui/App";
+import {App} from "./m1-ui/n1-app/App";
 import {HashRouter} from "react-router-dom";
 
 ReactDOM.render(

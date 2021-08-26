@@ -1,0 +1,36 @@
+.header {
+  height: 70px;
+  background-color: #24272b;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  width: 100%;
+  font-family: 'Raleway', sans-serif;
+  font-weight: 500;
+}
+
+.link {
+  color: #d8d6d5;
+  margin: 0 20px 0 0;
+  padding: 3px;
+  text-transform: uppercase;
+}
+
+.link:hover {
+  color: #b4833f;
+}
+
+.activeLink {
+  color: #b4833f;
+}
+
+@media (max-width: 580px) {
+  .wrapper {
+    width: 95%;
+  }
+  .link {
+    margin: 0;
+    font-size: 1.55em;
+  }
+}

@@ -1,0 +1,35 @@
+.profile {
+    min-width: 100%;
+    /* min-height: 100vh; */
+    margin-left: auto;
+    color: black;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.title {
+    text-align: center;
+}
+
+.greeting {
+    text-align: center;
+    font-size: 1.3em;
+    margin: 30px;
+}
+
+.numberOfPacks {
+    text-align: center;
+}
+
+.ava img {
+    width: 256px;
+    height: 256px;
+    border-radius: 50%;
+}
+
+.userPacks {
+    color: #e92539;
+    font-size: 1.3em;
+}
