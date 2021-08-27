@@ -1,5 +1,4 @@
 import React, {useEffect} from 'react';
-import './App.css';
 import {Header} from "../n2-header/Header";
 import {Routes} from "../n3-routes/Routes";
 import {useDispatch, useSelector} from "react-redux";
@@ -10,11 +9,11 @@ import {AppRootStateType} from '../../m2-bll/b0-store/redux-store';
 
 export const App = () => {
     const isInitialized = useSelector<AppRootStateType, boolean>(state => state.app.isInitialized);
-    const status = useSelector((state: AppRootStateType): RequestStatusType => state.app.status)
-    const dispatch = useDispatch()
+    const status = useSelector((state: AppRootStateType): RequestStatusType => state.app.status);
+    const dispatch = useDispatch();
 
     useEffect(() => {
-            dispatch(initializeAppTC())
+            dispatch(initializeAppTC());
     }, [dispatch])
 
     if (!isInitialized) {

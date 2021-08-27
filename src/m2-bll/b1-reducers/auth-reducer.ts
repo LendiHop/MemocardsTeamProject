@@ -55,10 +55,12 @@ export const isShowCheckEmailAC = (showCheckEmail: boolean) =>
 //thunks
 
 export const loginTC = (data: LoginParamsType) => (dispatch: ThunkDispatch) => {
+    dispatch(setAppStatusAC('loading'))
     authAPI.login(data)
         .then(res => {
             dispatch(setIsLoggedIn(true))
             dispatch(setProfileData(res.data))
+            dispatch(setAppStatusAC('succeeded'))
         })
         .catch ((e) => {
             handleServerNetworkError(e, dispatch)
@@ -66,9 +68,11 @@ export const loginTC = (data: LoginParamsType) => (dispatch: ThunkDispatch) => {
 }
 
 export const logoutTC = () => (dispatch: ThunkDispatch) => {
+    dispatch(setAppStatusAC('loading'))
     authAPI.logout()
         .then(() => {
             dispatch(setIsLoggedIn(false))
+            dispatch(setAppStatusAC('succeeded'))
         })
         .catch ((e) => {
             handleServerNetworkError(e, dispatch)

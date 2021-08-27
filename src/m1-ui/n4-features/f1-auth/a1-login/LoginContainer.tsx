@@ -6,6 +6,8 @@ import {Redirect} from "react-router-dom";
 
 import { loginTC } from '../../../../m2-bll/b1-reducers/auth-reducer';
 import {Login} from "./Login";
+import LinearProgress from "@material-ui/core/LinearProgress/LinearProgress";
+import {RequestStatusType} from "../../../../m2-bll/b1-reducers/app-reduser";
 
 export type FormikLoginInitValues = {
     email: string
@@ -23,6 +25,7 @@ export const LoginContainer: React.FC = () => {
     const dispatch = useDispatch();
     const [showPass, setShowPass] = useState(false)
     const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn);
+    const status = useSelector((state: AppRootStateType): RequestStatusType => state.app.status)
     const handleClickShowPassword = () => {
 
         const c = !showPass
@@ -53,8 +56,12 @@ export const LoginContainer: React.FC = () => {
         },
     })
 
+    if (status === "loading") {
+        return <LinearProgress color={"secondary"}/>
+    }
+
     if (isLoggedIn) {
-        return <Redirect to={"/profile"}/>
+        return <Redirect to={"packs-list"}/>
     }
 
     return <Login formik={formik} showPass={showPass} handleClickShowPassword={handleClickShowPassword}/>

@@ -1,10 +1,10 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
 import Slider from '@material-ui/core/Slider';
 import {useDispatch, useSelector} from "react-redux";
 import {setMinMaxValues} from "../../../../m2-bll/b1-reducers/packs-reducer";
 import {AppRootStateType} from "../../../../m2-bll/b0-store/redux-store";
+import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles({
     root: {
@@ -31,15 +31,16 @@ export default function RangeSlider() {
 
     return (
         <div className={classes.root}>
-            <Typography id="range-slider" gutterBottom>
-                Number of cards:
+            <Typography id="range-slider" variant="caption">
+                Min/Max cards
             </Typography>
+
             <Slider
                 onMouseUp={handleSearch}
                 value={value}
                 onChange={handleChange}
-                valueLabelDisplay="auto"
                 aria-labelledby="range-slider"
+                valueLabelDisplay="auto"
             />
         </div>
     );

@@ -7,38 +7,19 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../../../m2-bll/b0-store/redux-store";
-import {StyledTableCell, StyledTableRow, useStyles} from './PacksTable';
+import {StyledTableCell, StyledTableRow} from './PacksTable';
 import {CardType} from "../../../../m3-dal/cards-api";
-import Button from "@material-ui/core/Button";
-import {deleteCardsTC, setCardsSortValue} from "../../../../m2-bll/b1-reducers/cards-reduser";
-import {AddCardsModalContainer} from "../../f4-modals/AddCardsModalContainer";
+import {deleteCardsTC} from "../../../../m2-bll/b1-reducers/cards-reduser";
 import {UpdateCardsModalContainer} from "../../f4-modals/UpdateCardsModalContainer";
-import {SortArrow} from "../p5-sort/SortArrow";
+import IconButton from "@material-ui/core/IconButton";
+import EditIcon from '@material-ui/icons/Edit';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 export default function CardsTable() {
     const dispatch = useDispatch();
-
-    const sort = useSelector<AppRootStateType, boolean>(state => state.cards.sort);
-    const handleSortArrowClick = () => {
-        dispatch(setCardsSortValue(!sort));
-    }
-
     const cards = useSelector<AppRootStateType, Array<CardType>>(state => state.cards.cards);
-    const packUserId = useSelector<AppRootStateType, string>(state => state.cards.packUserId);
-
-    const userId = useSelector<AppRootStateType, string>(state => state.profile._id);
-    const [showAddCardsModal, setShowAddCardsModal] = useState(false);
     const [showUpdateCardsModal, setShowUpdateCardsModal] = useState(false);
     const [currentCardData, setCurrentCardData] = useState(["id", "packId"]);
-
-    const classes = useStyles();
-
-    const addCardHandler = useCallback(() => {
-
-            setShowAddCardsModal(true)
-
-
-    }, [])
 
     const deleteCardHandler = useCallback((id: string, packId: string) => {
 
@@ -52,19 +33,14 @@ export default function CardsTable() {
 
     return (
         <TableContainer component={Paper}>
-            <Table className={classes.table} aria-label="customized table">
+            <Table>
                 <TableHead>
                     <TableRow>
                         <StyledTableCell>Question</StyledTableCell>
                         <StyledTableCell align="right">Answer</StyledTableCell>
                         <StyledTableCell align="right">Last Update</StyledTableCell>
-                        <StyledTableCell align="right">Grade <SortArrow value={sort} handleClick={handleSortArrowClick}/></StyledTableCell>
-                        <StyledTableCell align="right">
-                            <Button variant="contained" onClick={addCardHandler} disabled={!(userId === packUserId)}>
-                                Add New Card
-                            </Button>
-
-                        </StyledTableCell>
+                        <StyledTableCell align="right">Grade</StyledTableCell>
+                        <StyledTableCell align="right">Actions</StyledTableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -75,16 +51,13 @@ export default function CardsTable() {
                             <StyledTableCell align="right">{card.updated.toString().slice(0, 10)}</StyledTableCell>
                             <StyledTableCell align="right">{card.grade}</StyledTableCell>
                             <StyledTableCell align="right">
-                                <Button onClick={() => deleteCardHandler(card._id, card.cardsPack_id)}>Delete</Button>
-                                <Button onClick={() => updateCardHandler(card._id, card.cardsPack_id)}>Edit</Button>
+                                <IconButton onClick={() => deleteCardHandler(card._id, card.cardsPack_id)}><DeleteIcon/></IconButton>
+                                <IconButton onClick={() => updateCardHandler(card._id, card.cardsPack_id)}><EditIcon/></IconButton>
                             </StyledTableCell>
                         </StyledTableRow>
                     ))}
                 </TableBody>
             </Table>
-
-            {showAddCardsModal &&
-            <AddCardsModalContainer show={showAddCardsModal} setShow={setShowAddCardsModal}/>}
 
             {showUpdateCardsModal &&
             <UpdateCardsModalContainer

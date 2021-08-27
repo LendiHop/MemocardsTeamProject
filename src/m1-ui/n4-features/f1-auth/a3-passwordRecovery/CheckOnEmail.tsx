@@ -1,5 +1,8 @@
 import React from 'react'
-import {Grid, Link, Paper, Typography} from "@material-ui/core";
+import Typography from '@material-ui/core/Typography';
+import Grid from "@material-ui/core/Grid";
+import Paper from "@material-ui/core/Paper";
+import Link from "@material-ui/core/Link";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../../../m2-bll/b0-store/redux-store";
 import {isShowCheckEmailAC} from "../../../../m2-bll/b1-reducers/auth-reducer";

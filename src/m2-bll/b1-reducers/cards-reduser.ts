@@ -13,7 +13,6 @@ import {setAppStatusAC} from "./app-reduser";
 const SET_CARDS = 'cards/SET-CARDS'
 const ON_CHANGE_PRIVATE = 'cards/ON-CHANGE_PRIVATE'
 const UPDATE_CARD_GRADE = 'cards/UPDATE_CARD_GRADE'
-const SET_SORT_VALUE = 'cards/SET-SORT-VALUE'
 const SET_SEARCH_BY_QUESTION_QUERY = 'cards/SET-SEARCH-BY-QUESTION-QUERY'
 const SET_SEARCH_BY_ANSWER_QUERY = 'cards/SET-SEARCH-BY-ANSWER-QUERY'
 const SET_PAGE = 'cards/SET-PAGE'
@@ -43,7 +42,6 @@ const initialState = {
     pageCount: 0,
     packUserId: '',
     privatCards: false,
-    sort: false,
     SearchByQuestionQuery: "",
     SearchByAnswerQuery: "",
 }
@@ -85,8 +83,6 @@ export const cardsReducer = (state: InitialStateType = initialState, action: Act
             return {...state, page: action.page}
         case SET_PAGE_COUNT:
             return {...state, pageCount: action.PageCount}
-        case SET_SORT_VALUE:
-            return {...state, sort: action.value}
         default:
             return state
     }
@@ -110,10 +106,6 @@ export const setCardsPage = (page: number) =>
 export const setCardsPageCount = (PageCount: number) =>
     ({type: 'cards/SET-PAGE-COUNT', PageCount} as const)
 
-//sort action
-export const setCardsSortValue = (value: boolean) =>
-    ({type: SET_SORT_VALUE, value} as const)
-
 // thunk
 export const getCardsTC = (cardsPackId: string): ThunkType => async (dispatch: Dispatch, getState) => {
     try {
@@ -123,7 +115,6 @@ export const getCardsTC = (cardsPackId: string): ThunkType => async (dispatch: D
             page: state.cards.page,
             pageCount: state.cards.pageCount,
             cardsPack_id: cardsPackId,
-            sortCards: +state.cards.sort + "grade",
             cardAnswer: state.cards.SearchByAnswerQuery,
             cardQuestion: state.cards.SearchByQuestionQuery,
         };
@@ -192,7 +183,6 @@ export const updateGradeTC = (cardId: string, grade: number) => async (dispatch:
 type ActionType = ReturnType<typeof getCardsAC>
     | ReturnType<typeof onChangePrivateAC>
     | ReturnType<typeof updateCardGradeAC>
-    | ReturnType<typeof setCardsSortValue>
     | ReturnType<typeof setSearchByQuestionQuery>
     | ReturnType<typeof setSearchByAnswerQuery>
     | ReturnType<typeof setCardsPage>

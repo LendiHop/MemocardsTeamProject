@@ -1,5 +1,4 @@
 import React from 'react';
-import './Registration.module.css';
 import {FormikProps} from 'formik';
 import {
     Button,

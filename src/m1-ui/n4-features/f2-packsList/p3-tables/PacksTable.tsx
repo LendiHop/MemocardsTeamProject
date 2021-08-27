@@ -1,5 +1,5 @@
 import React, {useCallback, useState} from 'react';
-import {createStyles, makeStyles, Theme, withStyles} from '@material-ui/core/styles';
+import {createStyles, Theme, withStyles} from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -15,14 +15,17 @@ import {
 import {AppRootStateType} from "../../../../m2-bll/b0-store/redux-store";
 import Button from "@material-ui/core/Button";
 import {Link} from "react-router-dom";
-import {AddPackModalContainer} from "../../f4-modals/AddPackModalContainer";
 import {UpdatePackModalContainer} from "../../f4-modals/UpdatePackModalContainer";
 import {SortArrow} from "../p5-sort/SortArrow";
+import IconButton from "@material-ui/core/IconButton";
+import EditIcon from '@material-ui/icons/Edit';
+import DeleteIcon from '@material-ui/icons/Delete';
+import SchoolIcon from '@material-ui/icons/School';
 
 export const StyledTableCell = withStyles((theme: Theme) =>
     createStyles({
         head: {
-            backgroundColor: theme.palette.common.black,
+            backgroundColor: theme.palette.primary.main,
             color: theme.palette.common.white,
         },
         body: {
@@ -41,16 +44,11 @@ export const StyledTableRow = withStyles((theme: Theme) =>
     }),
 )(TableRow);
 
-export const useStyles = makeStyles({
-    table: {
-        minWidth: 700,
-    },
-});
-type PropsType = {
+type PacksTablePropsType = {
     userId: string
 }
 
-export default function PacksTable(props: PropsType) {
+export default function PacksTable(props: PacksTablePropsType) {
     const dispatch = useDispatch();
 
     const sort = useSelector<AppRootStateType, boolean>(state => state.packs.sort);
@@ -58,17 +56,10 @@ export default function PacksTable(props: PropsType) {
         dispatch(setPacksSortValue(!sort));
     }
 
-    const [showAddPackModal, setShowAddPackModal] = useState(false);
     const [showUpdatePackModal, setShowUpdatePackModal] = useState(false);
     const [currentPackData, setCurrentPackData] = useState(["id", "name"]);
 
     const cardPacks = useSelector<AppRootStateType, Array<CardPackType>>(state => state.packs.cardPacks);
-
-    const classes = useStyles();
-
-    const addPackHandler = useCallback(() => {
-        setShowAddPackModal(true)
-    }, [])
 
     const deletePackHandler = useCallback(( id: string) => {
         dispatch(deleteCardPackTC(id))
@@ -81,43 +72,39 @@ export default function PacksTable(props: PropsType) {
 
     return (
         <TableContainer component={Paper}>
-            <Table className={classes.table} aria-label="customized table">
+            <Table>
                 <TableHead>
                     <TableRow>
                         <StyledTableCell>Name</StyledTableCell>
                         <StyledTableCell align="right">Cards</StyledTableCell>
-                        <StyledTableCell align="right">Last Update <SortArrow value={sort} handleClick={handleSortArrowClick}/></StyledTableCell>
-                        <StyledTableCell align="right">Created by</StyledTableCell>
                         <StyledTableCell align="right">
-                            <Button variant="contained" onClick={addPackHandler}>
-                                Add New Pack
-                            </Button>
+                            <IconButton color='inherit' onClick={handleSortArrowClick}><SortArrow value={sort}/></IconButton>
+                            Last Update
                         </StyledTableCell>
+                        <StyledTableCell align="right">Created by</StyledTableCell>
+                        <StyledTableCell align="right">Actions</StyledTableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
                     {cardPacks.map((pack) => (
                         <StyledTableRow key={pack.updated.toString()}>
                             <StyledTableCell component="th" scope="row">
-                                <Link to={`/cards-list/${pack.name}/${pack._id}`}>{pack.name}</Link>
+                                <Link to={`/cards-list/${pack.name}/${pack._id}`}><Button>{pack.name}</Button></Link>
                             </StyledTableCell>
                             <StyledTableCell align="right">{pack.cardsCount}</StyledTableCell>
                             <StyledTableCell align="right">{pack.updated.toString().slice(0, 10)}</StyledTableCell>
                             <StyledTableCell align="right">{pack.user_name}</StyledTableCell>
                             <StyledTableCell align="right">
-                                <Button onClick={() => deletePackHandler(pack._id)}
-                                        disabled={!(pack.user_id === props.userId)}>Delete</Button>
-                                <Button onClick={() => updatePackHandler(pack._id, pack.name)}
-                                        disabled={!(pack.user_id === props.userId)}>Edit</Button>
-                                <Link to={`/learn/${pack.name}/${pack._id}`}>Learn</Link>
+                                <IconButton onClick={() => deletePackHandler(pack._id)}
+                                        disabled={!(pack.user_id === props.userId)}><DeleteIcon/></IconButton>
+                                <IconButton onClick={() => updatePackHandler(pack._id, pack.name)}
+                                        disabled={!(pack.user_id === props.userId)}><EditIcon/></IconButton>
+                                <Link to={`/learn/${pack.name}/${pack._id}`}><IconButton><SchoolIcon/></IconButton></Link>
                             </StyledTableCell>
                         </StyledTableRow>
                     ))}
                 </TableBody>
             </Table>
-
-            {showAddPackModal &&
-            <AddPackModalContainer show={showAddPackModal} setShow={setShowAddPackModal}/>}
 
             {showUpdatePackModal &&
             <UpdatePackModalContainer

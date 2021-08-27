@@ -1,6 +1,13 @@
 import React from 'react';
-import './PasswordRecovery.module.css';
-import {Button, FormControl, FormGroup, FormLabel, Grid, Link, Paper, TextField, Typography} from "@material-ui/core";
+import Typography from '@material-ui/core/Typography';
+import Button from "@material-ui/core/Button";
+import Grid from "@material-ui/core/Grid";
+import FormControl from "@material-ui/core/FormControl";
+import Paper from "@material-ui/core/Paper";
+import FormGroup from "@material-ui/core/FormGroup";
+import FormLabel from "@material-ui/core/FormLabel";
+import Link from "@material-ui/core/Link";
+import TextField from "@material-ui/core/TextField";
 import {useDispatch, useSelector} from "react-redux";
 import {ForgotThunk} from "../../../../m2-bll/b1-reducers/auth-reducer";
 import {useFormik} from "formik";

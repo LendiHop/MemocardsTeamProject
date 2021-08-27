@@ -1,10 +1,9 @@
 import React, {useState} from 'react';
-import './NewPassword.module.css';
 import {useDispatch, useSelector} from "react-redux";
 import {useFormik} from "formik";
 import {createNewPassThunk} from "../../../../m2-bll/b1-reducers/auth-reducer";
 import {NewPassword} from "./NewPassword";
-import {Container} from "@material-ui/core";
+import Container from "@material-ui/core/Container";
 import {AppRootStateType} from "../../../../m2-bll/b0-store/redux-store";
 import {Redirect, useParams} from "react-router-dom";
 

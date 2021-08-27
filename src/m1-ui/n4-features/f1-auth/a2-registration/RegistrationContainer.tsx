@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import './Registration.module.css';
 import {useFormik} from 'formik';
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../../../m2-bll/b0-store/redux-store";

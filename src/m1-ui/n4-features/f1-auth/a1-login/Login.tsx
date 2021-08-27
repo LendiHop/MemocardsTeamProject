@@ -2,25 +2,26 @@ import React from 'react';
 import s from './Login.module.css';
 import {FormikProps} from "formik";
 import {Link} from "react-router-dom";
-import {
-    Button,
-    Checkbox,
-    FormControl,
-    FormControlLabel,
-    FormGroup,
-    Grid, IconButton, Input, InputLabel,
-    Paper,
-    TextField
-} from "@material-ui/core";
+import FormGroup from '@material-ui/core/FormGroup';
+import IconButton from "@material-ui/core/IconButton";
+import Button from "@material-ui/core/Button";
+import Grid from "@material-ui/core/Grid";
+import FormControl from "@material-ui/core/FormControl";
+import Paper from "@material-ui/core/Paper";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Input from "@material-ui/core/Input";
+import InputLabel from "@material-ui/core/InputLabel";
+import TextField from "@material-ui/core/TextField";
+import Checkbox from "@material-ui/core/Checkbox";
 import {FormikLoginInitValues} from "./LoginContainer";
 import InputAdornment from "@material-ui/core/InputAdornment/InputAdornment";
-import {Visibility, VisibilityOff} from "@material-ui/icons";
+import Visibility from "@material-ui/icons/Visibility";
+import VisibilityOff from "@material-ui/icons/VisibilityOff";
 
 type TProps = {
     formik: FormikProps<FormikLoginInitValues>
     showPass: boolean
     handleClickShowPassword: () => void
-
 }
 
 export const Login: React.FC<TProps> = ({formik,
