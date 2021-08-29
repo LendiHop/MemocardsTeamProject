@@ -68,7 +68,7 @@ export const NewPassword: React.FC<PropsType> = ({formik, showPass, handleClickS
                                 <div style={{color: 'red'}}>{formik.errors.password}</div>}
                                 <p>Create new password and we will send you further instructions to email</p>
                                 <div>
-                                    <Button type={'submit'} variant={'contained'} color={'primary'}
+                                    <Button type={'submit'} variant={'contained'} color={'secondary'}
                                             style={{
                                                 marginTop: '70px',
                                                 marginLeft: '100px',

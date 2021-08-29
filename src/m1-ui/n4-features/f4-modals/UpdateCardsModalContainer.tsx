@@ -7,6 +7,7 @@ import TextareaAutosize from "@material-ui/core/TextareaAutosize";
 import {useDispatch} from "react-redux";
 import {useFormik} from "formik";
 import {updateCardsTC} from "../../../m2-bll/b1-reducers/cards-reduser";
+import Grid from "@material-ui/core/Grid";
 
 type UpdateCardsModalContainerPropsType = {
     show: boolean
@@ -23,7 +24,6 @@ type FormikErrorType = {
 export const UpdateCardsModalContainer: React.FC<UpdateCardsModalContainerPropsType> = (
     {show, setShow, cardsPackId, cardId}) => {
     const dispatch = useDispatch()
-    // const packIdForAdd = useSelector<AppRootStateType, string>(state => state.cards.currentPackData.id)
 
     const formik = useFormik({
         initialValues: {
@@ -58,11 +58,8 @@ export const UpdateCardsModalContainer: React.FC<UpdateCardsModalContainerPropsT
             <Modal
                 enableBackground={true}
                 backgroundOnClick={() => setShow(false)}
-
-                width={300}
+                width={180}
                 height={200}
-                // modalOnClick={() => setShow(false)}
-
                 show={show}
             >
 
@@ -70,18 +67,23 @@ export const UpdateCardsModalContainer: React.FC<UpdateCardsModalContainerPropsT
 
                     <FormControl>
                         <FormGroup>
-
-                            <TextareaAutosize  placeholder="enter question"
-                                       {...formik.getFieldProps("question")}/>
-                            {formik.touched.question && formik.errors.question ?
-                                <div style={{color: "red"}}>{formik.errors.question}</div> : null}
-
-                            <TextareaAutosize  placeholder="enter answer"
-                                       {...formik.getFieldProps("answer")}/>
-                            {formik.touched.answer && formik.errors.answer ?
-                                <div style={{color: "red"}}>{formik.errors.answer}</div> : null}
-
-                            <Button type={'submit'} variant={'contained'} color={'primary'}>update card</Button>
+                            <Grid container direction='column' spacing={1} alignItems='center'>
+                                <Grid item>
+                                    <TextareaAutosize minRows={3} placeholder="enter question"
+                                                       {...formik.getFieldProps("question")}/>
+                                    {formik.touched.question && formik.errors.question ?
+                                        <div style={{color: "red"}}>{formik.errors.question}</div> : null}
+                                </Grid>
+                                <Grid item>
+                                    <TextareaAutosize minRows={3} placeholder="enter answer"
+                                                       {...formik.getFieldProps("answer")}/>
+                                    {formik.touched.answer && formik.errors.answer ?
+                                        <div style={{color: "red"}}>{formik.errors.answer}</div> : null}
+                                </Grid>
+                                <Grid item>
+                                    <Button type={'submit'} variant={'contained'} color={'secondary'}>update card</Button>
+                                </Grid>
+                            </Grid>
                         </FormGroup>
                     </FormControl>
                 </form>

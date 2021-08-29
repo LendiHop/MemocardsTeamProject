@@ -7,6 +7,7 @@ import TextField from "@material-ui/core/TextField";
 import {useDispatch} from "react-redux";
 import {addCardPackTC} from "../../../m2-bll/b1-reducers/packs-reducer";
 import {useFormik} from "formik";
+import Grid from "@material-ui/core/Grid";
 
 type AddPackModalContainerPropsType = {
     show: boolean
@@ -45,31 +46,29 @@ export const AddPackModalContainer: React.FC<AddPackModalContainerPropsType> = (
 
     return (
         <>
-
-
             <Modal
                 enableBackground={true}
                 backgroundOnClick={() => setShow(false)}
-
-                width={300}
-                height={200}
-                // modalOnClick={() => setShow(false)}
-
+                width={200}
+                height={150}
                 show={show}
             >
 
                 <form onSubmit={formik.handleSubmit}>
-
                     <FormControl>
                         <FormGroup>
-
-                            <TextField label="enter pack name"
-                                       margin="normal"
-                                       {...formik.getFieldProps("packName")}/>
-                            {formik.touched.packName && formik.errors.packName ?
-                                <div style={{color: "red"}}>{formik.errors.packName}</div> : null}
-
-                            <Button type={'submit'} variant={'contained'} color={'primary'}>add pack</Button>
+                            <Grid container direction='column' spacing={3} alignItems='center'>
+                                <Grid item>
+                                    <TextField label="Enter pack name"
+                                               margin="normal"
+                                               {...formik.getFieldProps("packName")}/>
+                                    {formik.touched.packName && formik.errors.packName ?
+                                        <div style={{color: "red"}}>{formik.errors.packName}</div> : null}
+                                </Grid>
+                                <Grid item>
+                                    <Button type={'submit'} variant={'contained'} color={'secondary'}>add pack</Button>
+                                </Grid>
+                            </Grid>
                         </FormGroup>
                     </FormControl>
                 </form>

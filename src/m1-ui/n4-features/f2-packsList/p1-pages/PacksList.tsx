@@ -91,7 +91,7 @@ export const PacksList: React.FC = () => {
             <Paper className={classes.paper}>
                 <Grid container spacing={2}>
                     <Grid item container alignItems='center' >
-                        <Grid item xs={2}><Button variant="contained" color="primary" onClick={addPackHandler}>Add Pack</Button></Grid>
+                        <Grid item xs={2}><Button variant="contained" color="secondary" onClick={addPackHandler}>Add Pack</Button></Grid>
                         <Grid item xs={2}><MyPacksSetter/></Grid>
                         <Grid item xs={2}><RangeSlider/></Grid>
                         <Grid item xs={6}>

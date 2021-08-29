@@ -5,70 +5,54 @@ import FormControl from "@material-ui/core/FormControl";
 import FormGroup from "@material-ui/core/FormGroup";
 import TextField from "@material-ui/core/TextField";
 import {useDispatch} from "react-redux";
-import {updateCardPackTC} from "../../../m2-bll/b1-reducers/packs-reducer";
 import {useFormik} from "formik";
+import {editProfileTC} from "../../../m2-bll/b1-reducers/profile-reducer";
 import Grid from "@material-ui/core/Grid";
 
 type UpdatePackModalContainerPropsType = {
     show: boolean
     setShow: (show: boolean) => void
-    packId: string
-    packName: string
+    profileName: string
 }
 
-type FormikErrorType = {
-    packName?: string
-}
-
-export const UpdatePackModalContainer: React.FC<UpdatePackModalContainerPropsType> = ({show, setShow, packId, packName}) => {
+export const UpdateProfileModalContainer: React.FC<UpdatePackModalContainerPropsType> = ({show, setShow, profileName}) => {
     const dispatch = useDispatch()
-
 
     const formik = useFormik({
         initialValues: {
-            packName: packName,
-        },
-        validate: (values) => {
-            const errors: FormikErrorType = {};
-            if (!values.packName) {
-                errors.packName = 'name is required';
-            } else if (!/[A-Z]/i.test(values.packName)) {
-                errors.packName = 'Invalid name';
-            }
-
-            return errors;
+            avatarUrl: '',
+            profileName: profileName,
         },
         onSubmit: values => {
-
             setShow(false)
-            dispatch(updateCardPackTC({_id: packId, name: values.packName}))
+            dispatch(editProfileTC(values.profileName, values.avatarUrl))
             formik.resetForm();
         },
     })
 
     return (
         <>
-
-
             <Modal
                 enableBackground={true}
                 backgroundOnClick={() => setShow(false)}
-                width={200}
-                height={150}
+                width={250}
+                height={250}
                 show={show}
             >
 
                 <form onSubmit={formik.handleSubmit}>
-
                     <FormControl>
                         <FormGroup>
                             <Grid container direction='column' spacing={3} alignItems='center'>
                                 <Grid item>
-                                    <TextField label="Enter new pack name"
+                                    <TextField label="Enter new avatar URL"
                                                margin="normal"
-                                               {...formik.getFieldProps("packName")}/>
-                                    {formik.touched.packName && formik.errors.packName ?
-                                        <div style={{color: "red"}}>{formik.errors.packName}</div> : null}
+                                               {...formik.getFieldProps("avatarUrl")}/>
+                                </Grid>
+                                <Grid item>
+                                    <TextField label="Enter new name"
+                                               margin="normal"
+                                               {...formik.getFieldProps("profileName")}/>
                                 </Grid>
                                 <Grid item>
                                     <Button type={'submit'} variant={'contained'} color='secondary'>Change</Button>

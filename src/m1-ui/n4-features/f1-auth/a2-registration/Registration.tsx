@@ -102,9 +102,9 @@ export const Registration: React.FC<PropsType> = ({formik, showPass1, handleClic
                                 <div style={{color: 'red'}}>{formik.errors.password2}</div>}
                                 <div>
                                     <Button type={'reset'} onClick={() => formik.resetForm()} variant={'contained'}
-                                            color={'primary'}
+                                            color={'secondary'}
                                             style={{marginTop: '70px', borderRadius: '30px'}}>Reset</Button>
-                                    <Button type={'submit'} variant={'contained'} color={'primary'}
+                                    <Button type={'submit'} variant={'contained'} color={'secondary'}
                                             style={{
                                                 marginTop: '70px',
                                                 marginLeft: '100px',

@@ -1,3 +1,8 @@
+import {authAPI} from "../../m3-dal/auth-api";
+import {SetAppErrorActionType, setAppStatusAC, SetAppStatusActionType} from "./app-reduser";
+import {handleServerNetworkError} from "../../m0-utils/error-utils";
+import {Dispatch} from "redux";
+
 const initialState: ProfileDataType = {
     _id: "",
     email: "",
@@ -26,6 +31,19 @@ export const profileReducer = (state: ProfileDataType = initialState, action: Ac
 export const setProfileData = (data: ProfileDataType) =>
     ({type: 'profile/SET-PROFILE-DATA', data} as const)
 
+//thunk
+export const editProfileTC = (name?: string, avatar?: string) => (dispatch: ThunkDispatch) => {
+    dispatch(setAppStatusAC('loading'))
+    authAPI.editProfile(name, avatar)
+        .then(res => {
+            dispatch(setProfileData(res.updatedUser))
+            dispatch(setAppStatusAC('succeeded'))
+        })
+        .catch ((e) => {
+            handleServerNetworkError(e, dispatch)
+        })
+}
+
 //types
 
 export type ProfileDataType = {
@@ -43,3 +61,4 @@ export type ProfileDataType = {
 }
 
 type ActionsType = ReturnType<typeof setProfileData>
+type ThunkDispatch = Dispatch<ActionsType | ReturnType<typeof setAppStatusAC> | SetAppErrorActionType | SetAppStatusActionType>

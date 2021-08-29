@@ -11,6 +11,9 @@ export const authAPI = {
     me() {
         return instance.post<ProfileDataType>('auth/me').then(res => res.data)
     },
+    editProfile(name?: string, avatar?: string) {
+        return instance.put('auth/me', {name, avatar}).then(res => res.data)
+    },
     login(data: LoginParamsType) {
         return instance.post<ProfileDataType>('auth/login', data);
     },

@@ -6,12 +6,30 @@ import store from "./m2-bll/b0-store/redux-store";
 import {Provider} from "react-redux";
 import {App} from "./m1-ui/n1-app/App";
 import {HashRouter} from "react-router-dom";
+import {createTheme, MuiThemeProvider} from "@material-ui/core";
+
+const theme = createTheme({
+    palette: {
+        primary: {
+            main: '#24272a',
+            dark: '#191b1d',
+            light: '#4f5254',
+        },
+        secondary: {
+            main: '#ffc400',
+            dark: '#b28900',
+            light: '#ffcf33',
+        }
+    }
+})
 
 ReactDOM.render(
     <React.StrictMode>
         <Provider store={store}>
             <HashRouter>
-                <App/>
+                <MuiThemeProvider theme={theme}>
+                    <App/>
+                </MuiThemeProvider>
             </HashRouter>
         </Provider>
     </React.StrictMode>,

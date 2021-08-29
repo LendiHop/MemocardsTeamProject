@@ -62,7 +62,7 @@ const Modal: React.FC<IModal> = (
                     flexFlow: 'column',
                     alignItems: 'center',
                     justifyContent: 'center',
-
+                    padding: 20,
                     background: 'mintcream',
                     zIndex: 21,
 

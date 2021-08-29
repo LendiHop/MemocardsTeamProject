@@ -5,26 +5,26 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 import {AppRootStateType} from "../../../../m2-bll/b0-store/redux-store";
 import {StyledTableCell, StyledTableRow} from './PacksTable';
 import {CardType} from "../../../../m3-dal/cards-api";
-import {deleteCardsTC} from "../../../../m2-bll/b1-reducers/cards-reduser";
 import {UpdateCardsModalContainer} from "../../f4-modals/UpdateCardsModalContainer";
 import IconButton from "@material-ui/core/IconButton";
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
+import { DeleteCardModalContainer } from '../../f4-modals/DeleteCardModalContainer';
 
 export default function CardsTable() {
-    const dispatch = useDispatch();
     const cards = useSelector<AppRootStateType, Array<CardType>>(state => state.cards.cards);
     const [showUpdateCardsModal, setShowUpdateCardsModal] = useState(false);
+    const [showDeleteCardModal, setShowDeleteCardModal] = useState(false);
     const [currentCardData, setCurrentCardData] = useState(["id", "packId"]);
 
     const deleteCardHandler = useCallback((id: string, packId: string) => {
-
-        dispatch(deleteCardsTC(packId, id))
-    }, [dispatch])
+        setCurrentCardData([id, packId])
+        setShowDeleteCardModal(true)
+    }, [])
 
     const updateCardHandler = useCallback((id: string, packId: string) => {
         setCurrentCardData([id, packId]);
@@ -58,6 +58,12 @@ export default function CardsTable() {
                     ))}
                 </TableBody>
             </Table>
+
+            {showDeleteCardModal &&
+            <DeleteCardModalContainer
+                show={showDeleteCardModal} setShow={setShowDeleteCardModal}
+                packId={currentCardData[1]} cardId={currentCardData[0]}
+            />}
 
             {showUpdateCardsModal &&
             <UpdateCardsModalContainer

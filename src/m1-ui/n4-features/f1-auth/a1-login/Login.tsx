@@ -70,7 +70,7 @@ export const Login: React.FC<TProps> = ({formik,
                                 />}
                             />
                             <div className={s.forgot}><Link to="/password-recovery">Forgot Password</Link></div>
-                            <Button type='submit' variant='contained' color='primary'
+                            <Button type='submit' variant='contained' color='secondary'
                                     className={s.loginBtn}>Login</Button>
                             <div className={s.singUpQ}><p>Don't have an account?</p></div>
                             <div className={s.singUp}><Link to="/registration">Sing Up</Link></div>

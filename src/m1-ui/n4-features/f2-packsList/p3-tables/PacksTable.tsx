@@ -10,7 +10,7 @@ import Paper from '@material-ui/core/Paper';
 import {useDispatch, useSelector} from "react-redux";
 import {
     CardPackType,
-    deleteCardPackTC, setPacksSortValue,
+    setPacksSortValue,
 } from "../../../../m2-bll/b1-reducers/packs-reducer";
 import {AppRootStateType} from "../../../../m2-bll/b0-store/redux-store";
 import Button from "@material-ui/core/Button";
@@ -21,6 +21,7 @@ import IconButton from "@material-ui/core/IconButton";
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import SchoolIcon from '@material-ui/icons/School';
+import {DeletePackModalContainer} from "../../f4-modals/DeletePackModalContainer";
 
 export const StyledTableCell = withStyles((theme: Theme) =>
     createStyles({
@@ -57,16 +58,18 @@ export default function PacksTable(props: PacksTablePropsType) {
     }
 
     const [showUpdatePackModal, setShowUpdatePackModal] = useState(false);
+    const [showDeletePackModal, setShowDeletePackModal] = useState(false);
     const [currentPackData, setCurrentPackData] = useState(["id", "name"]);
 
     const cardPacks = useSelector<AppRootStateType, Array<CardPackType>>(state => state.packs.cardPacks);
 
-    const deletePackHandler = useCallback(( id: string) => {
-        dispatch(deleteCardPackTC(id))
-    }, [dispatch])
+    const deletePackHandler = useCallback((id: string) => {
+        setCurrentPackData([id])
+        setShowDeletePackModal(true)
+    }, [])
 
     const updatePackHandler = useCallback((id: string, name: string) => {
-        setCurrentPackData([id, name]);
+        setCurrentPackData([id, name])
         setShowUpdatePackModal(true)
     }, [])
 
@@ -105,6 +108,12 @@ export default function PacksTable(props: PacksTablePropsType) {
                     ))}
                 </TableBody>
             </Table>
+
+            {showDeletePackModal &&
+            <DeletePackModalContainer
+                show={showDeletePackModal} setShow={setShowDeletePackModal}
+                packId={currentPackData[0]}
+            />}
 
             {showUpdatePackModal &&
             <UpdatePackModalContainer

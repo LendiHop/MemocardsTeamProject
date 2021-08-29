@@ -79,7 +79,7 @@ export const PasswordRecovery = () => {
                                 <p>Enter your email address and we will send you further instructions</p>
                                 <div>
                                     <Button type={'submit'} onClick={() => {
-                                    }} variant={'contained'} color={'primary'}
+                                    }} variant={'contained'} color={'secondary'}
                                             style={{
                                                 marginTop: '70px',
                                                 marginLeft: '100px',
