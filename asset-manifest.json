@@ -1,22 +1,23 @@
 {
   "files": {
-    "main.css": "/MemocardsTeamProject/static/css/main.0fa7a230.chunk.css",
-    "main.js": "/MemocardsTeamProject/static/js/main.d621348a.chunk.js",
-    "main.js.map": "/MemocardsTeamProject/static/js/main.d621348a.chunk.js.map",
-    "runtime-main.js": "/MemocardsTeamProject/static/js/runtime-main.9b9eceee.js",
-    "runtime-main.js.map": "/MemocardsTeamProject/static/js/runtime-main.9b9eceee.js.map",
-    "static/js/2.7562efe8.chunk.js": "/MemocardsTeamProject/static/js/2.7562efe8.chunk.js",
-    "static/js/2.7562efe8.chunk.js.map": "/MemocardsTeamProject/static/js/2.7562efe8.chunk.js.map",
-    "static/js/3.11aaadc8.chunk.js": "/MemocardsTeamProject/static/js/3.11aaadc8.chunk.js",
-    "static/js/3.11aaadc8.chunk.js.map": "/MemocardsTeamProject/static/js/3.11aaadc8.chunk.js.map",
+    "main.css": "/MemocardsTeamProject/static/css/main.b3dd833f.chunk.css",
+    "main.js": "/MemocardsTeamProject/static/js/main.bb3f30a3.chunk.js",
+    "main.js.map": "/MemocardsTeamProject/static/js/main.bb3f30a3.chunk.js.map",
+    "runtime-main.js": "/MemocardsTeamProject/static/js/runtime-main.509ec7ca.js",
+    "runtime-main.js.map": "/MemocardsTeamProject/static/js/runtime-main.509ec7ca.js.map",
+    "static/js/2.e3178387.chunk.js": "/MemocardsTeamProject/static/js/2.e3178387.chunk.js",
+    "static/js/2.e3178387.chunk.js.map": "/MemocardsTeamProject/static/js/2.e3178387.chunk.js.map",
+    "static/js/3.5596c06d.chunk.js": "/MemocardsTeamProject/static/js/3.5596c06d.chunk.js",
+    "static/js/3.5596c06d.chunk.js.map": "/MemocardsTeamProject/static/js/3.5596c06d.chunk.js.map",
     "index.html": "/MemocardsTeamProject/index.html",
-    "static/css/main.0fa7a230.chunk.css.map": "/MemocardsTeamProject/static/css/main.0fa7a230.chunk.css.map",
-    "static/js/2.7562efe8.chunk.js.LICENSE.txt": "/MemocardsTeamProject/static/js/2.7562efe8.chunk.js.LICENSE.txt"
+    "static/css/main.b3dd833f.chunk.css.map": "/MemocardsTeamProject/static/css/main.b3dd833f.chunk.css.map",
+    "static/js/2.e3178387.chunk.js.LICENSE.txt": "/MemocardsTeamProject/static/js/2.e3178387.chunk.js.LICENSE.txt",
+    "static/media/logo.6ce24c58.svg": "/MemocardsTeamProject/static/media/logo.6ce24c58.svg"
   },
   "entrypoints": [
-    "static/js/runtime-main.9b9eceee.js",
-    "static/js/2.7562efe8.chunk.js",
-    "static/css/main.0fa7a230.chunk.css",
-    "static/js/main.d621348a.chunk.js"
+    "static/js/runtime-main.509ec7ca.js",
+    "static/js/2.e3178387.chunk.js",
+    "static/css/main.b3dd833f.chunk.css",
+    "static/js/main.bb3f30a3.chunk.js"
   ]
 }
