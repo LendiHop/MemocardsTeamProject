@@ -19,7 +19,8 @@ export const authAPI = {
     },
     forgot(email: string) {
         return instance.post<PassResponseType>(`auth/forgot`, {email,
-            from: "test-front-admin <ai73a@yandex.by>", message:`<div style="background-color: lime; padding: 15px"><a href='http://localhost:3000/#/set-new-password/$token$'>\t\t\n' +
+            from: "test-front-admin <ai73a@yandex.by>",
+            message:`<div style="background-color: lime; padding: 15px"><a href='http://localhost:3000/#/set-new-password/$token$'>\t\t\n' +
         '\tlink</a></div>` }).then(res => res.data)
     },
     register(email: string, password: string) {
